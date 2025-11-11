@@ -1,295 +1,87 @@
-<!doctype html>
-<html lang="en" class="no-js">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Heorhii Matviichuk — Designer</title>
-  <meta name="description" content="Portfolio of Heorhii Matviichuk — product & web designer based in Kyiv. Selected work, case studies, and contact." />
-  <meta name="theme-color" content="#0f0f10" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Heorhii Matviichuk Designer</title>
+<link rel="stylesheet" href="style.css">
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Heorhii Matviichuk — Designer" />
-  <meta property="og:description" content="Product & web designer. Selected work, case studies, and contact." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://your-domain.com" />
-  <meta property="og:image" content="/og-cover.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Basic, zero-dependency, modern CSS -->
-  <style>
-    :root{
-      --bg: #0e0f10; --text:#e7e7ea; --muted:#a5a7ad; --card:#141518; --accent:#7ae3ff; --accent-2:#7b61ff; --line:#23252a;
-      --maxw: 1120px; --radius: 18px; --grid-gap: 16px; --shadow: 0 8px 24px rgba(0,0,0,.25);
-    }
-    :root.light{ --bg:#ffffff; --text:#0f1115; --muted:#48505a; --card:#f4f6f8; --accent:#0066ff; --accent-2:#7b61ff; --line:#e7e9ef; }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
-    .nav{display:flex;justify-content:space-between;align-items:center;gap:16px;position:sticky;top:0;background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg),transparent 100%));backdrop-filter:saturate(140%) blur(6px);z-index:20;padding:16px 24px;border-bottom:1px solid var(--line)}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 0 16px color-mix(in srgb,var(--accent), transparent 40%)}
-    .nav a.btn{padding:10px 14px;border:1px solid var(--line);border-radius:12px}
-
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:end;padding:64px 24px 24px}
-    .h1{font-size:clamp(28px,3.6vw,48px);line-height:1.1;margin:0 0 12px;font-weight:800}
-    .lede{color:var(--muted);max-width:58ch}
-    .chip{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:8px 12px;margin:8px 0 16px;color:var(--muted)}
-    .chip .spark{width:8px;height:8px;border-radius:2px;background:linear-gradient(135deg,var(--accent),var(--accent-2));}
-
-    .hero-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
-    .hero-card img{width:100%;height:auto;border-radius:12px;display:block}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-    .kpis .k{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px;padding:12px}
-    .k .n{font-weight:800;font-size:20px}
-    .k .t{color:var(--muted);font-size:13px}
-
-    .section{padding:56px 24px}
-    .section h2{font-size:clamp(22px,2.6vw,32px);margin:0 0 16px}
-    .muted{color:var(--muted)}
-
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--grid-gap)}
-    .card{grid-column:span 4;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .25s ease, box-shadow .25s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-    .thumb{aspect-ratio: 16/10;background:linear-gradient(135deg,color-mix(in srgb,var(--accent),transparent 20%),color-mix(in srgb,var(--accent-2),transparent 10%));display:flex;align-items:center;justify-content:center}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .card .b{padding:14px;border-top:1px solid var(--line)}
-    .tag{display:inline-flex;gap:6px;align-items:center;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 8px;margin-right:6px}
-
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .list{display:grid;gap:10px}
-    .list li{list-style:none;padding:10px 12px;border:1px dashed var(--line);border-radius:12px}
-
-    .cta{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer}
-    .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0b0c;border:none}
-
-    .footer{border-top:1px solid var(--line);padding:24px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-
-    @media (max-width: 900px){
-      .hero{grid-template-columns:1fr;gap:20px;padding-top:28px}
-      .grid .card{grid-column:span 6}
-      .split{grid-template-columns:1fr}
-    }
-    @media (max-width: 640px){
-      .grid .card{grid-column:span 12}
-    }
-    .lang{display:flex;gap:8px;align-items:center}
-    .lang button{border:1px solid var(--line);background:transparent;color:var(--muted);padding:6px 10px;border-radius:10px;cursor:pointer}
-    .lang button.active{color:var(--text);border-color:var(--text)}
-    .switches{display:flex;gap:8px;align-items:center}
-    .switch{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);cursor:pointer}
-  </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Heorhii Matviichuk",
-    "jobTitle": "Product & Web Designer",
-    "url": "https://your-domain.com",
-    "image": "https://your-domain.com/avatar.jpg",
-    "address": {"@type":"PostalAddress","addressLocality":"Kyiv","addressCountry":"UA"},
-    "knowsAbout": ["UI/UX", "Product design", "Web animation", "Figma", "Prototyping"]
-  }
-  </script>
 </head>
+
+
 <body>
-  <header class="nav">
-    <div class="brand"><span class="dot"></span> <span id="brandName">Heorhii Matviichuk</span></div>
-    <div class="switches">
-      <div class="lang" aria-label="Language switcher">
-        <button data-lang="en" class="active">EN</button>
-        <button data-lang="uk">UA</button>
-      </div>
-      <button id="themeToggle" class="switch" aria-label="Toggle theme">☾/☼</button>
-      <a class="btn" href="#contact" data-i18n="nav.contact">Contact</a>
-    </div>
-  </header>
+  <header class="chrome-shell header-shell">
 
-  <main class="wrap">
-    <section class="hero">
-      <div>
-        <div class="chip"><span class="spark"></span> <span data-i18n="chip">Available for freelance · Kyiv + Remote</span></div>
-        <h1 class="h1" data-i18n="hero.title">Product & Web Designer crafting calm, high‑clarity interfaces.</h1>
-        <p class="lede" data-i18n="hero.lede">I design systems, flows, and micro‑interactions for web apps and expressive marketing sites. Focus on usability, narrative, and delightful motion.</p>
-        <div class="cta">
-          <a class="btn primary" href="#work" data-i18n="cta.viewWork">View selected work</a>
-          <a class="btn" href="mailto:hello@your-domain.com" data-i18n="cta.emailMe">Email me</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <!-- Replace with your image -->
-        <img src="https://images.unsplash.com/photo-1481278403982-f2d9f387cdcc?q=80&w=1200&auto=format&fit=crop" alt="Selected works collage" />
-        <div class="kpis">
-          <div class="k"><div class="n">10+ yrs</div><div class="t" data-i18n="kpi.experience">Experience</div></div>
-          <div class="k"><div class="n">40+</div><div class="t" data-i18n="kpi.projects">Projects shipped</div></div>
-          <div class="k"><div class="n">B2B · SaaS</div><div class="t" data-i18n="kpi.focus">Focus areas</div></div>
-        </div>
-      </div>
-    </section>
+	<div class="shell-content">
+		<div class="row">
+            <div class="brand"> <div class="head"> </div> <div class="brand">heorhii matviichuk</div></div>
 
-    <section id="work" class="section">
-      <h2 data-i18n="work.h">Selected work</h2>
-      <p class="muted" data-i18n="work.p">A few recent projects. Click a card to open a lightweight case study.</p>
-      <div class="grid" id="projects">
-        <!-- PROJECT CARD 1 -->
-        <article class="card" data-modal="case-mitus">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1400&auto=format&fit=crop" alt="Mitus platform"/></div>
-          <div class="b">
-            <div class="tag">SaaS</div><div class="tag">Product Design</div>
-            <h3>Mitus Transition Platform</h3>
-            <p class="muted">Complex workflow UI for succession planning: dashboards, questionnaires, and insights.</p>
-          </div>
-        </article>
-        <!-- PROJECT CARD 2 -->
-        <article class="card" data-modal="case-oo">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop" alt="oOseries project"/></div>
-          <div class="b">
-            <div class="tag">Brand</div><div class="tag">Web</div>
-            <h3>oOseries — Art & Music</h3>
-            <p class="muted">Identity and expressive website for collaborative art, live sets, and charity auctions.</p>
-          </div>
-        </article>
-        <!-- PROJECT CARD 3 -->
-        <article class="card" data-modal="case-trip">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop" alt="Tripple We"/></div>
-          <div class="b">
-            <div class="tag">Consulting</div><div class="tag">Website</div>
-            <h3>Tripple We</h3>
-            <p class="muted">Artist consulting micro‑site with clear value props and lead capture.</p>
-          </div>
-        </article>
-      </div>
-    </section>
+			
 
-    <section class="section">
-      <div class="split">
-        <div>
-          <h2 data-i18n="services.h">Services</h2>
-          <ul class="list">
-            <li data-i18n="services.1">Product design (flows, IA, wireframes, UI system)</li>
-            <li data-i18n="services.2">Marketing websites (concept, copy, art‑direction)</li>
-            <li data-i18n="services.3">Interactive prototypes & motion</li>
-            <li data-i18n="services.4">Design audits & UX improvements</li>
-          </ul>
-        </div>
-        <div>
-          <h2 data-i18n="about.h">About</h2>
-          <p class="muted" data-i18n="about.p">Designer based in Kyiv. I enjoy simplifying complex systems, crafting intuitive narratives, and building thoughtful tools with teams who care.</p>
-        </div>
-      </div>
-    </section>
+			<nav class="nav">
 
-    <section id="contact" class="section">
-      <h2 data-i18n="contact.h">Contact</h2>
-      <p class="muted" data-i18n="contact.p">Open to collaborations and freelance. The fastest way is email.</p>
-      <div class="cta">
-        <a class="btn primary" href="mailto:hello@your-domain.com">hello@your-domain.com</a>
-        <a class="btn" href="https://t.me/yourusername" target="_blank" rel="noopener">Telegram</a>
-        <a class="btn" href="https://www.linkedin.com/in/yourprofile/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </section>
-  </main>
+				<a href="#">all works</a>
+				<a href="#">interfaces</a>
+				<a href="#">branding</a>
+				<a href="#">art</a>
+				<a href="#">photo</a>
 
-  <footer class="wrap footer">
-    <span>© <span id="year"></span> Heorhii Matviichuk</span>
-    <span class="muted">Built with semantic HTML & vanilla CSS</span>
-  </footer>
+			</nav>
+			 
 
-  <!-- Lightweight modal engine for case studies -->
-  <dialog id="case-mitus">
-    <article class="wrap" style="max-width:860px">
-      <h3>Mitus Transition Platform</h3>
-      <p>Overview: B2B SaaS for family business succession planning. I led IA, dashboards, questionnaire flows, and insight reports.</p>
-      <ul>
-        <li>Problem: scattered processes → inconsistent outcomes</li>
-        <li>Approach: map discovery → structure stages → variable‑driven UI</li>
-        <li>Outcome: faster onboarding, clearer stakeholder visibility</li>
-      </ul>
-      <p><a href="#" target="_blank" rel="noopener">Full case study (PDF)</a></p>
-      <form method="dialog"><button class="btn" value="close">Close</button></form>
-    </article>
-  </dialog>
-  <dialog id="case-oo">
-    <article class="wrap" style="max-width:860px">
-      <h3>oOseries — Art & Music</h3>
-      <p>Identity system and website blending hand‑painted artefacts with electronic live sets. Included donation flows for Kyiv Angels.</p>
-      <form method="dialog"><button class="btn" value="close">Close</button></form>
-    </article>
-  </dialog>
-  <dialog id="case-trip">
-    <article class="wrap" style="max-width:860px">
-      <h3>Tripple We</h3>
-      <p>Clear value props for artists & brands; simple lead capture; lightweight CMS‑less content.</p>
-      <form method="dialog"><button class="btn" value="close">Close</button></form>
-    </article>
-  </dialog>
+		</div>
+	</div>
+</header> 
+<div class="chrome-shell">
+<div style="border-left: 1px solid #363636; border-right: 1px solid #363636; width: calc(100vw - 32px);
+height: calc(100vh - 32px);
+margin: 16px;"></div>
+</div>
 
-  <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+	
+<div class="tunnel-scene">
+	<!-- тоннель -->
+	<div class="grid-plane grid-top"></div>
+	<div class="grid-plane grid-bottom"></div>
 
-    // Theme toggle (persist)
-    const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme');
-    if(savedTheme === 'light'){ root.classList.add('light'); }
-    themeToggle.addEventListener('click', ()=>{
-      root.classList.toggle('light');
-      localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
-    });
+	<!-- слайды летят на нас -->
+	<div class="slider"></div>
 
-    // Simple i18n (EN/UA)
-    const dict = {
-      en: {
-        'chip': 'Available for freelance · Kyiv + Remote',
-        'hero.title': 'Product & Web Designer crafting calm, high‑clarity interfaces.',
-        'hero.lede': 'I design systems, flows, and micro‑interactions for web apps and expressive marketing sites. Focus on usability, narrative, and delightful motion.',
-        'cta.viewWork': 'View selected work', 'cta.emailMe':'Email me',
-        'kpi.experience':'Experience','kpi.projects':'Projects shipped','kpi.focus':'Focus areas',
-        'work.h':'Selected work','work.p':'A few recent projects. Click a card to open a lightweight case study.',
-        'services.h':'Services','services.1':'Product design (flows, IA, wireframes, UI system)','services.2':'Marketing websites (concept, copy, art‑direction)','services.3':'Interactive prototypes & motion','services.4':'Design audits & UX improvements',
-        'about.h':'About','about.p':'Designer based in Kyiv. I enjoy simplifying complex systems, crafting intuitive narratives, and building thoughtful tools with teams who care.',
-        'contact.h':'Contact','contact.p':'Open to collaborations and freelance. The fastest way is email.',
-        'nav.contact':'Contact'
-      },
-      uk: {
-        'chip': 'Відкритий до проєктів · Київ + Remote',
-        'hero.title': 'Продуктовий та веб‑дизайнер. Створюю спокійні, чіткі інтерфейси.',
-        'hero.lede': 'Проєктую системи, потоки та мікровзаємодії для веб‑застосунків і виразних промо‑сайтів. Фокус — юзабіліті, наратив і рух.',
-        'cta.viewWork': 'Переглянути роботи', 'cta.emailMe':'Написати мені',
-        'kpi.experience':'Досвід','kpi.projects':'Завершені проєкти','kpi.focus':'Фокуси',
-        'work.h':'Обрані роботи','work.p':'Кілька останніх проєктів. Натисніть на картку, щоб відкрити кейс.',
-        'services.h':'Послуги','services.1':'Продуктовий дизайн (флоу, IA, вайрфрейми, UI‑система)','services.2':'Промо‑сайти (концепт, тексти, арт‑дирекція)','services.3':'Інтерактивні прототипи та анімації','services.4':'UX‑аудити та поліпшення',
-        'about.h':'Про мене','about.p':'Дизайнер з Києва. Люблю спрощувати складні системи, будувати інтуїтивні наративи й створювати корисні інструменти з командами, яким не байдуже.',
-        'contact.h':'Контакти','contact.p':'Відкритий до співпраці та фрилансу. Найшвидше — на пошту.',
-        'nav.contact':'Контакти'
-      }
-    };
 
-    const langBtns = document.querySelectorAll('.lang button');
-    const applyLang = (lang)=>{
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const key = el.getAttribute('data-i18n');
-        if(dict[lang] && dict[lang][key]) el.textContent = dict[lang][key];
-      });
-      langBtns.forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
-      localStorage.setItem('lang', lang);
-    }
-    const savedLang = localStorage.getItem('lang') || (navigator.language.startsWith('uk') ? 'uk' : 'en');
-    applyLang(savedLang);
-    langBtns.forEach(btn=>btn.addEventListener('click', ()=> applyLang(btn.dataset.lang)));
+	<!-- затемнения -->
+	<div class="tunnel-vignette"></div>
+  
+	<div class="tunnel-vignette2"></div>
+  
+</div>
 
-    // Modals for case studies
-    document.querySelectorAll('[data-modal]').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        const id = card.getAttribute('data-modal');
-        const dlg = document.getElementById(id);
-        if(typeof dlg.showModal === 'function') dlg.showModal();
-      });
-    });
-  </script>
+<footer class="chrome-shell footer-shell">
+	
+	<div class="shell-content">
+		<div class="row">   <div style="display: flex; flex-direction: row;	align-items: center; "> <div class="logo glitch2 glitch_img" style="opacity: 0.3;">  <img src="./images/hm_logo.png" alt="Logo" class="logo"> </div>   <div class="loc">available for collaborations </div> </div>
+      
+
+<div></div>
+			<div class="loc" data-text="vibe-coded in solar system > earth > ukraine > kyiv">
+			vibe-coded in solar system  &gt;  <br>planet earth &gt; ukraine &gt; kyiv</div>
+
+		</div>
+   <div><div class="scale" > <img src="./images/gif_solar.gif" style="width: 56px; opacity: 0.3; padding-left: 16px;"> </div> </div></div>
+
+
+	
+</footer>
+
+
+<!-- вставь перед main.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+
+<!-- затем твой скрипт -->
+<script src="/main.js" defer></script>
+
+
+
 </body>
 </html>
