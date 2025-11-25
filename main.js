@@ -418,7 +418,7 @@ function snappedProgress(progressRaw, stickiness = 0.7) {
 function renderFrame() {
 	// прогресс прокрутки [0..1]
 const progressRaw = maxScroll > 0 ? (scrollPos / maxScroll) : 0;
-const progress = snappedProgress(progressRaw, 0.7); // 0.7 = сколько "липнет"
+const progress = snappedProgress(progressRaw, 0); // 0.7 = сколько "липнет"
 
 // дальше как раньше:
 const totalDepth = (slidesData.length - 1) * Z_GAP;
@@ -510,173 +510,51 @@ slidesEls.forEach(slide => {
 gsap.registerPlugin(ScrollTrigger);
 
 function animateTunnelGrid() {
-	const gridTop = document.querySelector(".grid-top");
-	const gridBottom = document.querySelector(".grid-bottom");
+  const gridTop = document.querySelector(".grid-top");
+  const gridBottom = document.querySelector(".grid-bottom");
 
-	gsap.to(gridTop, {
-		backgroundPositionY: "-=" + (window.innerHeight * 2) + "px",
-		ease: "none",
-		scrollTrigger: {
-			trigger: document.body,
-			start: "top top",
-			end: "bottom bottom",
-			scrub: true
-		}
-	});
+  let scrollYTop = 0;
+  let scrollYBottom = 0;
+  let mouseX = 0;
+  let mouseY = 0;
 
-	gsap.to(gridBottom, {
-		backgroundPositionY: "+=" + (window.innerHeight * 2) + "px",
-		ease: "none",
-		scrollTrigger: {
-			trigger: document.body,
-			start: "top top",
-			end: "bottom bottom",
-			scrub: true
-		}
-	});
-/*
-	(function(){
-  const el = document.getElementById('logoSprite');
-  const spriteUrl = getComputedStyle(el).backgroundImage.replace(/url\(|\)|"/g, '');
-  const frameW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--frame-w')) || 156;
-  const frameH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--frame-h')) || 156;
-  const cols = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cols')) || 12;
+  // Скролл-анимация
+  ScrollTrigger.create({
+    trigger: document.body,
+    start: "top top",
+    end: "bottom bottom",
+    onUpdate: (self) => {
+      scrollYTop = -window.innerHeight * 2 * self.progress;
+      scrollYBottom = window.innerHeight * 2 * self.progress;
+      updateGrid();
+    }
+  });
 
-  // Параметры управления — подстраивай при необходимости
-  const sensitivity = 0.1; // множитель: как deltaY переводится в "кадры/сек"
-  const decay = 0.8;        // скорость демпфирования инерции (чем выше — тем быстрее остановка)
-  const maxVelocity = 200;  // защита: максимум кадров/сек при очень резком скролле
+  // Параллакс по мыши
+  const parallaxStrength = 50;
+  document.addEventListener("mousemove", (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2 * parallaxStrength;
+    mouseY = (e.clientY / window.innerHeight - 0.1) * 1.5 * parallaxStrength;
+    updateGrid();
+  });
 
-  // состояние
-  let rows = 1;
-  let totalFrames = cols;
-  let current = 0; // float индекс кадра
-  let velocity = 0; // кадры в секунду (полож.=вперёд, отриц.=назад)
-  let lastRAF = null;
-  let lastTime = null;
-
-  // Загрузим картинку, чтобы вычислить строки/кадры
-  const img = new Image();
-  img.src = spriteUrl;
-  img.onload = () => {
-    const naturalW = img.naturalWidth;
-    const naturalH = img.naturalHeight;
-
-    // на всякий случай: если spriteUrl пустой (inline css), fallback
-    const computedCols = cols;
-    rows = Math.max(1, Math.round(naturalH / frameH));
-    const calcCols = Math.round(naturalW / frameW);
-    // Если в css указано 12, используем его, иначе берём вычисленные
-    const effectiveCols = computedCols || calcCols || cols;
-    // итоговое количество кадров:
-    totalFrames = effectiveCols * rows;
-
-    // стартовый кадр
-    setFrame(0);
-
-    // старт RAF-цикла
-    lastTime = performance.now();
-    lastRAF = requestAnimationFrame(loop);
-  };
-
-  img.onerror = () => {
-    // если не удалось загрузить (например путь в url() абсолютный с кавычками),
-    // попытаемся взять путь напрямую:
-    // (в большинстве случаев img загрузится корректно)
-    console.warn('Sprite image load failed. Проверь путь в background-image.');
-    // всё равно запускаем цикл с дефолтными значениями
-    totalFrames = cols;
-    rows = 1;
-    setFrame(0);
-    lastTime = performance.now();
-    lastRAF = requestAnimationFrame(loop);
-  };
-
-  // вычисление и установка background-position исходя из int-кадра
-  function setFrame(frameIndexFloat) {
-    const idx = Math.floor((frameIndexFloat % totalFrames + totalFrames) % totalFrames);
-    const col = idx % cols;
-    const row = Math.floor(idx / cols);
-    el.style.backgroundPosition = `${-col * frameW}px ${-row * frameH}px`;
+  function updateGrid() {
+    gsap.set(gridTop, {
+      backgroundPosition: `${mouseX}px ${scrollYTop + mouseY}px`
+    });
+    gsap.set(gridBottom, {
+      backgroundPosition: `${mouseX}px ${scrollYBottom + mouseY}px`
+    });
   }
-
-  // RAF loop — применяем velocity с демпфированием
-  function loop(ts) {
-    const dt = Math.min(0.05, (ts - (lastTime || ts)) / 1000); // clamp dt
-    lastTime = ts;
-
-    // интегрируем позицию кадра
-    if (Math.abs(velocity) > 0.0001) {
-      current += velocity * dt;
-      // корректировка в пределах [0, totalFrames)
-      current = ((current % totalFrames) + totalFrames) % totalFrames;
-      setFrame(current);
-    }
-
-    // демпфируем скорость (экспоненциально)
-    const decayFactor = Math.exp(-decay * dt);
-    velocity *= decayFactor;
-
-    // если скорость очень мала — обнулим и снапнем на целый кадр
-    if (Math.abs(velocity) < 0.01) {
-      velocity = 0;
-      current = Math.round(current) % totalFrames;
-      setFrame(current);
-    }
-
-    lastRAF = requestAnimationFrame(loop);
-  }
-
-  // Обработка wheel: прибавляем к velocity в зависимости от deltaY
-  // пассивный слушатель для производительности (не вызываем preventDefault)
-  window.addEventListener('wheel', (e) => {
-    // deltaY: положительное — скролл вниз (вперёд), отрицательное — вверх (назад)
-    // мы переводим в кадры/сек: velocity += -deltaY * sensitivity (знак настроен так,
-    // чтобы вниз двигало вперёд по кадрам)
-    const delta = e.deltaY;
-    // map to velocity
-    velocity += -delta * sensitivity;
-    // clamp
-    if (velocity > maxVelocity) velocity = maxVelocity;
-    if (velocity < -maxVelocity) velocity = -maxVelocity;
-    // убедимся, что RAF работает (если был остановлен)
-    if (!lastRAF) {
-      lastTime = performance.now();
-      lastRAF = requestAnimationFrame(loop);
-    }
-  }, {passive: true});
-
-  // Доп: сенсор/тач — поддержка перетаскивания (опционально).
-  // Ниже минимальная поддержка для touchmove -> переводим тач в deltaY
-  let touchStartY = null;
-  window.addEventListener('touchstart', (e) => {
-    if (e.touches && e.touches[0]) touchStartY = e.touches[0].clientY;
-  }, {passive: true});
-  window.addEventListener('touchmove', (e) => {
-    if (!touchStartY) return;
-    const y = e.touches[0].clientY;
-    const dy = y - touchStartY;
-    // превратить в прокрутку-подобный импульс (инвертируем как wheel)
-    velocity += -dy * sensitivity * 0.5; // делаем немного менее чувствительным
-    touchStartY = y;
-  }, {passive: true});
-  window.addEventListener('touchend', () => { touchStartY = null; }, {passive: true});
-
-  // Экспорт простого API для управления из консоли/кода
-  window.spriteScrollControl = {
-    setSensitivity(s){  },
-    setDecay(d){ },
-    play(){  },
-    stop(){ velocity = 0; }
-  };
-
-})();
-*/
 }
+
+buildSlides();
+animateTunnelGrid();
 
 
 buildSlides();
 animateTunnelGrid();
+
 
 function raf(time) {
 	lenis.raf(time);

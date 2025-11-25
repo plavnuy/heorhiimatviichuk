@@ -48,7 +48,7 @@
   --cell-size: 10vw;
 
   /* Шрифты и размеры */
-  --font-size: 13px;
+  --font-size: 20px;
 
   /* Мышка / угол */
   --mx: 0;                 /* -1..1 по X */
@@ -194,7 +194,7 @@
   height: 40px;
 	top: 0;
   font-family: 'HUDMedium';
-  font-size: 10px;
+  font-size: 20px;
   width: calc(100vw - 32px);
 
 }
@@ -213,9 +213,7 @@
 /* контент поверх стекла */
 .shell-content {
     padding: 8px;
-border: 1px solid #363636;
-    box-shadow:
-        0 4px 4px rgba(255, 255, 255, 0.1);
+
 	position: relative;
 	z-index: 2;
 	pointer-events: auto; /* контент кликабельный */
@@ -224,7 +222,7 @@ border: 1px solid #363636;
 	align-items: center;
 	justify-content: center;
 	/* визуал "liquid glass": */
-	backdrop-filter: blur(20px) saturate(180%);
+	
 }
 
 .shell-content .row {
@@ -234,7 +232,7 @@ border: 1px solid #363636;
 	align-items: center;
 	justify-content: space-between;
 	font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-size: 12px;
 	line-height: 1.4;
 	color:  #ffffff87;
 	letter-spacing: 0.03em;
@@ -317,8 +315,7 @@ body {
 
 .logo {
 
-	height: 28px;
-
+	height: 36px;
 
 }
 
@@ -326,54 +323,34 @@ body {
 
 /* ===== СЕТКИ: ПОЛ И ПОТОЛОК ===== */
 .grid-plane {
-  
-	position: absolute;
-	left: 50%;
-	width: 150%;
-	height: 40%;
-	transform-origin: 0% 50%;
-	background-size:
-		/* вертикальные линии */
-		10vw 10vw,
-		/* горизонтальные линии */
-		10vh 5vh;
-	background-image:
-		linear-gradient(
-			to right,
-			var(--grid-color) 0px,
-			var(--grid-color) 2px,
-			transparent 1px
-		),
-		linear-gradient(
-			to top,
-			var(--grid-color) 0px,
-			var(--grid-color) 2px,
-			transparent 1px
-		);
-	opacity: 0.6;
-		pointer-events: none;
+  position: absolute;
+  left: 50%;
+  width: 150%;
+  height: 40%;
+  transform-origin: 0 50%;
+  opacity: 0.6;
+  pointer-events: none;
+
+  /* сетка */
+  background-size: 10vw 10vw, 10vh 5vh;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 0 2px, transparent 1px),
+    linear-gradient(to top, var(--grid-color) 0 2px, transparent 1px);
 }
 
-
-/* потолок уходит вперёд */
+/* модификаторы для пола и потолка */
 .grid-top {
-	top: 30%;
-	transform:
-		translate(-50%, -100%)
-		rotateX(-90deg)
-		translateZ(calc(var(--persp-depth) * -0.8));
-	z-index: 1;
+  top: 30%;
+  transform: translate(-50%, -100%) rotateX(-90deg) translateZ(calc(var(--persp-depth) * -0.8));
+  z-index: 1;
 }
 
-/* пол уходит вперёд */
 .grid-bottom {
-	bottom: -10%;
-	transform:
-		translate(-50%, 0%)
-		rotateX(90deg)
-		translateZ(calc(var(--persp-depth) * -0.8));
-	z-index: 1;
+  bottom: -10%;
+  transform: translate(-50%, 0%) rotateX(90deg) translateZ(calc(var(--persp-depth) * -0.8));
+  z-index: 1;
 }
+
 
 /* ===== СЛАЙДЕР В ПРОСТРАНСТВЕ ===== */
 .slider {
@@ -548,19 +525,15 @@ opacity: 0.5;
 
 
 .head {
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   background-image: url('./images/head5.gif');
-  background-blend-mode: difference;
   background-size: cover;
-  position: relative;
+  position: absolute;
   overflow: hidden;
   cursor: pointer;
- 
   transition: opacity 0.3s ease-in-out;
 }
-
-.head:hover {  background-image: url('./images/head7.gif'); }
 
 .head::after {
   content: "";
@@ -572,14 +545,16 @@ opacity: 0.5;
   mix-blend-mode: screen;
   transform: translate(0, 0);
   pointer-events: none;
-
 }
 
-
-
-  /* эффект при ховере */
+.head:hover {
+    opacity: 1;
+  background-image: url('./images/head7.gif');
+}
+/* эффект при ховере */
 .head:hover::after {
-  animation: glitch-fade 2s steps(2, end);
+      opacity: 1;
+  animation: glitch-fade 0.5s steps(2, end);
 }
 
 @keyframes glitch-fade {
