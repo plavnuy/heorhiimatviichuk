@@ -449,7 +449,7 @@ function renderFrame() {
     const dist = Math.abs(relativeZ);
 
     // opacity
-    const vis = Math.max(0, Math.min(1, 1 - dist / 180));
+    const vis = Math.max(0, Math.min(1, 1 - dist / 300));
 
     // scale
     const sc = Math.min(1.2, Math.max(0.4, 1.2 - (dist / 400) * 0.7));
@@ -488,7 +488,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 buildSlides();
-
 
 
 
