@@ -81,7 +81,7 @@ const slidesData = [
 ];
 
 // расстояние между карточками в глубину
-const Z_GAP = 200;
+const Z_GAP = 300;
 
 // камера должна проехать весь коридор
 const START_OFFSET = 0; // насколько "перед первой" стартуем
@@ -434,7 +434,7 @@ slidesEls.forEach(slide => {
   const relativeZ = baseZ - cameraZ;
 
   // если слайд слишком позади или слишком впереди — прячем и делаем неинтерактивным
-  if (relativeZ < -300 || relativeZ > 2000) {
+  if (relativeZ < -150 || relativeZ > 400) {
     slide.style.opacity = 0;
     slide.style.filter = "none";
     slide.style.pointerEvents = "none"; // <-- ОСТАВЛЯЕМ none для скрытых слайдов
@@ -445,11 +445,11 @@ slidesEls.forEach(slide => {
   const dist = Math.abs(relativeZ);
 
   // opacity
-  let vis = 1 - dist / 300;
+  let vis = 1 - dist / 400;
   vis = Math.max(0, Math.min(1, vis));
 
   // scale
-  let sc = 1.2 - (dist / 400) * 0.8;
+  let sc = 1.2 - (dist / 400) * 0.7;
   if (sc < 0) sc = 0.4;
   if (sc > 1.2) sc = 1.2;
 
@@ -470,12 +470,13 @@ slidesEls.forEach(slide => {
   let blurPx = 0;
   if (d > SHARP_RANGE) {
     blurPx = (d - SHARP_RANGE) / 20;
-    if (blurPx > 30) blurPx = 40;
+    if (blurPx > 1) blurPx = 1;
   }
-
+const parallaxX = mouseNX * PARALLAX_POWER_X * window.innerWidth / 100;
+const parallaxY = mouseNY * PARALLAX_POWER_Y * window.innerHeight / 100;
   // применяем трансформы и визуальные свойства
   slide.style.transform = `
-    translate3d(${parallaxXvw}vw, ${parallaxYvh}vh, ${-relativeZ}px)
+translate3d(${parallaxX}px, ${parallaxY}px, ${-relativeZ}px)
     rotateY(${rotY}deg)
     rotateX(${rotX}deg)
     scale(${sc})
@@ -488,7 +489,7 @@ slidesEls.forEach(slide => {
   slide.style.pointerEvents = 'auto';
 
   // логика дешифровки/зашифровки (как у тебя)
-  if (sc >= 1.1) {
+  if (sc >= 0.9) {
     const st = slide.dataset.state;
     if (st === "encoded" || st === "encoding") {
       animateDecode(slide);
@@ -509,43 +510,12 @@ slidesEls.forEach(slide => {
 /* ============ 5. фон-туннель сетки ============ */
 gsap.registerPlugin(ScrollTrigger);
 
-function animateTunnelGrid() {
-  const gridTop = document.querySelector(".grid-top");
-  const gridBottom = document.querySelector(".grid-bottom");
-
-  let scrollYTop = 0;
-  let scrollYBottom = 0;
-  let mouseX = 0;
-  let mouseY = 0;
-
-  // Скролл-анимация
-  ScrollTrigger.create({
-    trigger: document.body,
-    start: "top top",
-    end: "bottom bottom",
-    onUpdate: (self) => {
-      scrollYTop = -window.innerHeight * 2 * self.progress;
-      scrollYBottom = window.innerHeight * 2 * self.progress;
-
-    }
-  });
-
-  // Параллакс по мыши
-  const parallaxStrength = 50;
-  document.addEventListener("mousemove", (e) => {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 2 * parallaxStrength;
-    mouseY = (e.clientY / window.innerHeight - 0.1) * 1.5 * parallaxStrength;
-
-  });
-
-}
 
 buildSlides();
-animateTunnelGrid();
 
 
-buildSlides();
-animateTunnelGrid();
+
+
 
 
 function raf(time) {
@@ -643,18 +613,18 @@ let targetMX = 0, targetMY = 0;
 
 // ловим мышь
 document.addEventListener("mousemove", (e) => {
-  targetMX = (e.clientX / window.innerWidth - 0.5) * 200;
-  targetMY = (e.clientY / window.innerHeight - 0.5) * 200;
+  targetMX = (e.clientX / window.innerWidth - 0.5) * 80;
+  targetMY = (e.clientY / window.innerHeight - 0.5) * 80;
 });
 
 // ловим скролл
 window.addEventListener("scroll", () => {
   const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-  scrollZ = p * depth * 2; // полёт сетки вперёд
+  scrollZ = p * depth * 4; // полёт сетки вперёд
 });
 
 function project3D(x, y, z) {
-  const fov = 950; // сила перспективы
+  const fov = 550; // сила перспективы
   const scale = fov / (fov + z);
 
   return {
