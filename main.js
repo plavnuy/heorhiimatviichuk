@@ -416,95 +416,71 @@ function snappedProgress(progressRaw, stickiness = 0.7) {
 
 /* ============ 4. Рендер цикла полёта ============ */
 function renderFrame() {
-	// прогресс прокрутки [0..1]
-const progressRaw = maxScroll > 0 ? (scrollPos / maxScroll) : 0;
-const progress = snappedProgress(progressRaw, 0); // 0.7 = сколько "липнет"
+  const progressRaw = maxScroll > 0 ? (scrollPos / maxScroll) : 0;
+  const progress = snappedProgress(progressRaw, 0); // "липкий" прогресс
 
-// дальше как раньше:
-const totalDepth = (slidesData.length - 1) * Z_GAP;
-const cameraZ = -START_OFFSET + progress * (totalDepth + START_OFFSET);
+  const totalDepth = (slidesData.length - 1) * Z_GAP;
+  const cameraZ = -START_OFFSET + progress * (totalDepth + START_OFFSET);
 
+  const vw = window.innerWidth / 100;
+  const vh = window.innerHeight / 100;
 
-	// сила параллакса
-	const PARALLAX_POWER_X = 5; // vw
-	const PARALLAX_POWER_Y = 3; // vh
+  const PARALLAX_POWER_X = 5; // vw
+  const PARALLAX_POWER_Y = 3; // vh
 
-slidesEls.forEach(slide => {
-  const baseZ = parseFloat(slide.dataset.baseZ);
-  const relativeZ = baseZ - cameraZ;
+  const rotYFactor = 5;
+  const rotXFactor = -3;
 
-  // если слайд слишком позади или слишком впереди — прячем и делаем неинтерактивным
-  if (relativeZ < -150 || relativeZ > 400) {
-    slide.style.opacity = 0;
-    slide.style.filter = "none";
-    slide.style.pointerEvents = "none"; // <-- ОСТАВЛЯЕМ none для скрытых слайдов
-    return;
-  }
-
-  // видимая ветка — сначала вычисления...
-  const dist = Math.abs(relativeZ);
-
-  // opacity
-  let vis = 1 - dist / 400;
-  vis = Math.max(0, Math.min(1, vis));
-
-  // scale
-  let sc = 1.2 - (dist / 400) * 0.7;
-  if (sc < 0) sc = 0.4;
-  if (sc > 1.2) sc = 1.2;
-
-  
-  // параллакс от мыши
-  const parallaxXvw = mouseNX * PARALLAX_POWER_X;
-  const parallaxYvh = mouseNY * PARALLAX_POWER_Y;
-
-  // поворот камеры
-  const rotY = mouseNX * 5;   // deg
-  const rotX = mouseNY * -3;  // deg
-
-  // depth of field blur
   const FOCUS_DISTANCE = 30;
   const SHARP_RANGE = 30;
-  const d = Math.abs(dist - FOCUS_DISTANCE);
 
-  let blurPx = 0;
-  if (d > SHARP_RANGE) {
-    blurPx = (d - SHARP_RANGE) / 20;
-    if (blurPx > 1) blurPx = 1;
-  }
-const parallaxX = mouseNX * PARALLAX_POWER_X * window.innerWidth / 100;
-const parallaxY = mouseNY * PARALLAX_POWER_Y * window.innerHeight / 100;
-  // применяем трансформы и визуальные свойства
-  slide.style.transform = `
-translate3d(${parallaxX}px, ${parallaxY}px, ${-relativeZ}px)
-    rotateY(${rotY}deg)
-    rotateX(${rotX}deg)
-    scale(${sc})
-  `;
-  slide.style.opacity = vis;
-  slide.style.filter = blurPx > 0 ? `blur(${blurPx}px)` : "none";
+  slidesEls.forEach(slide => {
+    const baseZ = parseFloat(slide.dataset.baseZ);
+    const relativeZ = baseZ - cameraZ;
 
-  // **ВАЖНО: явно включаем pointer-events для видимого слайда**
-  // делаем это после того, как применили transform/opacity — так точно не останется старое значение
-  slide.style.pointerEvents = 'auto';
-
-  // логика дешифровки/зашифровки (как у тебя)
-  if (sc >= 0.9) {
-    const st = slide.dataset.state;
-    if (st === "encoded" || st === "encoding") {
-      animateDecode(slide);
+    if (relativeZ < -200 || relativeZ > 400) {
+      // скрываем слишком дальние слайды
+      slide.style.opacity = 0;
+      slide.style.pointerEvents = 'none';
+      slide.style.filter = 'none';
+      return;
     }
-  } else if (sc < 1.05) { // порог подбери по вкусу (не sc < 2)
+
+    const dist = Math.abs(relativeZ);
+
+    // opacity
+    const vis = Math.max(0, Math.min(1, 1 - dist / 180));
+
+    // scale
+    const sc = Math.min(1.2, Math.max(0.4, 1.2 - (dist / 400) * 0.7));
+
+    // параллакс
+    const parallaxX = mouseNX * PARALLAX_POWER_X * vw;
+    const parallaxY = mouseNY * PARALLAX_POWER_Y * vh;
+
+    const rotY = mouseNX * rotYFactor;
+    const rotX = mouseNY * rotXFactor;
+
+    // blur
+    let blurPx = 0;
+    const d = Math.abs(dist - FOCUS_DISTANCE);
+    if (d > SHARP_RANGE) blurPx = Math.min(1, (d - SHARP_RANGE) / 20);
+
+    // transform и стиль
+    slide.style.transform = `translate3d(${parallaxX}px, ${parallaxY}px, ${-relativeZ}px) rotateY(${rotY}deg) rotateX(${rotX}deg) scale(${sc})`;
+    slide.style.opacity = vis;
+    slide.style.filter = blurPx ? `blur(${blurPx}px)` : 'none';
+    slide.style.pointerEvents = 'auto';
+
+    // encode/decode
     const st = slide.dataset.state;
-    if (st === "decoded" || st === "decoding") {
-      animateEncode(slide);
-    }
-  }
-});
+    if (sc >= 0.9 && (st === "encoded" || st === "encoding")) animateDecode(slide);
+    else if (sc < 1.05 && (st === "decoded" || st === "decoding")) animateEncode(slide);
+  });
 
-
-	requestAnimationFrame(renderFrame);
+  requestAnimationFrame(renderFrame);
 }
+
 
 
 /* ============ 5. фон-туннель сетки ============ */
