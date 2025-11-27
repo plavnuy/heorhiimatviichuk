@@ -526,7 +526,7 @@ function animateTunnelGrid() {
     onUpdate: (self) => {
       scrollYTop = -window.innerHeight * 2 * self.progress;
       scrollYBottom = window.innerHeight * 2 * self.progress;
-      updateGrid();
+
     }
   });
 
@@ -535,17 +535,9 @@ function animateTunnelGrid() {
   document.addEventListener("mousemove", (e) => {
     mouseX = (e.clientX / window.innerWidth - 0.5) * 2 * parallaxStrength;
     mouseY = (e.clientY / window.innerHeight - 0.1) * 1.5 * parallaxStrength;
-    updateGrid();
+
   });
 
-  function updateGrid() {
-    gsap.set(gridTop, {
-      backgroundPosition: `${mouseX}px ${scrollYTop + mouseY}px`
-    });
-    gsap.set(gridBottom, {
-      backgroundPosition: `${mouseX}px ${scrollYBottom + mouseY}px`
-    });
-  }
 }
 
 buildSlides();
@@ -569,6 +561,21 @@ requestAnimationFrame(renderFrame);
 window.addEventListener("resize", () => {
 	maxScroll = document.body.scrollHeight - window.innerHeight;
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('.nav a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      link.classList.add('glitch3');
+    });
+
+    link.addEventListener('mouseleave', () => {
+      link.classList.remove('glitch3');
+    });
+  });
+});
+
 
 slidesEls.forEach(slide => {
   const slideImg = slide.querySelector('.slide-img');
@@ -610,3 +617,114 @@ slidesEls.forEach(slide => {
 });
 
 
+const canvas = document.getElementById("gridCanvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// параметры сетки
+const gridSize = 80;
+const depth = 2000; // глубина тоннеля
+const lineColor = "rgba(255,255,255,0.4)";
+
+// параллакс мыши
+let mx = 0, my = 0;
+
+// скролл вперёд
+let scrollZ = 0;
+
+// плавность
+let targetMX = 0, targetMY = 0;
+
+// ловим мышь
+document.addEventListener("mousemove", (e) => {
+  targetMX = (e.clientX / window.innerWidth - 0.5) * 200;
+  targetMY = (e.clientY / window.innerHeight - 0.5) * 200;
+});
+
+// ловим скролл
+window.addEventListener("scroll", () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  scrollZ = p * depth * 2; // полёт сетки вперёд
+});
+
+function project3D(x, y, z) {
+  const fov = 950; // сила перспективы
+  const scale = fov / (fov + z);
+
+  return {
+    x: x * scale + canvas.width / 2 + mx,
+    y: y * scale + canvas.height / 2 + my,
+    scale
+  };
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // плавное движение мыши
+  mx += (targetMX - mx) * 0.2;
+  my += (targetMY - my) * 0.2;
+
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 1;
+
+  // Рисуем "пол" и "потолок"
+  for (let z = 0; z < depth; z += gridSize) {
+    const zOffset = z - (scrollZ % gridSize);
+
+    // горизонтальные линии (пол и потолок)
+    for (let y of [-500, 500]) {
+      ctx.beginPath();
+
+      const p1 = project3D(-2000, y, zOffset);
+      const p2 = project3D(2000,  y, zOffset);
+
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    }
+
+// вертикальные линии — идут от камеры вдаль
+
+// вертикальные линии — СТАТИЧНЫЕ
+// вертикальные линии — СТАТИЧНЫЕ, реже
+for (let x = -1500; x <= 1500; x += gridSize * 3) {  // увеличили шаг в 3 раза
+ctx.strokeStyle = 'rgba(38, 38, 38, 1)';
+    // применяем только параллакс, НО НЕ scrollZ
+    const xx = x + mx * 0.;
+
+    // ближняя часть (z = 0)
+    const p1 = project3D(xx, -600 + my * 0.15, 0);
+    const p2 = project3D(xx,  600 + my * 0.15, 0);
+
+    // дальняя часть (z = depth)
+    const p3 = project3D(xx, -600 + my * 0.15, depth);
+    const p4 = project3D(xx,  600 + my * 0.15, depth);
+
+    // левая грань столба
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p3.x, p3.y);
+    ctx.stroke();
+
+    // правая грань столба
+    ctx.beginPath();
+    ctx.moveTo(p2.x, p2.y);
+    ctx.lineTo(p4.x, p4.y);
+    ctx.stroke();
+}
+
+
+
+  }
+
+  requestAnimationFrame(draw);
+}
+
+draw();

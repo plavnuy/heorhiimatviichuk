@@ -5,74 +5,50 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Heorhii Matviichuk Designer</title>
 <link rel="stylesheet" href="style.css">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&display=swap" rel="stylesheet">
 </head>
 
 
 <body>
-  <header class="chrome-shell header-shell">
+<header class="header">
+  <div class="header-content">
 
-	<div class="shell-content">
-		<div class="row">
-            <div class="brand">  <div class="logo glitch2 glitch_img" style="opacity: 0.3;">  <img src="./images/hm_logo.png" alt="Logo" class="logo"> </div>  </div>
-
-			
-
-			<nav class="nav">
-
-				<a href="#">all works</a>
-				<a href="#">interfaces</a>
-				<a href="#">branding</a>
-				<a href="#">art</a>
-				<a href="#">photo</a>
-
-			</nav>
-			 
-
-		</div>
-	</div>
-</header> 
-<!-- <div class="chrome-shell">
-
-	<div style="border-left: 1px solid #363636; border-right: 1px solid #363636; width: calc(100vw - 32px);
-height: calc(100vh - 32px);
-margin: 16px;"></div>
+    <nav class="nav">
+      <a href="#">all works</a>
+      <a href="#">interfaces</a>
+      <a href="#">branding</a>
+      <a href="#">art</a>
+      <a href="#">photo</a>
+    </nav>
+  </div>
+</header>
+<div id="scene">
+<canvas id="gridCanvas"></canvas>
 </div>
- -->
-	
+
 <div class="tunnel-scene">
-	<!-- тоннель -->
-	<div class="grid-plane grid-top"></div>
-	<div class="grid-plane grid-bottom"></div>
+<div class="slider"></div>
+<div class="tunnel-vignette"></div>
+</div> 
 
-	<!-- слайды летят на нас -->
-	<div class="slider"></div>
-
-
-	<!-- затемнения -->
-	<div class="tunnel-vignette"></div>
-  
-	<div class="tunnel-vignette2"></div>
-  
-</div>
-
-<footer class="chrome-shell footer-shell">
-	
-	<div class="shell-content">
-		<div class="row"><div class="head" style="opacity: 0.3;"> </div>   <div style="display: flex; flex-direction: row;	align-items: center; ">  </div>
-      
-
-<div></div>
-			<div class="loc" data-text="vibe-coded in solar system > earth > ukraine > kyiv">
-			vibe-coded in solar system  &gt;  <br>planet earth &gt; ukraine &gt; kyiv</div>
-
-		</div>
-   <div><div class="scale" > <img src="./images/gif_solar.gif" style="width: 56px; opacity: 0.3; padding-left: 16px;"> </div> </div></div>
-
-
-	
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-text">
+      vibe — coded in solar system &gt; <br>
+      planet earth &gt; ukraine &gt; kyiv
+    </div>
+    <div class="footer-image">
+      <img src="./images/gif_solar.gif" alt="Solar GIF" style="width: 56px; opacity: 0.3;">
+    </div>
+	    <div class="footer-image">
+      <img src="./images/hm_logo.png" alt="Solar GIF" style="width: 48px; opacity: 0.3;">
+    </div>
+    <div class="head">
+    </div>
+  </div>
 </footer>
-
 
 <!-- вставь перед main.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
