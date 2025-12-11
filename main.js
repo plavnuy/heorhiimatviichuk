@@ -106,7 +106,10 @@ let filteredData = [];
 /* ============ 2. Создаём карточки ============ */
 function buildSlides() {
     const slider = document.querySelector(".slider");
+    if (!slider) return;
+
     slider.innerHTML = "";
+    const frag = document.createDocumentFragment();
     slidesEls = [];
 
     filteredData.forEach((data, i) => {
@@ -129,7 +132,7 @@ function buildSlides() {
             </div>
         `;
 
-        slider.appendChild(slide);
+        frag.appendChild(slide);
         slidesEls.push(slide);
 
         // позиционирование через gsap
@@ -143,6 +146,8 @@ function buildSlides() {
             willChange: "transform, opacity, filter"
         });
     });
+
+    slider.appendChild(frag);
 
     // пересчёт прокрутки
     maxScroll = Math.max(1, (filteredData.length - 1) * Z_GAP);
@@ -159,14 +164,6 @@ const lenis = new Lenis({
   smoothWheel: true,
   wheelMultiplier: 0.1 // стартовое значение
 });
-
-lenis.on("scroll", ({ scroll, limit }) => {
-  scrollPos = scroll;
-  lenisLimit = limit;
-});
-
-
-
 
 // будем хранить активные рафы, чтобы не накладывать анимации друг на друга
 const activeAnims = new WeakMap();
@@ -217,6 +214,8 @@ function renderFrame() {
     // прогресс прокрутки [0..1]
     const progressRaw = maxScroll > 0 ? Math.min(1, scrollPos / maxScroll) : 0;
     const progress = snappedProgress(progressRaw, 0.1);
+    // синхронизируем туннель с текущей позицией
+    scrollZ = progress * depth * 2;
 
     const totalDepth = (filteredData.length - 1) * Z_GAP;
     const cameraZ = -START_OFFSET + progress * (totalDepth + START_OFFSET);
@@ -232,6 +231,8 @@ function renderFrame() {
         const relativeZ = baseZ - cameraZ;
         const dist = Math.abs(relativeZ);
 
+        const cache = slide._cache || (slide._cache = {});
+
         // track nearest slide
         if (dist < bestDist) {
             bestDist = dist;
@@ -240,10 +241,14 @@ function renderFrame() {
 
         // скрываем слишком дальние слайды
         if (relativeZ < -110 || relativeZ > 2000) {
-            slide.style.opacity = 0;
-            slide.style.pointerEvents = "none";
+            if (!cache.hidden) {
+                slide.style.opacity = 0;
+                slide.style.pointerEvents = "none";
+                cache.hidden = true;
+            }
             return;
         }
+        cache.hidden = false;
 
         // opacity и scale
         const vis = Math.max(0, Math.min(1, 1 - dist / 380));
@@ -258,14 +263,20 @@ function renderFrame() {
         const rotY = mouseNX * 5;
         const rotX = mouseNY * -3;
 
-        slide.style.transform = `
-            translate3d(${parallaxXvw}vw, ${parallaxYvh}vh, ${-relativeZ}px)
-            rotateY(${rotY}deg)
-            rotateX(${rotX}deg)
-            scale(${sc})
-        `;
-        slide.style.opacity = vis;
-        slide.style.pointerEvents = 'auto';
+        const nextTransform = `translate3d(${parallaxXvw}vw, ${parallaxYvh}vh, ${-relativeZ}px) rotateY(${rotY}deg) rotateX(${rotX}deg) scale(${sc})`;
+
+        if (cache.transform !== nextTransform) {
+            slide.style.transform = nextTransform;
+            cache.transform = nextTransform;
+        }
+        if (cache.opacity !== vis) {
+            slide.style.opacity = vis;
+            cache.opacity = vis;
+        }
+        if (cache.pointer !== 'auto') {
+            slide.style.pointerEvents = 'auto';
+            cache.pointer = 'auto';
+        }
     });
 
     // обновляем фон ближайшей карточки
@@ -369,7 +380,9 @@ bgB.style.backgroundColor = '#0b0b0b';
 
 function raf(time) {
 	lenis.raf(time);
-	ScrollTrigger.update();
+	if (typeof ScrollTrigger !== "undefined") {
+		ScrollTrigger.update();
+	}
 	requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
@@ -451,6 +464,15 @@ const gridSize = 150;
 const depth = 4000; // глубина тоннеля
 const lineColor = "rgba(255,255,255,0.4)";
 
+// единый обработчик Lenis, чтобы не плодить несколько on("scroll")
+lenis.on("scroll", (e) => {
+  const { scroll, limit } = e;
+  scrollPos = scroll;
+  lenisLimit = limit;
+  const p = maxScroll > 0 ? Math.min(1, scroll / maxScroll) : 0;
+  scrollZ = p * depth * 2;
+});
+
 // параллакс мыши
 let mx = 0, my = 0;
 
@@ -464,12 +486,6 @@ let targetMX = 0, targetMY = 0;
 document.addEventListener("mousemove", (e) => {
   targetMX = (e.clientX / window.innerWidth - 0.5) * 200;
   targetMY = (e.clientY / window.innerHeight - 0.5) * 200;
-});
-
-// ловим скролл
-lenis.on("scroll", (e) => {
-  const p = maxScroll > 0 ? Math.min(1, e.scroll / maxScroll) : 0;
-  scrollZ = p * depth * 2;
 });
 
 function project3D(x, y, z) {
