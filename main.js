@@ -100,7 +100,8 @@ const Z_GAP = 200;
 const START_OFFSET = 0; // насколько "перед первой" стартуем
 let scrollPos = 0;
 let slidesEls = [];
-let maxScroll = 1; // чтобы не делить на 0 потом
+let maxScroll = 1; // виртуальная длина коридора (от данных)
+let lenisLimit = 1; // фактический лимит Lenis, только для справки
 let filteredData = [];
 /* ============ 2. Создаём карточки ============ */
 function buildSlides() {
@@ -144,7 +145,7 @@ function buildSlides() {
     });
 
     // пересчёт прокрутки
-    maxScroll = (filteredData.length - 1) * Z_GAP;
+    maxScroll = Math.max(1, (filteredData.length - 1) * Z_GAP);
     scrollPos = 0;
     scrollZ = 0;
 }
@@ -161,7 +162,7 @@ const lenis = new Lenis({
 
 lenis.on("scroll", ({ scroll, limit }) => {
   scrollPos = scroll;
-  maxScroll = limit;
+  lenisLimit = limit;
 });
 
 
@@ -214,7 +215,7 @@ function snappedProgress(progressRaw, stickiness = 0.7) {
 /* ============ 4. Рендер цикла полёта ============ */
 function renderFrame() {
     // прогресс прокрутки [0..1]
-    const progressRaw = maxScroll > 0 ? scrollPos / maxScroll : 0;
+    const progressRaw = maxScroll > 0 ? Math.min(1, scrollPos / maxScroll) : 0;
     const progress = snappedProgress(progressRaw, 0.1);
 
     const totalDepth = (filteredData.length - 1) * Z_GAP;
@@ -373,11 +374,9 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-requestAnimationFrame(renderFrame);
-
 // пересчитать maxScroll на ресайзе
 window.addEventListener("resize", () => {
-	maxScroll = (filteredData.length - 1) * Z_GAP;
+	maxScroll = Math.max(1, (filteredData.length - 1) * Z_GAP);
 });
 /* 
 document.addEventListener('DOMContentLoaded', () => {
@@ -469,7 +468,7 @@ document.addEventListener("mousemove", (e) => {
 
 // ловим скролл
 lenis.on("scroll", (e) => {
-  const p = e.scroll / maxScroll;
+  const p = maxScroll > 0 ? Math.min(1, e.scroll / maxScroll) : 0;
   scrollZ = p * depth * 2;
 });
 
@@ -637,6 +636,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==== Перестройка слайдов ====
 buildSlides(); // buildSlides использует глобальный filteredData
 
+      // сбросим Lenis после перестройки, чтобы он пересчитал лимит и вернулся в начало
+      if (typeof lenis.resize === "function") {
+        lenis.resize();
+      }
+      lenis.scrollTo(0, { immediate: true });
+      scrollPos = 0;
+      scrollZ = 0;
 
 
   });
