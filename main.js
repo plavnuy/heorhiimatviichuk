@@ -147,9 +147,6 @@ function buildSlides() {
     maxScroll = (filteredData.length - 1) * Z_GAP;
     scrollPos = 0;
     scrollZ = 0;
-    lenis.scrollTo(0, { immediate: true });
-    lenis.reset();   // пересчитывает внутренние значения
-lenis.resize(); 
 }
 
 
@@ -167,12 +164,7 @@ lenis.on("scroll", ({ scroll, limit }) => {
   maxScroll = limit;
 });
 
-// функция для расчёта скорости
-function getLenisSpeed(count) {
-  if (count <= 4) return 3;     // мало карточек — прокрутка быстрее
-  if (count <= 10) return 1.5;   // среднее количество
-  return 0.5;                    // много карточек — медленнее
-}
+
 
 
 // будем хранить активные рафы, чтобы не накладывать анимации друг на друга
@@ -645,22 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==== Перестройка слайдов ====
 buildSlides(); // buildSlides использует глобальный filteredData
 
-// ==== Обновление скорости и ресет Lenis ====
-// 1. Перестройка слайдов
-buildSlides(); // обновляет DOM и filteredData
 
-// 2. Сбрасываем Lenis
-lenis.scrollTo(0, { immediate: true });
-
-// 3. Обновляем multiplier
-lenis.options.wheelMultiplier = getLenisSpeed(filteredData.length);
-
-// 4. Пересчитываем limit
-lenis.reset();   // internal recalculation
-lenis.resize();  // обновляет лимит по DOM
-
-console.log("Lenis multiplier:", lenis.options.wheelMultiplier);
-console.log("maxScroll:", maxScroll);
 
   });
   });
