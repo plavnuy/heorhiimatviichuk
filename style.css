@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: 'Technology';
-  src: url('fonts/Technology.ttf.ttf') format('truetype');
+  src: url('fonts/Technology.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -76,7 +76,13 @@
   --cols: 12;
     --bg-blur: 100px; /* поменяй при желании */
 }
+.scroll-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
 
+/* Если нужно, добавьте в стили */
 
 /* background blur layers */
 .bg-blur-layer {

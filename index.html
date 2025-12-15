@@ -10,29 +10,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
 <header class="header">
   <div class="header-content">
     <nav class="nav">
-      <a href="#">all works</a>
-      <a href="#">interfaces</a>
-      <a href="#">branding</a>
-      <a href="#">art</a>
-      <a href="#">photo</a>
+      <a href="#" data-filter="allworks">all works</a>
+      <a href="#" data-filter="interfaces">interfaces</a>
+      <a href="#" data-filter="branding">branding</a>
+      <a href="#" data-filter="art">art</a>
+      <a href="#" data-filter="photo">photo</a>
     </nav>
   </div>
-
 </header>
-<div id="scene">
-<canvas id="gridCanvas"></canvas>
 
+<!-- Добавляем контейнер для расчета высоты -->
+<div class="scroll-container" id="scrollContainer">
+  <div id="scene">
+    <canvas id="gridCanvas"></canvas>
+  </div>
+
+  <div class="tunnel-scene">
+    <div class="slider"></div>
+    <div class="tunnel-vignette"></div>
+  </div>
 </div>
-
-<div class="tunnel-scene">
-<div class="slider"></div>
-<div class="tunnel-vignette"></div>
-</div> 
 
 <footer class="footer">
   <div class="footer-content">
@@ -43,7 +44,7 @@
     <div class="footer-image">
       <img src="./images/gif_solar.gif" alt="Solar GIF" style="width: 56px; opacity: 0.3;">
     </div>
-	    <div class="footer-image">
+    <div class="footer-image">
       <img src="./images/hm_logo.png" alt="Solar GIF" style="width: 48px; opacity: 0.3;">
     </div>
     <div class="head">
@@ -51,15 +52,9 @@
   </div>
 </footer>
 
-<!-- вставь перед main.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
-
-<!-- затем твой скрипт -->
 <script src="/main.js" defer></script>
-
-
-
 </body>
 </html>
