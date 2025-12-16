@@ -1,107 +1,69 @@
 @font-face {
-  font-family: 'HUDMedium';
-  src: url('fonts/Medium.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Technology';
-  src: url('fonts/Technology.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
-@font-face {
-  font-family: "ScienceGothic";
-  font-weight: 100 900;
-  font-stretch: 50% 200%;
-  font-style: oblique -10deg 0deg;
+  font-family: 'ScienceGothic';
+  src: url('https://fonts.gstatic.com/s/sciencegothic/v1/Yq6H-LyXKfZlL-1QwQJhWQ.woff2') format('woff2');
 }
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
-  /* Основные цвета */
-  --bg: #000000; /* чистый черный */
-  --bg-10: #1a1a1a;
+  --bg: #000000;
   --bg-20: #333333;
-  --bg-30: #4d4d4d;
-  --bg-40: #666666;
-  --bg-50: #808080; /* средний серый */
-  --bg-60: #999999;
-  --bg-70: #b3b3b3;
-  --bg-80: #cccccc;
-  --bg-90: #e6e6e6;
-  --bg-100: #ffffff; /* чистый белый */
-
-  /* Дополнительные цвета для сетки и элементов */
-  --grid-color: rgba(255, 255, 255, 0.12);
-  --persp-depth: 200px;
-  --slide-bg: rgba(0,0,0,0.1);
-  --slide-border: rgba(10, 17, 149, 0.6);
   --slide-w: clamp(200px, 22vw, 300px);
-
-  /* Тексты */
-  --text-main: #787878;   /* основной текст */
-  --text-dim: #8fa3a3;    /* затемненный текст */
-  --text-light: #b3b3b3;  /* светлый текст */
-  --text-bright: #e6e6e6; /* почти белый */
-
-  /* Оверлей и эффекты */
-  --overlay-color: rgba(255, 255, 255, 0.5); /* прозрачный белый */
-  --overlay-dark: rgba(0,0,0,0.3);
-
-  /* Сетка */
-  --cell-size: 10vw;
-
-  /* Шрифты и размеры */
-  --font-size: 20px;
-
-  /* Мышка / угол */
-  --mx: 0;                 /* -1..1 по X */
-  --my: 0;                 /* -1..1 по Y */
-  --angle: 0deg;           /* угол для градиента */
-
-  /* Кольца / рамки */
-  --ring-width: 1px;
+  --text-main: #787878;
+  --mx: 0;
+  --my: 0;
+  --angle: 0deg;
   --ring-offset: 0px;
-  --frame-w: 56px;
-  --frame-h: 56px;
-  --cols: 12;
-    --bg-blur: 100px; /* поменяй при желании */
+  --ring-width: 1px;
+  --bg-blur: 100px;
 }
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text-main);
+  font-family: system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Убираем фиксированную высоту body */
+body {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Фиксируем минимальную высоту для режима слайдов */
+body:not(.gallery-active) {
+  min-height: 800vh;
+}
+
 .scroll-container {
   position: relative;
   width: 100%;
   min-height: 100vh;
 }
 
-/* Если нужно, добавьте в стили */
-
-/* background blur layers */
 .bg-blur-layer {
   position: fixed;
   inset: 0;
-  z-index: 0;               /* убедись, что .slider и остальные элементы выше (z-index:1+) */
+  z-index: 0;
   pointer-events: none;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   transform-origin: center;
-  transform: scale(1.3);   /* немного увеличим чтобы при blur не было краёв */
+  transform: scale(1.3);
   filter: blur(var(--bg-blur, 300px)) saturate(3);
   opacity: 0;
   transition: opacity 650ms cubic-bezier(.22,.9,.33,1), filter 400ms;
   will-change: opacity, background-image;
 }
 
-/* контейнер для слоёв, чтобы гарантировать порядок */
 .bg-blur-wrap {
   position: fixed;
   inset: 0;
@@ -109,16 +71,16 @@
   overflow: hidden;
   pointer-events: none;
 }
+
 .bg-blur-wrap::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 2; 
-  /* Тайл нойз с прозрачностью */
+  z-index: 2;
   background: url('/images/noise.gif') repeat;
   opacity: 0.02;
-  mix-blend-mode: multiply; /* можно оставить для мягкого наложения */
+  mix-blend-mode: multiply;
 }
 
 .bg-blur-wrap::after {
@@ -126,13 +88,9 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 3; 
-  /* Виньетка */
+  z-index: 3;
   background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.9) 100%);
 }
-
-
-
 
 .header {
   position: fixed;
@@ -143,172 +101,158 @@
   width: 100vw;
   font-family: 'Science Gothic', monospace;
   text-transform: uppercase;
-    justify-content: center;
+  justify-content: center;
 }
 
 .header-content {
-    justify-content: space-between;
+  justify-content: space-between;
   display: flex;
   align-items: center;
   width: 100%;
   margin: 0 auto;
 }
 
-
-
-.brand img {
-  height: 40px; /* размер логотипа */
-}
-
-
-
-
-
+/* Стили для навигации с неоном */
 .nav a {
   font-family: "Science Gothic", sans-serif;
-  font-variation-settings:  "wdth" 200, "wght" 600;
-  transition: font-variation-settings 0.3s ease,
-    color 0.3s ease;
+  font-variation-settings: "wdth" 200, "wght" 600;
+  transition: font-variation-settings 0.3s ease, color 0.3s ease;
   color: #3b3b3b;
   text-decoration: none;
   margin-left: 48px;
   font-size: 14px;
+  position: relative;
+  padding: 4px 8px;
+  border-radius: 2px;
+  filter: brightness(0.8);
 }
 
 .nav a:hover {
-  font-variation-settings:  "wdth" 300, "wght" 900;
-  color: #f0f0f0; /* эффект наведения */
-  filter: drop-shadow(0 0 8px white)
-}
-
-.nav a.active-tab {
-  color: #f0f0f0;
   font-variation-settings: "wdth" 300, "wght" 900;
-  filter: drop-shadow(0 0 8px white);
+  color: rgba(255, 255, 255, 0.4);
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.3);
 }
 
-.view-switcher {
-  margin-left: 48px;
-}
-
-.view-switcher button {
-  background: none;
-  border: 1px solid #3b3b3b;
-  color: #3b3b3b;
-  font-family: "Science Gothic", sans-serif;
-  padding: 6px 12px;
-  margin-right: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.view-switcher button.active-view {
-  color: #f0f0f0;
-  border-color: #f0f0f0;
-}
-
-#loader {
-  display: none;
-  font-size: 18px;
-  margin: 20px;
-}
-
-/* Gallery grid */
-#gallery {
-  width: 100%;
-  padding: 48px 6vw;
-  box-sizing: border-box;
-  background: transparent;
-  min-height: 60vh;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
-  align-items: stretch;
-}
-
-.gallery-item {
-  background: rgba(255,255,255,0.02);
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.04);
-  padding: 8px;
-  transition: transform .2s ease, box-shadow .2s ease;
-  opacity: 1;
-}
-
-.gallery-item:focus,
-.gallery-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-  outline: none;
-}
-
-.gallery-thumb {
-  width: 100%;
-  aspect-ratio: 1.4/1;
-  overflow: hidden;
-  border-radius: 8px;
-  display: block;
-}
-
-.gallery-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.gallery-caption {
-  margin-top: 8px;
-  padding: 6px 2px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.9);
-}
-
-.g-title { font-weight: 700; font-size: 14px; }
-.g-sub { font-size: 12px; color: rgba(255,255,255,0.6); }
-
-/* active filter nav link */
 .nav a.active-filter {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  color: inherit;
+  font-variation-settings: "wdth" 300, "wght" 900;
+  color: #ffffff;
+  animation: navLampFlicker 0.8s ease forwards;
 }
 
-/* ensure gallery hidden by default */
-#gallery[style*="display: none"] { visibility: hidden; }
-
-/* view switcher active button already has .active-view in your markup; style it */
-.view-switcher button.active-view {
-  background: rgba(255,255,255,0.06);
-  box-shadow: inset 0 -2px 0 rgba(255,255,255,0.06);
+/* Эффект лампы при активации фильтра */
+@keyframes navLampFlicker {
+  0% {
+    text-shadow: none;
+    color: #3b3b3b;
+  }
+  10% {
+    text-shadow: 
+      0 0 15px #ffffff,
+      0 0 30px #ffffff;
+    color: #ffffff;
+  }
+  15% {
+    text-shadow: none;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  20% {
+    text-shadow: 
+      0 0 20px #ffffff,
+      0 0 40px #ffffff,
+      0 0 60px #ffffff;
+    color: #ffffff;
+  }
+  30% {
+    text-shadow: 
+      0 0 8px #ffffff,
+      0 0 15px #ffffff;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  40% {
+    text-shadow: 
+      0 0 25px #ffffff,
+      0 0 50px #ffffff,
+      0 0 75px #ffffff;
+    color: #ffffff;
+  }
+  60% {
+    text-shadow: none;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    text-shadow: 
+      0 0 12px #ffffff,
+      0 0 25px #ffffff;
+    color: #ffffff;
+  }
+  85% {
+    text-shadow: 
+      0 0 35px #ffffff,
+      0 0 70px #ffffff,
+      0 0 100px #ffffff;
+    color: #ffffff;
+  }
+  100% {
+    text-shadow: 
+      0 0 8px #ffffff,
+      0 0 15px #ffffff,
+      0 0 25px #ffffff;
+    color: #ffffff;
+  }
 }
 
+/* Статичное свечение после анимации для навигации */
+.nav a.active-filter::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 150%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.08) 25%,
+    transparent 65%
+  );
+  z-index: -1;
+  opacity: 0;
+  animation: navStaticGlow 0.5s ease 0.8s forwards;
+  pointer-events: none;
+}
+
+@keyframes navStaticGlow {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Убираем underline из старого стиля */
+.nav a.active-filter {
+  text-decoration: none;
+}
 
 .footer {
-  align-items: center;
-  width: 100%;
   position: fixed;
+  z-index: 1000; /* Поверх всего */
+  bottom: 0;
+  left: 0;
+  width: 100%;
   color: var(--bg-30);
   padding: 8px;
   text-align: center;
   font-family: 'Science Gothic', monospace;
   text-transform: uppercase;
-  bottom: 0;
+  pointer-events: none; /* Пропускаем события мыши */
 }
 
 .footer-content {
   display: flex;
   justify-content: right;
   align-items: center;
-  gap: 4px; /* расстояние между текстом и картинкой */
+  gap: 4px;
 }
 
 .footer-text {
@@ -320,98 +264,11 @@
   display: block;
 }
 
-
-
-.glitch3 {
-  color: white;
-  animation: glitch3 1s step-end 2;
-}
-
-.glitch3 span {
-  color: white;
-  animation: glitch3 1s step-end 2;
-}
-@keyframes glitch3 {
-  0%,50%,100%{
-  transform: skewX(0deg) translateX(0px) scale(1,1);
-	  text-shadow: 0px 0 rgb(27, 27, 27);
-    clip-path: none;
-    
-  }
-  5%,15%,25%{
-  transform: skewX(12deg) translateX(2px) scale(1,-1);
-	   text-shadow: -2px 0px rgb(0, 0, 0), -3px 2px #0a0a0a;
-    
-  }
-  10%,30%{
-  transform: skewX(25deg) translateX(4px) scale(1,1);
-	  text-shadow: -1px 0px rgb(48, 48, 48);
-	  
-  }
-  35%,45%{
-  transform: skewX(-12deg) translateX(2px) scale(1,1);
-	  text-shadow: -2px 0px #050505, -2px 0px #272727;
-    
-  }
-  11%, 14% {
-    clip-path: polygon(100% 0, 0 18%, 99% 46%, 0 78%, 100% 100%, 100% 57%, 0 100%, 100% 76%, 0 59%, 100% 35%, 0 37%, 100% 21%);
-  }
-  12%, 16% {
-    clip-path: polygon(0 51%, 0 29%, 100% 0, 0 14%, 99% 57%, 100% 23%, 0 100%, 100% 72%, 0 0, 100% 100%);
-  }
-  13%, 17% {
-    clip-path: polygon(0% 0%, 99% 0%, 99% 8%, 0% 7%, 0% 14%, 99% 15%, 100% 22%, 0% 22%, 0% 30%, 99% 30%, 99% 39%, 0% 37%, 0% 43%, 100% 45%, 100% 50%, 0% 49%, 0% 56%, 99% 57%, 99% 63%, 0% 63%, 0% 68%, 99% 68%, 99% 75%, 0% 76%, 0% 81%, 100% 83%, 100% 89%, 0% 88%, 0% 94%, 100% 95%, 100% 100%, 0% 99%);
-  }
-}
-
-
-/* оболочка "жидкого стекла" */
-
-
-
-
-
-
-body {
-  
-	background-color: var(--bg);
-	color: var(--text-main);
-	font-family: system-ui, sans-serif;
-
-	min-height: 800vh;
-}
-
 .tunnel-scene {
-	position: fixed;
-	inset: 0;
-	perspective: calc(var(--persp-depth) * 1.0);
-	overflow: hidden;
-}
-
-/* виньетки дают эффект тоннеля 
-.tunnel-vignette {
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-
-  
-    		rgba(0, 0, 0) 0%,
-		rgb(0, 0, 0, 0) 20%,
-    rgb(0, 0, 0, 1) 30%,
-    		rgb(0, 0, 0) 70%,
-		rgb(0, 0, 0, 0) 80%,
-		rgba(0, 0, 0, 1) 97%,
-		rgb(0, 0, 0) 100%
-	);
-	z-index: 3;
-	pointer-events: none;
-}
-*/
-
-.logo {
-
-	height: 36px;
-
+  position: fixed;
+  inset: 0;
+  perspective: 200px;
+  overflow: hidden;
 }
 
 #scene {
@@ -431,67 +288,45 @@ body {
   display: block;
 }
 
-
 .slider {
-  
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	perspective: 1000px;
-	z-index: 5;
-	transform-style: preserve-3d;
-	will-change: transform;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  perspective: 1000px;
+  z-index: 5;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .slide {
-    text-transform: uppercase;
-    position: absolute;
-    isolation: isolate;     
-    min-width: var(--slide-w);
-    max-width: var(--slide-w);
-
-    color: var(--text-main);
-    background: var(--slide-bg);
-
-    border-radius: var(--slide-radius);
-    /* backdrop-filter: blur(8px) saturate(160%);
-    -webkit-backdrop-filter: blur(8px) saturate(160%);*/
-    padding: 1rem 1rem .75rem;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-
-    box-shadow:
-        0 0 80px rgba(0, 0, 0, 0.5);
-        
-
-    font-size: .8rem;
-    line-height: 1.4;
-
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-
-    /* ← ключевое */
-    pointer-events: auto;
-
-    /* для плавной анимации ховера */
-    transition: outline 0.25s ease,
-                outline-offset 0.25s ease,
-                box-shadow 0.25s ease;
-    
-
+  text-transform: uppercase;
+  position: absolute;
+  isolation: isolate;
+  min-width: var(--slide-w);
+  max-width: var(--slide-w);
+  color: var(--text-main);
+  background: rgba(0,0,0,0.1);
+  border-radius: 0;
+  padding: 1rem 1rem .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
+  font-size: .8rem;
+  line-height: 1.4;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  pointer-events: auto;
+  transition: outline 0.25s ease, outline-offset 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* ХОВЕР */
-.slide:hover{ outline: none; 
-color:#00fff9;
-    box-shadow:
-        0px 0px 2px rgba(255, 255, 255, 0.424);
-
+.slide:hover {
+  outline: none;
+  color: #00fff9;
+  box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.424);
 }
 
-
-.slide::after{
+.slide::after {
   content: "";
   position: absolute;
   inset: calc(var(--ring-offset) * -1);
@@ -499,84 +334,459 @@ color:#00fff9;
   pointer-events: none;
   opacity: 0;
   transition: opacity .2s ease, filter .2s ease;
-
-  /* радужный градиент, направление — по углу мыши */
-  background:
-    conic-gradient(
-      from var(--angle)
-      at calc(50% + var(--mx)*12%) calc(50% + var(--my)*10%),
-      #000000, #000000, #f9f9f9, #000000, #f9f9f9, #000000
-    );
-
-  /* делаем «кольцо» через маску (только рамка, без заливки центра) */
-mask:
-  linear-gradient(#000 0 0) content-box,
-  linear-gradient(#000 0 0);
--webkit-mask:
-  linear-gradient(#000 0 0) content-box,
-  linear-gradient(#000 0 0);
-
-mask-composite: exclude;
--webkit-mask-composite: xor;
-
-
+  background: conic-gradient(
+    from var(--angle)
+    at calc(50% + var(--mx)*12%) calc(50% + var(--my)*10%),
+    #000000, #000000, #f9f9f9, #000000, #f9f9f9, #000000
+  );
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
 }
 
-.slide:hover::after{
+.slide:hover::after {
   opacity: 1;
-
 }
 
-
-/* изображение внутри карточки */
 .slide-img {
-	width: 100%;
-	/* убираем фиксированное соотношение сторон */
-
-	background: #111;
-
-	overflow: hidden;
-	display: block;
+  width: 100%;
+  background: #111;
+  overflow: hidden;
+  display: block;
 }
 
 .slide-img img {
-	width: 100%;
-	height: auto;
-	display: block;
-	object-fit: contain; /* не режь контент */
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
-
-/* подпись — можешь вообще скрыть если хочешь чисто визуал */
-
-
-
 .card-title {
-    text-transform: uppercase;
-    position: relative;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.2em;
-    min-height: 1.2em; /* фикс высоты чтобы не дёргалось */
+  text-transform: uppercase;
+  position: relative;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2em;
+  min-height: 1.2em;
   font-family: "Science Gothic", sans-serif;
-  font-variation-settings:  "wdth" 200, "wght" 900;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    color: var(--bg-20);
+  font-variation-settings: "wdth" 200, "wght" 900;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  color: var(--bg-20);
 }
 
 .card-subtitle {
   text-transform: uppercase;
   font-family: "Science Gothic", sans-serif;
-  font-variation-settings:  "wdth" 200, "wght" 600;
-	font-size: 8px;
-	color: var(--bg-20);
-
+  font-variation-settings: "wdth" 200, "wght" 600;
+  font-size: 8px;
+  color: var(--bg-20);
 }
 
-/* слой, который "шумит" случайными символами */
+/* ==========================
+   СТИЛИ ГАЛЕРЕИ (PINTEREST-STYLE GRID)
+   ========================== */
 
+/* Контейнер галереи */
+#gallery {
+  display: none;
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  padding: 100px 20px 120px; /* Увеличил нижний padding для футера */
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  width: 100%;
+}
 
+/* Показываем галерею в активном состоянии */
+.gallery-active #gallery {
+  display: block;
+  opacity: 1;
+}
+
+/* Скрываем tunnel элементы в режиме галереи */
+.gallery-active .tunnel-scene,
+.gallery-active #scene,
+.gallery-active .bg-blur-wrap,
+.gallery-active .slider,
+.gallery-active .bg-blur-layer {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Разрешаем скролл в режиме галереи */
+.gallery-active {
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: default;
+  min-height: 100vh;
+}
+
+.gallery-active .scroll-container {
+  display: none;
+}
+
+/* Pinterest-style masonry grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 0;
+  align-items: start; /* Важно для разной высоты карточек */
+}
+
+/* Элементы галереи */
+.gallery-item {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0; /* Убрал скругление углов */
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+  animation-delay: calc(var(--item-index, 0) * 0.03s);
+  will-change: transform, opacity;
+  break-inside: avoid; /* Предотвращает разрыв карточек */
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gallery-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Изображение в галерее - сохраняем пропорции оригинального изображения */
+.gallery-thumb {
+  width: 100%;
+  overflow: hidden;
+  background: #111;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s ease;
+  object-fit: contain; /* Показываем все изображение */
+  max-width: 100%;
+  max-height: none; /* Убираем ограничение по высоте */
+}
+
+.gallery-item:hover .gallery-thumb img {
+  transform: scale(1.03);
+}
+
+/* Ленивая загрузка */
+.gallery-thumb .lazy-img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  min-height: 200px; /* Минимальная высота для placeholder */
+}
+
+.gallery-thumb img:not(.lazy-img) {
+  opacity: 1;
+}
+
+/* Подпись к изображению */
+.gallery-caption {
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.g-title {
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 180, "wght" 600;
+  font-size: 14px;
+  color: #f0f0f0;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.g-sub {
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 150, "wght" 400;
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+}
+
+/* Пустое состояние галереи */
+.gallery-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  color: #888;
+}
+
+.gallery-empty h3 {
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 600;
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #f0f0f0;
+}
+
+.gallery-empty p {
+  font-size: 14px;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Пустое состояние слайдов */
+.slide-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 400;
+}
+
+/* View switcher стили - белый неон с ламповым переключением */
+/* View switcher стили - белый неон с ламповым переключением */
+.view-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 48px;
+  padding: 4px;
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.2);
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 180, "wght" 500;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 6px 16px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  min-width: 80px;
+  text-align: center;
+  filter: brightness(0.8);
+}
+
+.view-btn:hover {
+  color: rgba(255, 255, 255, 0.4);
+  filter: brightness(1.1);
+}
+
+.view-btn.active-view {
+  color: #ffffff;
+  font-variation-settings: "wdth" 300, "wght" 900;
+  animation: lampFlicker 0.8s ease forwards;
+}
+
+/* Эффект мигания лампы при переключении видов */
+@keyframes lampFlicker {
+  0% {
+    text-shadow: none;
+    color: rgba(255, 255, 255, 0.2);
+  }
+  10% {
+    text-shadow: 
+      0 0 20px #ffffff,
+      0 0 40px #ffffff;
+    color: #ffffff;
+  }
+  15% {
+    text-shadow: none;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  20% {
+    text-shadow: 
+      0 0 25px #ffffff,
+      0 0 50px #ffffff,
+      0 0 80px #ffffff;
+    color: #ffffff;
+  }
+  30% {
+    text-shadow: 
+      0 0 10px #ffffff,
+      0 0 20px #ffffff;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  40% {
+    text-shadow: 
+      0 0 30px #ffffff,
+      0 0 60px #ffffff,
+      0 0 100px #ffffff;
+    color: #ffffff;
+  }
+  60% {
+    text-shadow: none;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    text-shadow: 
+      0 0 15px #ffffff,
+      0 0 30px #ffffff;
+    color: #ffffff;
+  }
+  85% {
+    text-shadow: 
+      0 0 40px #ffffff,
+      0 0 80px #ffffff,
+      0 0 120px #ffffff;
+    color: #ffffff;
+  }
+  100% {
+    text-shadow: 
+      0 0 10px #ffffff,
+      0 0 20px #ffffff,
+      0 0 30px #ffffff;
+    color: #ffffff;
+  }
+}
+
+/* Статичное свечение после анимации */
+.view-btn.active-view::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 180%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    transparent 70%
+  );
+  z-index: -1;
+  opacity: 0;
+  animation: staticGlow 0.5s ease 0.8s forwards;
+}
+
+@keyframes staticGlow {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Адаптивность для галереи */
+@media (max-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 0 16px;
+  }
+  
+  .gallery-caption {
+    padding: 12px;
+  }
+  
+  .g-title {
+    font-size: 12px;
+  }
+  
+  .g-sub {
+    font-size: 10px;
+  }
+  
+  .view-switcher {
+    margin-left: 20px;
+    padding: 3px;
+  }
+  
+  .view-btn {
+    padding: 5px 12px;
+    min-width: 70px;
+    font-size: 10px;
+  }
+  
+  .nav a {
+    margin-left: 24px;
+    font-size: 13px;
+  }
+  
+  #gallery {
+    padding: 80px 16px 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .view-switcher {
+    margin-left: 16px;
+  }
+  
+  .nav a {
+    margin-left: 16px;
+    font-size: 11px;
+  }
+  
+  #gallery {
+    padding: 70px 12px 90px;
+  }
+  
+  .footer {
+    padding: 6px;
+  }
+}
+
+/* Fix для активной табы all works при загрузке */
+.nav a[data-filter="allworks"].active-filter {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  color: #f0f0f0;
+  font-variation-settings: "wdth" 300, "wght" 900;
+}
 
 .head {
   width: 148px;
@@ -590,8 +800,13 @@ mask-composite: exclude;
   cursor: pointer;
   opacity: 0.2;
   transition: opacity 0.3s ease-in-out;
+  
+  /* ДОБАВЬТЕ ЭТИ СТРОКИ: */
+  z-index: 1001; /* Выше чем .footer (1000) */
+  pointer-events: auto; /* Явное разрешение событий */
 }
 
+/* Остальной CSS без изменений */
 .head::after {
   content: "";
   position: absolute;
@@ -605,14 +820,12 @@ mask-composite: exclude;
 }
 
 .head:hover {
-    opacity: 1;
-
-
+  opacity: 1;
   background-image: url('./images/head7.gif');
 }
-/* эффект при ховере */
+
 .head:hover::after {
-      opacity: 1;
+  opacity: 1;
   animation: glitch-fade 0.5s steps(2, end);
 }
 
@@ -647,4 +860,177 @@ mask-composite: exclude;
     clip-path: none;
     transform: translate(0, 0);
   }
+}
+
+/* Loader стили */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.loader-content {
+  text-align: center;
+  color: #fff;
+}
+
+.loader-spinner {
+ width: 148px;
+  height: 148px;
+    background-size: cover;
+  background-image: url('./images/head5.gif');
+ opacity: 0.2;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-text {
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 600;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.loader-progress {
+  padding-top: 48px;
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 900;
+  font-size: 28px;
+  color: #ffffff;
+  opacity: 0.2;
+  letter-spacing: 0.05em;
+}
+
+/* Улучшение скроллбара для галереи */
+.gallery-active::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gallery-active::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.gallery-active::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.gallery-active::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Ховер эффекты для элементов галереи */
+@media (hover: hover) {
+  .gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 249, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .gallery-item:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Анимация затухания для переключения видов */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#gallery {
+  animation: fadeIn 0.4s ease;
+}
+
+/* Стили для ленивой загрузки */
+.lazy-img {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.lazy-img.loaded {
+  opacity: 1;
+}
+
+/* Убираем pointer-events для контента за футером в галерее */
+.gallery-active .gallery-grid {
+  padding-bottom: 60px; /* Добавляем отступ для футера */
+}
+
+/* Улучшенная masonry сетка для Pinterest-эффекта */
+@media (min-width: 768px) {
+  .gallery-grid {
+    column-count: 3;
+    column-gap: 24px;
+    display: block;
+  }
+  
+  .gallery-item {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 24px;
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 480px) {
+  .gallery-grid {
+    column-count: 2;
+    column-gap: 16px;
+    display: block;
+  }
+  
+  .gallery-item {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 16px;
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    column-count: 1;
+    display: block;
+  }
+  
+  .gallery-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+}
+
+/* Исправление для коррекции высоты страницы в режиме слайдов */
+body:not(.gallery-active) {
+  height: auto;
+  min-height: 800vh;
+  overflow-y: auto;
+}
+
+/* Исправление для футера в режиме галереи */
+.gallery-active .footer {
+
 }
