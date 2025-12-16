@@ -202,32 +202,68 @@ class DataManager {
     return this.allData.filter(item => item.categories.includes(filter));
   }
   
-  preloadImages(images, onProgress) {
+// В классе DataManager замените метод preloadImages:
+preloadImages(images, onProgress) {
     return new Promise((resolve) => {
-      let loaded = 0;
-      const total = images.length;
-      
-      if (total === 0) {
-        resolve();
-        return;
-      }
-      
-      images.forEach((src, index) => {
-        const img = new Image();
-        img.onload = img.onerror = () => {
-          loaded++;
-          if (onProgress) {
-            onProgress(loaded / total);
-          }
-          
-          if (loaded === total) {
-            setTimeout(resolve, 500);
-          }
+        if (images.length === 0) {
+            resolve();
+            return;
+        }
+        
+        let loaded = 0;
+        const total = images.length;
+        
+        // ⬇⬇⬇ ДОБАВЬТЕ: лимит одновременных загрузок для мобильных ⬇⬇⬇
+        const MAX_CONCURRENT = navigator.userAgent.match(/mobile/i) ? 2 : 4;
+        let active = 0;
+        let index = 0;
+        
+        const loadNext = () => {
+            while (active < MAX_CONCURRENT && index < total) {
+                active++;
+                const img = new Image();
+                const src = images[index];
+                index++;
+                
+                img.onload = img.onerror = () => {
+                    loaded++;
+                    active--;
+                    
+                    // Освобождаем память
+                    img.src = '';
+                    
+                    if (onProgress) {
+                        onProgress(loaded / total);
+                    }
+                    
+                    if (loaded === total) {
+                        setTimeout(resolve, 300);
+                    } else if (index < total) {
+                        loadNext();
+                    }
+                };
+                
+                // Добавляем timeout для избежания зависания
+                setTimeout(() => {
+                    if (img.complete === false) {
+                        img.src = '';
+                        img.onload = img.onerror = null;
+                        active--;
+                        loaded++;
+                        if (onProgress) onProgress(loaded / total);
+                        if (loaded === total) setTimeout(resolve, 300);
+                        else loadNext();
+                    }
+                }, 10000); // 10 секунд таймаут
+                
+                img.src = src;
+            }
         };
-        img.src = src;
-      });
+        
+        loadNext();
+        // ⬆⬆⬆ ДОБАВЬТЕ ЭТОТ БЛОК ⬆⬆⬆
     });
-  }
+}
 }
 
 // ==========================
@@ -956,16 +992,32 @@ setFilter(filter) {
   // 5.9 Инициализация
   // ==========================
 async init() {
+      const loadTimeout = setTimeout(() => {
+        console.warn('Загрузка заняла слишком много времени, пропускаем...');
+        this.state.isLoading = false;
+        this.dom.hideLoader();
+        this.rebuildCurrentView();
+    }, 15000);
     this.initMouse();
     this.initResize();
 
     this.state.isLoading = true;
 
-    // 1. preload ВСЕ изображения
-    const allImages = this.dataManager.allData.map(item => item.img);
-    await this.dataManager.preloadImages(allImages, (progress) => {
-        this.dom.updateLoaderProgress(progress * 100);
-    });
+
+    // Новая версия: предзагружаем ТОЛЬКО необходимое для текущего вида
+    if (this.state.view === 'slides') {
+        // Для слайдов: только первые 5-7 изображений
+        const firstImages = this.state.filteredData.slice(0, 7).map(item => item.img);
+        await this.dataManager.preloadImages(firstImages, (progress) => {
+            this.dom.updateLoaderProgress(progress * 100);
+        });
+    } else {
+        // Для галереи: первые 10-12 изображений
+        const firstImages = this.state.filteredData.slice(0, 12).map(item => item.img);
+        await this.dataManager.preloadImages(firstImages, (progress) => {
+            this.dom.updateLoaderProgress(progress * 100);
+        });
+    }
 
     // 2. парсим URL → state
     this.parseInitialState();
