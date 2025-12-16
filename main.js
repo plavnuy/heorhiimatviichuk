@@ -1018,7 +1018,17 @@ async init() {
             this.dom.updateLoaderProgress(progress * 100);
         });
     }
-
+    const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    const useFallback = isMobile || localStorage.getItem('mobileFallback') === 'true';
+    
+    if (useFallback) {
+        console.log('Используем упрощенный режим для мобильных');
+        this.state.isLoading = false;
+        this.dom.hideLoader();
+        this.rebuildCurrentView();
+        localStorage.removeItem('mobileFallback');
+        return;
+    }
     // 2. парсим URL → state
     this.parseInitialState();
 
@@ -1041,6 +1051,7 @@ async init() {
             this.setBackgroundImage(0, true);
         });
     }
+
 }
 
 parseInitialState() {
