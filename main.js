@@ -109,7 +109,6 @@ class DOMCache {
     loader.innerHTML = `
       <div class="loader-content">
         <div class="loader-spinner"></div>
-       
         <div class="loader-progress">0%</div>
       </div>
     `;
@@ -318,6 +317,9 @@ class ViewManager {
     this.bgChangeTimeout = null;
     this.rafId = null;
     this.isAnimating = false;
+    
+    // Добавляем инициализацию для предзагрузки фонов
+    this.preloadedBackgrounds = new Set();
   }
   
   // ==========================
@@ -576,6 +578,45 @@ class ViewManager {
     });
   }
   
+// ==========================
+// 5.5.1 Предзагрузка следующего фона
+// ==========================
+preloadNextBackground(currentIndex) {
+    if (this.state.view !== "slides") return;
+    
+    // Предзагружаем следующий фон если он существует
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < this.state.filteredData.length) {
+        const nextSrc = this.state.filteredData[nextIndex].img;
+        
+        // Проверяем не загружали ли уже
+        if (!this.preloadedBackgrounds) {
+            this.preloadedBackgrounds = new Set();
+        }
+        
+        if (!this.preloadedBackgrounds.has(nextSrc)) {
+            const img = new Image();
+            img.onload = () => {
+                this.preloadedBackgrounds.add(nextSrc);
+            };
+            img.src = nextSrc;
+        }
+    }
+    
+    // Также предзагружаем предыдущий для обратного скролла
+    const prevIndex = currentIndex - 1;
+    if (prevIndex >= 0) {
+        const prevSrc = this.state.filteredData[prevIndex].img;
+        if (!this.preloadedBackgrounds.has(prevSrc)) {
+            const img = new Image();
+            img.onload = () => {
+                this.preloadedBackgrounds.add(prevSrc);
+            };
+            img.src = prevSrc;
+        }
+    }
+}
+
 // ==========================
 // 5.5 Фон (ИСПРАВЛЕННАЯ ВЕРСИЯ)
 // ==========================
@@ -1141,3 +1182,5 @@ window.App = {
   switchToTunnel: () => viewManager.setView('slides'),
   setFilter: (filter) => viewManager.setFilter(filter)
 };
+
+
