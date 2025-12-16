@@ -1034,3 +1034,115 @@ body:not(.gallery-active) {
 .gallery-active .footer {
 
 }
+
+/* Добавьте в конец вашего CSS файла */
+/* ==========================
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+   ========================== */
+@media (max-width: 768px), (pointer: coarse) {
+    /* Скрываем переключатель видов на мобильных */
+    .view-switcher {
+        display: none !important;
+    }
+    
+    /* Скрываем заголовок/лого если нужно */
+    .header-content h1 {
+        font-size: 14px;
+    }
+    
+    /* Увеличиваем кнопки навигации для тапа */
+    .nav a {
+        margin-left: 16px;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    /* Упрощаем галерею для мобильных */
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+        padding: 0 12px;
+    }
+    
+    .gallery-item {
+        border-width: 1px;
+    }
+    
+    /* Убираем сложные ховер-эффекты на мобильных */
+    .gallery-item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .gallery-item::after,
+    .gallery-item::before {
+        display: none;
+    }
+    
+    /* Тап-эффект вместо ховера */
+    .gallery-item:active {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+    
+    /* Убираем фон для слайдов (если вдруг показался) */
+    .bg-blur-wrap,
+    .bg-blur-layer {
+        display: none !important;
+    }
+    
+    /* Убираем canvas сетку */
+    #gridCanvas {
+        display: none !important;
+    }
+    
+    /* Упрощаем футер */
+    .footer {
+        padding: 4px;
+        font-size: 10px;
+    }
+    
+    .head {
+        width: 80px;
+        height: 80px;
+        left: 8px;
+        bottom: 8px;
+        opacity: 0.3;
+    }
+}
+
+/* Отключаем 3D-эффекты на устройствах без мыши */
+@media (hover: none) and (pointer: coarse) {
+    .slide::after,
+    .slide:hover::after {
+        display: none;
+    }
+    
+    .slide:hover {
+        transform: none !important;
+        color: inherit !important;
+        box-shadow: none !important;
+    }
+}
+
+/* Портретная ориентация */
+@media (max-width: 768px) and (orientation: portrait) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    
+    #gallery {
+        padding: 70px 10px 80px;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 768px) and (orientation: landscape) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+    
+    .header {
+        padding: 10px;
+    }
+}
