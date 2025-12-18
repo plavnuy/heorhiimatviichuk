@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Heorhii Matviichuk Designer</title>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,26 +11,27 @@
 </head>
 
 <body>
-<header class="header">
-
-<div class="header-content">
-    <div class="logo"> <img src="./images/hm_logo.png" alt="Solar GIF" style="width: 48px; opacity: 0.3;"></div>
-  <nav class="nav">
-    <a href="#" data-filter="allworks" >all works</a>
-    <a href="#" data-filter="interfaces">interfaces</a>
-    <a href="#" data-filter="branding">branding</a>
-    <a href="#" data-filter="art">art</a>
-    <a href="#" data-filter="photo">photo</a>
-  </nav>
-  <div class="view-switcher">
-    <button class="view-btn active-view" data-view="slides" data-view-name="tunnel">
-      <span>tunnel</span>
-    </button>
-    <button class="view-btn" data-view="gallery" data-view-name="grid">
-      <span>grid</span>
-    </button>
+<header class="header" id="main-header">
+  <div class="header-content">
+    <div class="logo"> 
+      <img src="./images/hm_logo.png" alt="HM Logo" style="width: 48px; opacity: 0.3;">
+    </div>
+    <nav class="nav">
+      <a href="#" data-filter="allworks" class="active-filter">all works</a>
+      <a href="#" data-filter="interfaces">interfaces</a>
+      <a href="#" data-filter="branding">branding</a>
+      <a href="#" data-filter="art">art</a>
+      <a href="#" data-filter="photo">photo</a>
+    </nav>
+    <div class="view-switcher" data-active-view="slides">
+      <button class="view-btn active-view" data-view="slides" data-view-name="tunnel">
+        <span>tunnel</span>
+      </button>
+      <button class="view-btn" data-view="gallery" data-view-name="grid">
+        <span>grid</span>
+      </button>
+    </div>
   </div>
-</div>
 </header>
 
 <div class="scroll-container" id="scrollContainer">
@@ -43,11 +44,22 @@
     <div class="tunnel-vignette"></div>
   </div>
 </div>
+
+<!-- Статичные бэкграунды для проектов (заменит blur) -->
+<div class="static-backgrounds" style="display: none;">
+  <!-- Здесь будут предзагруженные статичные изображения -->
+</div>
+
 <div id="gallery"></div>
-<footer class="footer">
+
+<!-- Previews для одного проекта в разных категориях -->
+<div class="project-previews" style="display: none;">
+  <!-- Будут генерироваться динамически -->
+</div>
+
+<footer class="footer" id="main-footer">
   <div class="footer-content">
-        <div class="head">
-    </div>
+    <div class="head"></div>
     <div class="footer-text">
       vibe — coded in solar system &gt; <br>
       planet earth &gt; ukraine &gt; kyiv
@@ -55,9 +67,41 @@
     <div class="footer-image">
       <img src="./images/gif_solar.gif" alt="Solar GIF" style="width: 56px; opacity: 0.3;">
     </div>
-
   </div>
 </footer>
+
+<!-- Project Templates (используются для генерации карточек) -->
+<template id="slide-template">
+  <div class="slide" data-project-id="">
+    <div class="slide-img">
+      <img src="" alt="" loading="lazy">
+    </div>
+    <div class="slide-copy">
+      <p class="card-title">
+        <span class="project-title"></span>
+      </p>
+      <p class="card-subtitle">
+        <span class="project-year"></span> • <span class="project-categories"></span>
+      </p>
+    </div>
+    <a href="" class="project-link" target="_blank" style="display: none;"></a>
+  </div>
+</template>
+
+<template id="gallery-item-template">
+  <div class="gallery-item" data-project-id="">
+    <div class="gallery-thumb">
+      <img data-src="" alt="" class="lazy-img">
+    </div>
+    <div class="gallery-caption">
+      <div class="g-title project-title"></div>
+      <div class="g-sub">
+        <span class="project-year"></span> • <span class="project-categories"></span>
+      </div>
+    </div>
+    <a href="" class="project-link" target="_blank" style="display: none;"></a>
+  </div>
+</template>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
