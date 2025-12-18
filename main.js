@@ -25,6 +25,7 @@ const CONFIG = {
       BASE: 0.2
     }
   }
+  
 };
 
 // ==========================
@@ -1119,6 +1120,7 @@ parseInitialState() {
     }
 }
 
+
   // ==========================
   // 5.10 Главный цикл
   // ==========================
@@ -1182,5 +1184,6 @@ window.App = {
   switchToTunnel: () => viewManager.setView('slides'),
   setFilter: (filter) => viewManager.setFilter(filter)
 };
+
 
 

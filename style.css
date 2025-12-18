@@ -256,12 +256,14 @@ body:not(.gallery-active) {
 }
 
 .footer-text {
+  color: #3b3b3b;
   line-height: 1.4;
   font-size: 6px;
 }
 
 .footer-image img {
   display: block;
+  opacity: 0.4;
 }
 
 .tunnel-scene {
