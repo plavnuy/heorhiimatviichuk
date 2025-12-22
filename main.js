@@ -102,8 +102,9 @@ class DOMCache {
     
     this.elements.bgA.style.opacity = '0';
     this.elements.bgB.style.opacity = '0';
-    this.elements.bgA.style.backgroundColor = '#0b0b0b';
-    this.elements.bgB.style.backgroundColor = '#0b0b0b';
+    // Устанавливаем базовый цвет для градиентов
+    this.elements.bgA.style.background = 'radial-gradient(circle at center, #0b0b0b 0%, #1a1a1a 100%)';
+    this.elements.bgB.style.background = 'radial-gradient(circle at center, #0b0b0b 0%, #1a1a1a 100%)';
   }
   
   initLoader() {
@@ -142,7 +143,7 @@ class DOMCache {
 }
 
 // ==========================
-// 3. Менеджер данных (ОБНОВЛЕНО)
+// 3. Менеджер данных (ОБНОВЛЕНО - добавлены градиенты)
 // ==========================
 class DataManager {
   constructor() {
@@ -154,7 +155,8 @@ class DataManager {
         img: "./images/2.jpg", 
         imgSecondary: "./images/2_test.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/2.html"
+        projectUrl: "./projects/2.html",
+        gradientColors: ["#0b0b0b", "#2a2a5a"] // Темно-серый + фиолетовый
       },
       { 
         id: "project-2", 
@@ -163,7 +165,8 @@ class DataManager {
         img: "./images/7 copy.jpg", 
         imgSecondary: "./images/7 copy.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/7-copy.html"
+        projectUrl: "./projects/7-copy.html",
+        gradientColors: ["#1a1a2e", "#16213e"] // Темно-синий градиент
       },
       { 
         id: "project-3", 
@@ -172,7 +175,8 @@ class DataManager {
         img: "./images/50.jpg", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/50.html"
+        projectUrl: "./projects/50.html",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
       },
       { 
         id: "project-4", 
@@ -181,7 +185,8 @@ class DataManager {
         img: "./images/accemedin.jpg", 
         imgSecondary: "./images/accemedin.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/accemedin.html"
+        projectUrl: "./projects/accemedin.html",
+        gradientColors: ["#1e1e2e", "#3d3d5c"] // Темно-серый + серо-синий
       },
       { 
         id: "project-5", 
@@ -190,7 +195,8 @@ class DataManager {
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["branding", "art"],
-        projectUrl: "./projects/amoxlocated.html"
+        projectUrl: "./projects/amoxlocated.html",
+        gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент
       },
       { 
         id: "project-6", 
@@ -199,7 +205,8 @@ class DataManager {
         img: "./images/art-01.jpg", 
         imgSecondary: "./images/art-01.jpg",
         categories: ["art"],
-        projectUrl: "./projects/art-01.html"
+        projectUrl: "./projects/art-01.html",
+        gradientColors: ["#1a1a2e", "#2d2d4d"] // Синий градиент
       },
       { 
         id: "project-7", 
@@ -208,7 +215,8 @@ class DataManager {
         img: "./images/biomass.jpg", 
         imgSecondary: "./images/biomass.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/biomass.html"
+        projectUrl: "./projects/biomass.html",
+        gradientColors: ["#0d2818", "#1a472a"] // Темно-зеленый градиент
       },
       { 
         id: "project-8", 
@@ -217,7 +225,8 @@ class DataManager {
         img: "./images/delfast.jpg", 
         imgSecondary: "./images/delfast.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/delfast.html"
+        projectUrl: "./projects/delfast.html",
+        gradientColors: ["#1c1c3b", "#2d2d5a"] // Индиго градиент
       },
       { 
         id: "project-9", 
@@ -226,7 +235,8 @@ class DataManager {
         img: "./images/dobro.jpg", 
         imgSecondary: "./images/dobro.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/dobro.html"
+        projectUrl: "./projects/dobro.html",
+        gradientColors: ["#2b2b4a", "#3c3c6b"] // Глубокий синий
       },
       { 
         id: "project-10", 
@@ -235,7 +245,8 @@ class DataManager {
         img: "./images/egg.jpg", 
         imgSecondary: "./images/egg.jpg",
         categories: ["art"],
-        projectUrl: "./projects/egg.html"
+        projectUrl: "./projects/egg.html",
+        gradientColors: ["#3d2b5a", "#5a3d7a"] // Фиолетовый градиент
       },
       { 
         id: "project-11", 
@@ -244,7 +255,8 @@ class DataManager {
         img: "./images/Frame 1225.jpg", 
         imgSecondary: "./images/Frame 1225.jpg",
         categories: ["photo"],
-        projectUrl: "./projects/frame-1225.html"
+        projectUrl: "./projects/frame-1225.html",
+        gradientColors: ["#2a2a4a", "#3b3b6b"] // Темно-синий градиент
       },
       { 
         id: "project-12", 
@@ -253,7 +265,8 @@ class DataManager {
         img: "./images/Frame 1283.png", 
         imgSecondary: "./images/Frame 1283.png",
         categories: ["photo"],
-        projectUrl: "./projects/frame-1283.html"
+        projectUrl: "./projects/frame-1283.html",
+        gradientColors: ["#1e1e3e", "#2f2f5f"] // Полуночный синий
       },
       { 
         id: "project-13", 
@@ -262,7 +275,8 @@ class DataManager {
         img: "./images/gogo_bot_avatar.png", 
         imgSecondary: "./images/gogo_bot_avatar.png",
         categories: ["art"],
-        projectUrl: "./projects/gogo-bot-avatar.html"
+        projectUrl: "./projects/gogo-bot-avatar.html",
+        gradientColors: ["#2d1e3e", "#4a2f5e"] // Темно-фиолетовый
       },
       { 
         id: "project-14", 
@@ -271,7 +285,8 @@ class DataManager {
         img: "./images/hmelisoneli.jpg", 
         imgSecondary: "./images/hmelisoneli.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/hmelisoneli.html"
+        projectUrl: "./projects/hmelisoneli.html",
+        gradientColors: ["#3a2b4a", "#5a3d6a"] // Пурпурный градиент
       },
       { 
         id: "project-15", 
@@ -280,7 +295,8 @@ class DataManager {
         img: "./images/HRAM:LOCATED_color_reference.jpg", 
         imgSecondary: "./images/HRAM:LOCATED_color_reference.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/hram-located.html"
+        projectUrl: "./projects/hram-located.html",
+        gradientColors: ["#2b2b5a", "#3c3c7b"] // Богатый синий
       },
       { 
         id: "project-16", 
@@ -289,7 +305,8 @@ class DataManager {
         img: "./images/iii3_cover.png", 
         imgSecondary: "./images/iii3_cover.png",
         categories: ["branding"],
-        projectUrl: "./projects/iii3-cover.html"
+        projectUrl: "./projects/iii3-cover.html",
+        gradientColors: ["#1e1e4a", "#2f2f6b"] // Темный кобальт
       },
       { 
         id: "project-17", 
@@ -298,7 +315,8 @@ class DataManager {
         img: "./images/jernov.jpg", 
         imgSecondary: "./images/jernov.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/jernov.html"
+        projectUrl: "./projects/jernov.html",
+        gradientColors: ["#2a1e3e", "#3d2f5a"] // Темный сливовый
       },
       { 
         id: "project-18", 
@@ -307,7 +325,8 @@ class DataManager {
         img: "./images/K19-Dase_a3_poster.jpg", 
         imgSecondary: "./images/K19-Dase_a3_poster.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/k19-dase.html"
+        projectUrl: "./projects/k19-dase.html",
+        gradientColors: ["#1e2b3e", "#2f3d5f"] // Стальной синий
       },
       { 
         id: "project-19", 
@@ -316,7 +335,8 @@ class DataManager {
         img: "./images/liminal.jpg", 
         imgSecondary: "./images/liminal.jpg",
         categories: ["art"],
-        projectUrl: "./projects/liminal.html"
+        projectUrl: "./projects/liminal.html",
+        gradientColors: ["#2d3b4a", "#3d5a6b"] // Серо-синий градиент
       },
       { 
         id: "project-20", 
@@ -325,7 +345,8 @@ class DataManager {
         img: "./images/manifest.jpg", 
         imgSecondary: "./images/manifest.jpg",
         categories: ["art"],
-        projectUrl: "./projects/manifest.html"
+        projectUrl: "./projects/manifest.html",
+        gradientColors: ["#3a1e4a", "#5a2f6a"] // Глубокий фиолетовый
       },
       { 
         id: "project-21", 
@@ -334,7 +355,8 @@ class DataManager {
         img: "./images/martini.jpg", 
         imgSecondary: "./images/martini.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/martini.html"
+        projectUrl: "./projects/martini.html",
+        gradientColors: ["#2b3d4a", "#3c5a6b"] // Морской синий
       },
       { 
         id: "project-22", 
@@ -343,7 +365,8 @@ class DataManager {
         img: "./images/mitus.jpg", 
         imgSecondary: "./images/mitus.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/mitus.html"
+        projectUrl: "./projects/mitus.html",
+        gradientColors: ["#1e3e4a", "#2f5f6b"] // Бирюзовый градиент
       },
       { 
         id: "project-23", 
@@ -352,7 +375,8 @@ class DataManager {
         img: "./images/mock-Recovered_.jpg", 
         imgSecondary: "./images/mock-Recovered_.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/recovered-mock.html"
+        projectUrl: "./projects/recovered-mock.html",
+        gradientColors: ["#3e2b5a", "#5a3d7a"] // Фиолетовый градиент
       },
       { 
         id: "project-24", 
@@ -361,7 +385,8 @@ class DataManager {
         img: "./images/Mockup.jpg", 
         imgSecondary: "./images/Mockup.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/mockup.html"
+        projectUrl: "./projects/mockup.html",
+        gradientColors: ["#2a4a3e", "#3b6b5f"] // Зеленый градиент
       },
       { 
         id: "project-25", 
@@ -370,7 +395,8 @@ class DataManager {
         img: "./images/nigredo.png", 
         imgSecondary: "./images/nigredo.png",
         categories: ["art"],
-        projectUrl: "./projects/nigredo.html"
+        projectUrl: "./projects/nigredo.html",
+        gradientColors: ["#0f0f0f", "#2a2a2a"] // Черный градиент
       },
       { 
         id: "project-26", 
@@ -379,7 +405,8 @@ class DataManager {
         img: "./images/plate copy.jpg", 
         imgSecondary: "./images/plate copy.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/plate-alt.html"
+        projectUrl: "./projects/plate-alt.html",
+        gradientColors: ["#3a2b5a", "#5a3d7a"] // Фиолетово-синий
       },
       { 
         id: "project-27", 
@@ -388,7 +415,8 @@ class DataManager {
         img: "./images/plate.jpg", 
         imgSecondary: "./images/plate.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/plate.html"
+        projectUrl: "./projects/plate.html",
+        gradientColors: ["#2b4a5a", "#3c6b7b"] // Сине-зеленый градиент
       },
       { 
         id: "project-28", 
@@ -397,7 +425,8 @@ class DataManager {
         img: "./images/pmkit.jpg", 
         imgSecondary: "./images/pmkit.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/pm-kit.html"
+        projectUrl: "./projects/pm-kit.html",
+        gradientColors: ["#1e4a3e", "#2f6b5f"] // Изумрудный градиент
       },
       { 
         id: "project-29", 
@@ -406,7 +435,8 @@ class DataManager {
         img: "./images/PRODJ-2019.jpg", 
         imgSecondary: "./images/PRODJ-2019.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/prodj-2019.html"
+        projectUrl: "./projects/prodj-2019.html",
+        gradientColors: ["#2a1e3e", "#3d2f5a"] // Темный фиолетовый
       },
       { 
         id: "project-30", 
@@ -415,7 +445,8 @@ class DataManager {
         img: "./images/roma_yurchak.jpg", 
         imgSecondary: "./images/roma_yurchak.jpg",
         categories: ["photo"],
-        projectUrl: "./projects/roma-yurchak.html"
+        projectUrl: "./projects/roma-yurchak.html",
+        gradientColors: ["#3e2b4a", "#5a3d6b"] // Пурпурный градиент
       },
       { 
         id: "project-31", 
@@ -424,7 +455,8 @@ class DataManager {
         img: "./images/saenkoharenko.jpg", 
         imgSecondary: "./images/saenkoharenko.jpg",
         categories: ["photo"],
-        projectUrl: "./projects/saenkoharenko.html"
+        projectUrl: "./projects/saenkoharenko.html",
+        gradientColors: ["#2b3e4a", "#3c5f6b"] // Сине-серый градиент
       },
       { 
         id: "project-32", 
@@ -433,7 +465,8 @@ class DataManager {
         img: "./images/Screen Shot 2019-04-11 at 17.00.49.png", 
         imgSecondary: "./images/Screen Shot 2019-04-11 at 17.00.49.png",
         categories: ["photo"],
-        projectUrl: "./projects/screen-shot-2019.html"
+        projectUrl: "./projects/screen-shot-2019.html",
+        gradientColors: ["#1e3e5a", "#2f5f7b"] // Океанский синий
       },
       { 
         id: "project-33", 
@@ -442,7 +475,8 @@ class DataManager {
         img: "./images/Screenshot 2024-07-10 at 00.16.04.png", 
         imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.04.png",
         categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16.html"
+        projectUrl: "./projects/screenshot-2024-07-10-00-16.html",
+        gradientColors: ["#4a2b3e", "#6b3d5f"] // Бордовый градиент
       },
       { 
         id: "project-34", 
@@ -451,7 +485,8 @@ class DataManager {
         img: "./images/Screenshot 2024-07-10 at 00.16.28.png", 
         imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.28.png",
         categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16-28.html"
+        projectUrl: "./projects/screenshot-2024-07-10-00-16-28.html",
+        gradientColors: ["#3e4a2b", "#5f6b3d"] // Оливковый градиент
       },
       { 
         id: "project-35", 
@@ -460,7 +495,8 @@ class DataManager {
         img: "./images/Screenshot 2024-07-10 at 00.16.51.png", 
         imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.51.png",
         categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16-51.html"
+        projectUrl: "./projects/screenshot-2024-07-10-00-16-51.html",
+        gradientColors: ["#2b4a3e", "#3c6b5f"] // Темно-зеленый
       },
       { 
         id: "project-36", 
@@ -469,7 +505,8 @@ class DataManager {
         img: "./images/sharespot.jpg", 
         imgSecondary: "./images/sharespot.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/sharespot.html"
+        projectUrl: "./projects/sharespot.html",
+        gradientColors: ["#3e2b2b", "#5f3d3d"] // Коричневый градиент
       },
       { 
         id: "project-37", 
@@ -478,7 +515,8 @@ class DataManager {
         img: "./images/Shm_poster_a3_print.jpg", 
         imgSecondary: "./images/Shm_poster_a3_print.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/shm-poster.html"
+        projectUrl: "./projects/shm-poster.html",
+        gradientColors: ["#2b3e2b", "#3c5f3d"] // Темно-зеленый градиент
       },
       { 
         id: "project-38", 
@@ -487,7 +525,8 @@ class DataManager {
         img: "./images/Shmalgauzen_TviyVill_1350х1080.jpg", 
         imgSecondary: "./images/Shmalgauzen_TviyVill_1350х1080.jpg",
         categories: ["art"],
-        projectUrl: "./projects/shmolgauzen.html"
+        projectUrl: "./projects/shmolgauzen.html",
+        gradientColors: ["#4a3e2b", "#6b5f3d"] // Золотой градиент
       },
       { 
         id: "project-39", 
@@ -496,7 +535,8 @@ class DataManager {
         img: "./images/sinners.jpg", 
         imgSecondary: "./images/sinners.jpg",
         categories: ["art"],
-        projectUrl: "./projects/sinners.html"
+        projectUrl: "./projects/sinners.html",
+        gradientColors: ["#3e2b4a", "#5f3d6b"] // Пурпурно-синий
       },
       { 
         id: "project-40", 
@@ -505,7 +545,8 @@ class DataManager {
         img: "./images/Slice 8.png", 
         imgSecondary: "./images/Slice 8.png",
         categories: ["art"],
-        projectUrl: "./projects/slice-8.html"
+        projectUrl: "./projects/slice-8.html",
+        gradientColors: ["#2b4a5a", "#3c6b7b"] // Морской волны
       },
       { 
         id: "project-41", 
@@ -514,7 +555,8 @@ class DataManager {
         img: "./images/sof_brama.jpg", 
         imgSecondary: "./images/sof_brama.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/sof-brama.html"
+        projectUrl: "./projects/sof-brama.html",
+        gradientColors: ["#3e4a5a", "#5f6b7b"] // Серо-голубой градиент
       },
       { 
         id: "project-42", 
@@ -523,7 +565,8 @@ class DataManager {
         img: "./images/son.jpg", 
         imgSecondary: "./images/son.jpg",
         categories: ["art"],
-        projectUrl: "./projects/son.html"
+        projectUrl: "./projects/son.html",
+        gradientColors: ["#4a2b3e", "#6b3d5f"] // Фиолетово-красный
       },
       { 
         id: "project-43", 
@@ -532,7 +575,8 @@ class DataManager {
         img: "./images/tripplewe.jpg", 
         imgSecondary: "./images/tripplewe.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/triple-we.html"
+        projectUrl: "./projects/triple-we.html",
+        gradientColors: ["#2b5a4a", "#3c7b6b"] // Бирюзовый градиент
       },
       { 
         id: "project-44", 
@@ -541,7 +585,8 @@ class DataManager {
         img: "./images/Tube_mock.jpg", 
         imgSecondary: "./images/Tube_mock.jpg",
         categories: ["branding", "art"],
-        projectUrl: "./projects/tube-mock.html"
+        projectUrl: "./projects/tube-mock.html",
+        gradientColors: ["#5a2b3e", "#7b3d5f"] // Темно-розовый градиент
       },
       { 
         id: "project-45", 
@@ -550,7 +595,8 @@ class DataManager {
         img: "./images/twog.jpg", 
         imgSecondary: "./images/twog.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/twog.html"
+        projectUrl: "./projects/twog.html",
+        gradientColors: ["#3e5a2b", "#5f7b3d"] // Лаймовый градиент
       },
       { 
         id: "project-46", 
@@ -559,7 +605,8 @@ class DataManager {
         img: "./images/vartis.jpg", 
         imgSecondary: "./images/vartis.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/vartis.html"
+        projectUrl: "./projects/vartis.html",
+        gradientColors: ["#2b5a3e", "#3c7b5f"] // Зеленый градиент
       },
       { 
         id: "project-47", 
@@ -568,7 +615,8 @@ class DataManager {
         img: "./images/x4.jpg", 
         imgSecondary: "./images/x4.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/x4.html"
+        projectUrl: "./projects/x4.html",
+        gradientColors: ["#3e2b5a", "#5f3d7b"] // Индиго градиент
       }
     ];
     
@@ -583,10 +631,11 @@ class DataManager {
         id: "biomass-preview-2",
         title: "Biomass Preview 2",
         year: "2024",
-        img: "./images/biomass.jpg", // Другое изображение для превью
+        img: "./images/biomass.jpg",
         imgSecondary: "./images/biomass.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/biomass.html" // Тот же URL что у основного
+        projectUrl: "./projects/biomass.html",
+        gradientColors: ["#0d2818", "#1a472a"] // Темно-зеленый градиент (как у основного)
       },
       {
         id: "amoxlocated-preview-2",
@@ -595,7 +644,8 @@ class DataManager {
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["branding", "art"],
-        projectUrl: "./projects/amoxlocated.html"
+        projectUrl: "./projects/amoxlocated.html",
+        gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент (как у основного)
       }
     ];
     
@@ -725,9 +775,6 @@ class ViewManager {
     this.bgChangeTimeout = null;
     this.rafId = null;
     this.isAnimating = false;
-    
-    // Добавляем инициализацию для предзагрузки фонов
-    this.preloadedBackgrounds = new Set();
     
     // Проверяем мобильное устройство
     this.checkMobileDevice();
@@ -1018,48 +1065,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.5.1 Предзагрузка следующего фона
-  // ==========================
-  preloadNextBackground(currentIndex) {
-    if (this.state.view !== "slides") return;
-    
-    // Предзагружаем следующий фон если он существует
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < this.state.filteredData.length) {
-      const nextData = this.state.filteredData[nextIndex];
-      const nextSrc = nextData.imgSecondary || nextData.img;
-      
-      // Проверяем не загружали ли уже
-      if (!this.preloadedBackgrounds) {
-        this.preloadedBackgrounds = new Set();
-      }
-      
-      if (!this.preloadedBackgrounds.has(nextSrc)) {
-        const img = new Image();
-        img.onload = () => {
-          this.preloadedBackgrounds.add(nextSrc);
-        };
-        img.src = nextSrc;
-      }
-    }
-    
-    // Также предзагружаем предыдущий для обратного скролла
-    const prevIndex = currentIndex - 1;
-    if (prevIndex >= 0) {
-      const prevData = this.state.filteredData[prevIndex];
-      const prevSrc = prevData.imgSecondary || prevData.img;
-      if (!this.preloadedBackgrounds.has(prevSrc)) {
-        const img = new Image();
-        img.onload = () => {
-          this.preloadedBackgrounds.add(prevSrc);
-        };
-        img.src = prevSrc;
-      }
-    }
-  }
-  
-  // ==========================
-  // 5.5 Фон (ОБНОВЛЕНО: используем imgSecondary)
+  // 5.5 Фон (ОБНОВЛЕНО: используем градиенты вместо изображений)
   // ==========================
   setBackgroundImage(index, immediate = false) {
     // 1. Проверяем возможность смены
@@ -1076,8 +1082,6 @@ class ViewManager {
     // 3. Обновляем состояние
     this.state.bg.currentIndex = index;
     const data = this.state.filteredData[index];
-    // ИСПОЛЬЗУЕМ ВТОРИЧНОЕ ИЗОБРАЖЕНИЕ для фона
-    const src = data.imgSecondary;
     
     // 4. Определяем активный/неактивный слой
     const activeIdx = this.state.bg.active;
@@ -1088,24 +1092,24 @@ class ViewManager {
     // 5. Останавливаем ВСЕ предыдущие анимации фона
     gsap.killTweensOf([this.dom.elements.bgA, this.dom.elements.bgB]);
     
-    // 6. Быстрая установка для первого фона
+    // 6. Создаем градиент из двух цветов проекта
+    const gradient = this.createGradient(data.gradientColors);
+    
+    // 7. Быстрая установка для первого фона
     if (immediate) {
-      nextEl.style.backgroundImage = `url("${src}")`;
+      nextEl.style.backgroundImage = gradient;
       nextEl.style.opacity = CONFIG.BG_OPACITY.toString();
       activeEl.style.opacity = '0';
       this.state.bg.active = nextIdx;
-      this.preloadNextBackground(index);
       return;
     }
     
-    // 7. Плавная смена
-    const img = new Image();
-    
+    // 8. Плавная смена
     const applyTransition = () => {
-      // 7.1 Устанавливаем новое изображение в неактивный слой
-      nextEl.style.backgroundImage = `url("${src}")`;
+      // 8.1 Устанавливаем новый градиент в неактивный слой
+      nextEl.style.backgroundImage = gradient;
       
-      // 7.2 Одновременная анимация обоих слоёв
+      // 8.2 Одновременная анимация обоих слоёв
       gsap.to(activeEl, {
         opacity: 0,
         duration: CONFIG.BG_FADE_DURATION * 0.7,
@@ -1120,24 +1124,20 @@ class ViewManager {
         delay: 0.05,
         overwrite: true,
         onComplete: () => {
-          // 7.3 После завершения обновляем активный слой
+          // 8.3 После завершения обновляем активный слой
           this.state.bg.active = nextIdx;
-          this.preloadNextBackground(index);
         }
       });
     };
     
-    // 8. Предзагрузка перед анимацией
-    if (img.complete) {
-      applyTransition();
-    } else {
-      img.onload = applyTransition;
-      img.onerror = () => {
-        console.warn(`Не удалось загрузить фоновое изображение: ${src}`);
-        applyTransition(); // Показываем хотя бы чёрный фон
-      };
-      img.src = src;
-    }
+    // 9. Немедленное применение (градиенты не требуют предзагрузки)
+    applyTransition();
+  }
+  
+  createGradient(colors) {
+    // Создаем радиальный градиент из двух цветов
+    const [color1, color2] = colors;
+    return `radial-gradient(circle at center, ${color1} 0%, ${color2} 100%)`;
   }
   
   // ==========================
@@ -1369,7 +1369,6 @@ class ViewManager {
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
     
-    
     // Останавливаем предыдущий вид
     if (this.state.view === "slides") {
       this.state.slides.elements = [];
@@ -1413,6 +1412,12 @@ class ViewManager {
         this.dom.elements.gallery.innerHTML = '';
       }
       this.buildSlides();
+      // Устанавливаем фон для первого слайда
+      if (this.state.filteredData.length > 0) {
+        requestAnimationFrame(() => {
+          this.setBackgroundImage(0, true);
+        });
+      }
     } else {
       this.buildGallery();
     }
@@ -1473,7 +1478,7 @@ class ViewManager {
     // 6. строим корректный view
     this.rebuildCurrentView();
     
-    // 7. форс первого фона ТОЛЬКО для slides
+    // 7. форс первого фона ТОЛЬКО для slides (теперь градиент)
     if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
       requestAnimationFrame(() => {
         this.setBackgroundImage(0, true);
