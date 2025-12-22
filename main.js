@@ -1,5 +1,5 @@
 // ==========================
-// 0. КОНФИГУРАЦИЯ С ОПТИМИЗАЦИЯМИ
+// 0. Конфигурация
 // ==========================
 const CONFIG = {
   Z_GAP: 200,
@@ -7,16 +7,13 @@ const CONFIG = {
   DEPTH: 4000,
   BG_FADE_DURATION: 1,
   BG_OPACITY: 0.2,
-  MOBILE_BG_OPACITY: 0.08, // Еще ниже для мобилок
   MOUSE_SENSITIVITY: { X: 5, Y: 3, ROTATION: 5 },
-  MOBILE_SENSITIVITY: { X: 1.5, Y: 1, ROTATION: 1 }, // Уменьшено для мобилок
   GRID: {
     HORIZONTAL_SIZE: 200,
     VERTICAL_SIZE: 300,
     VERTICAL_COUNT: 4,
     LINE_OPACITY: 0.15,
-    FADE_RANGE: 4000,
-    MOBILE_OPACITY: 0.08 // Уменьшенная opacity для мобилок
+    FADE_RANGE: 4000
   },
   LENIS: {
     LERP: 0.1,
@@ -27,40 +24,11 @@ const CONFIG = {
       MAX: 0.8,
       BASE: 0.2
     }
-  },
-  
-  // Система порядка проектов
-  PROJECTS_ORDER: [
-    "project-2", "project-7-copy", "project-50", "project-accemedin",
-    "project-amoxlocated", "project-art-01", "project-biomass", "project-delfast",
-    "project-dobro", "project-egg", "project-frame-1225", "project-frame-1283",
-    "project-gogo-bot-avatar", "project-hmelisoneli", "project-hram-located",
-    "project-iii3-cover", "project-jernov", "project-k19-dase", "project-liminal",
-    "project-manifest", "project-martini", "project-mitus", "project-mock-recovered",
-    "project-mockup", "project-nigredo", "project-plate-alt", "project-plate",
-    "project-pmkit", "project-prodj-2019", "project-roma-yurchak", "project-saenkoharenko",
-    "project-screen-shot-2019", "project-screenshot-2024-07-10-00:16",
-    "project-screenshot-2024-07-10-00:16:28", "project-screenshot-2024-07-10-00:16:51",
-    "project-sharespot", "project-shm-poster", "project-shmalgauzen",
-    "project-sinners", "project-slice-8", "project-sof-brama", "project-son",
-    "project-triple-we", "project-tube-mock", "project-twog", "project-vartis",
-    "project-x4"
-  ],
-  
-  // Оптимизации
-  IS_MOBILE: window.innerWidth <= 768,
-  USE_STATIC_BG: true, // Использовать статичные бэкграунды
-  DISABLE_COMPLEX_EFFECTS: window.innerWidth <= 768, // Отключить сложные эффекты на мобилках
-  
-  // Настройки производительности
-  MAX_FPS: 60,
-  MOBILE_MAX_FPS: 30,
-  FRAME_SKIP_MOBILE: 2, // Пропускать кадры на мобилках
-  DISABLE_GRID_ON_MOBILE: false
+  }
 };
 
 // ==========================
-// 1. ГЛОБАЛЬНОЕ СОСТОЯНИЕ (ОБНОВЛЕНО)
+// 1. Глобальное состояние
 // ==========================
 class AppState {
   constructor() {
@@ -70,39 +38,28 @@ class AppState {
     this.filter = 'allworks';
     this.bg = { active: 0, currentIndex: -1 };
     this.isLoading = true;
-    this.currentPage = 'home';
     
     this.filteredData = [];
-    this.sortedData = []; // Данные отсортированные по порядку
     this.slides = { elements: [], state: [] };
     this.gridLines = this.generateGridLines();
     this.imagesLoaded = 0;
     this.totalImages = 0;
-    this.preloadedStaticImages = new Set();
-    this.staticBgCache = new Map(); // Кэш для статичных бэкграундов
     
-    // Для мобильной оптимизации
-    this.frameCount = 0;
-    this.lastFrameTime = 0;
-    this.isLowPowerMode = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Добавляем состояние для мобильных устройств
+    this.isMobile = window.innerWidth <= 768;
   }
   
   generateGridLines() {
     const lines = [];
-    const step = CONFIG.IS_MOBILE ? CONFIG.GRID.HORIZONTAL_SIZE * 2 : CONFIG.GRID.HORIZONTAL_SIZE;
-    for (let z = 0; z < CONFIG.DEPTH; z += step) {
+    for (let z = 0; z < CONFIG.DEPTH; z += CONFIG.GRID.HORIZONTAL_SIZE) {
       lines.push(z);
     }
     return lines;
   }
-  
-  getCurrentMouseSensitivity() {
-    return CONFIG.IS_MOBILE ? CONFIG.MOBILE_SENSITIVITY : CONFIG.MOUSE_SENSITIVITY;
-  }
 }
 
 // ==========================
-// 2. ДОМ КЭШ С ОПТИМИЗАЦИЯМИ
+// 2. Дом кэш
 // ==========================
 class DOMCache {
   constructor() {
@@ -125,97 +82,39 @@ class DOMCache {
       scrollContainer: document.querySelector('.scroll-container')
     };
     
-    this.initStaticBackgroundLayers();
-    this.initMobileOptimizations();
+    this.initBackgroundLayers();
     this.initLoader();
     return this;
   }
   
-  initStaticBackgroundLayers() {
-    // Удаляем старые blur слои
-    const oldBgWrap = document.querySelector('.bg-blur-wrap');
-    if (oldBgWrap) oldBgWrap.remove();
+  initBackgroundLayers() {
+    const bgWrap = document.createElement('div');
+    bgWrap.className = 'bg-blur-wrap';
     
-    // Создаем статичные бэкграунды
-    const staticBgContainer = document.createElement('div');
-    staticBgContainer.className = 'static-bg-container';
+    this.elements.bgA = document.createElement('div');
+    this.elements.bgB = document.createElement('div');
+    this.elements.bgA.className = 'bg-blur-layer bg-blur-a';
+    this.elements.bgB.className = 'bg-blur-layer bg-blur-b';
     
-    this.elements.staticBgA = document.createElement('div');
-    this.elements.staticBgB = document.createElement('div');
-    this.elements.staticBgA.className = 'static-bg-layer layer-a';
-    this.elements.staticBgB.className = 'static-bg-layer layer-b';
+    bgWrap.appendChild(this.elements.bgA);
+    bgWrap.appendChild(this.elements.bgB);
+    document.body.insertBefore(bgWrap, document.body.firstChild);
     
-    // Упрощаем стили для мобилок
-    if (CONFIG.IS_MOBILE) {
-      this.elements.staticBgA.style.filter = 'saturate(1)';
-      this.elements.staticBgB.style.filter = 'saturate(1)';
-    }
-    
-    staticBgContainer.appendChild(this.elements.staticBgA);
-    staticBgContainer.appendChild(this.elements.staticBgB);
-    
-    const scene = document.getElementById('scene');
-    if (scene) {
-      scene.parentNode.insertBefore(staticBgContainer, scene.nextSibling);
-    }
-    
-    this.elements.staticBgContainer = staticBgContainer;
-  }
-  
-  initMobileOptimizations() {
-    if (CONFIG.IS_MOBILE) {
-      // Отключаем сложные эффекты
-      this.elements.body.classList.add('mobile-optimized');
-      
-      // Уменьшаем качество canvas
-      if (this.elements.canvas) {
-        this.elements.canvas.style.imageRendering = 'pixelated';
-      }
-      
-      // Упрощаем header
-      const header = this.elements.header;
-      if (header) {
-        header.style.backdropFilter = 'none';
-        header.style.backgroundColor = 'rgba(0,0,0,0.95)';
-      }
-    }
+    this.elements.bgA.style.opacity = '0';
+    this.elements.bgB.style.opacity = '0';
+    this.elements.bgA.style.backgroundColor = '#0b0b0b';
+    this.elements.bgB.style.backgroundColor = '#0b0b0b';
   }
   
   initLoader() {
-    // Упрощенный лоадер для мобилок
     const loader = document.createElement('div');
     loader.className = 'loader';
-    
-    if (CONFIG.IS_MOBILE) {
-      loader.innerHTML = `
-        <div class="loader-content">
-          <div class="loader-spinner-mobile"></div>
-          <div class="loader-progress">0%</div>
-        </div>
-      `;
-      // Добавляем стили для мобильного лоадера
-      const style = document.createElement('style');
-      style.textContent = `
-        .loader-spinner-mobile {
-          width: 40px;
-          height: 40px;
-          border: 2px solid #333;
-          border-top-color: #fff;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin: 0 auto 15px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `;
-      document.head.appendChild(style);
-    } else {
-      loader.innerHTML = `
-        <div class="loader-content">
-          <div class="loader-spinner"></div>
-          <div class="loader-progress">0%</div>
-        </div>
-      `;
-    }
+    loader.innerHTML = `
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <div class="loader-progress">0%</div>
+      </div>
+    `;
     
     this.elements.loader = loader;
     document.body.appendChild(loader);
@@ -243,100 +142,464 @@ class DOMCache {
 }
 
 // ==========================
-// 3. МЕНЕДЖЕР ДАННЫХ С ГОДАМИ И ПОРЯДКОМ
+// 3. Менеджер данных (ОБНОВЛЕНО)
 // ==========================
 class DataManager {
   constructor() {
-    this.allData = this.createEnhancedData();
-    this.sortProjectsByOrder();
-  }
-  
-  createEnhancedData() {
-    // Базовая структура с годами, порядком и ссылками на проекты
-    return [
+    this.allData = [
       { 
-        id: "project-2",
+        id: "project-1", 
         title: "2", 
+        year: "2024",
         img: "./images/2.jpg", 
-        bg_static: "./images/static/2-bg.jpg", // Статичное изображение вместо blur
-        categories: ["interfaces"], 
-        year: 2023,
-        order: this.getOrder("project-2"),
-        project_page: "project-2.html",
-        description: "Interface design project"
+        imgSecondary: "./images/2_test.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/2.html"
       },
       { 
-        id: "project-7-copy",
+        id: "project-2", 
         title: "7 Copy", 
+        year: "2023",
         img: "./images/7 copy.jpg", 
-        bg_static: "./images/static/7-copy-bg.jpg",
-        categories: ["interfaces"], 
-        year: 2023,
-        order: this.getOrder("project-7-copy"),
-        project_page: "project-7-copy.html"
+        imgSecondary: "./images/7 copy.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/7-copy.html"
       },
       { 
-        id: "project-50",
+        id: "project-3", 
         title: "50", 
+        year: "2024",
         img: "./images/50.jpg", 
-        bg_static: "./images/static/50-bg.jpg",
-        categories: ["interfaces"], 
-        year: 2022,
-        order: this.getOrder("project-50"),
-        project_page: "project-50.html"
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/50.html"
       },
       { 
-        id: "project-accemedin",
+        id: "project-4", 
         title: "Accemedin", 
+        year: "2023",
         img: "./images/accemedin.jpg", 
-        bg_static: "./images/static/accemedin-bg.jpg",
-        categories: ["interfaces"], 
-        year: 2023,
-        order: this.getOrder("project-accemedin"),
-        project_page: "project-accemedin.html"
+        imgSecondary: "./images/accemedin.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/accemedin.html"
       },
       { 
-        id: "project-amoxlocated",
+        id: "project-5", 
         title: "AMOxLOCATED T-Shirt Mockup", 
+        year: "2023",
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg", 
-        bg_static: "./images/static/amoxlocated-bg.jpg",
-        categories: ["branding", "art"], 
-        year: 2024,
-        order: this.getOrder("project-amoxlocated"),
-        project_page: "project-amoxlocated.html"
+        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
+        categories: ["branding", "art"],
+        projectUrl: "./projects/amoxlocated.html"
       },
-      // Продолжите для всех проектов...
-      // Для примера добавлю еще несколько
       { 
-        id: "project-art-01",
+        id: "project-6", 
         title: "Art 01", 
+        year: "2023",
         img: "./images/art-01.jpg", 
-        bg_static: "./images/static/art-01-bg.jpg",
-        categories: ["art"], 
-        year: 2023,
-        order: this.getOrder("project-art-01"),
-        project_page: "project-art-01.html"
+        imgSecondary: "./images/art-01.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/art-01.html"
       },
       { 
-        id: "project-biomass",
+        id: "project-7", 
         title: "Biomass", 
+        year: "2024",
         img: "./images/biomass.jpg", 
-        bg_static: "./images/static/biomass-bg.jpg",
-        categories: ["branding"], 
-        year: 2022,
-        order: this.getOrder("project-biomass"),
-        project_page: "project-biomass.html"
+        imgSecondary: "./images/biomass.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/biomass.html"
+      },
+      { 
+        id: "project-8", 
+        title: "Delfast", 
+        year: "2023",
+        img: "./images/delfast.jpg", 
+        imgSecondary: "./images/delfast.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/delfast.html"
+      },
+      { 
+        id: "project-9", 
+        title: "Dobro", 
+        year: "2023",
+        img: "./images/dobro.jpg", 
+        imgSecondary: "./images/dobro.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/dobro.html"
+      },
+      { 
+        id: "project-10", 
+        title: "Egg", 
+        year: "2023",
+        img: "./images/egg.jpg", 
+        imgSecondary: "./images/egg.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/egg.html"
+      },
+      { 
+        id: "project-11", 
+        title: "Frame 1225", 
+        year: "2024",
+        img: "./images/Frame 1225.jpg", 
+        imgSecondary: "./images/Frame 1225.jpg",
+        categories: ["photo"],
+        projectUrl: "./projects/frame-1225.html"
+      },
+      { 
+        id: "project-12", 
+        title: "Frame 1283", 
+        year: "2024",
+        img: "./images/Frame 1283.png", 
+        imgSecondary: "./images/Frame 1283.png",
+        categories: ["photo"],
+        projectUrl: "./projects/frame-1283.html"
+      },
+      { 
+        id: "project-13", 
+        title: "Gogo Bot Avatar", 
+        year: "2023",
+        img: "./images/gogo_bot_avatar.png", 
+        imgSecondary: "./images/gogo_bot_avatar.png",
+        categories: ["art"],
+        projectUrl: "./projects/gogo-bot-avatar.html"
+      },
+      { 
+        id: "project-14", 
+        title: "Hmelisoneli", 
+        year: "2023",
+        img: "./images/hmelisoneli.jpg", 
+        imgSecondary: "./images/hmelisoneli.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/hmelisoneli.html"
+      },
+      { 
+        id: "project-15", 
+        title: "HRAM: LOCATED Color Reference", 
+        year: "2023",
+        img: "./images/HRAM:LOCATED_color_reference.jpg", 
+        imgSecondary: "./images/HRAM:LOCATED_color_reference.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/hram-located.html"
+      },
+      { 
+        id: "project-16", 
+        title: "III3 Cover", 
+        year: "2023",
+        img: "./images/iii3_cover.png", 
+        imgSecondary: "./images/iii3_cover.png",
+        categories: ["branding"],
+        projectUrl: "./projects/iii3-cover.html"
+      },
+      { 
+        id: "project-17", 
+        title: "Jernov", 
+        year: "2023",
+        img: "./images/jernov.jpg", 
+        imgSecondary: "./images/jernov.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/jernov.html"
+      },
+      { 
+        id: "project-18", 
+        title: "K19 Dase A3 Poster", 
+        year: "2023",
+        img: "./images/K19-Dase_a3_poster.jpg", 
+        imgSecondary: "./images/K19-Dase_a3_poster.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/k19-dase.html"
+      },
+      { 
+        id: "project-19", 
+        title: "Liminal", 
+        year: "2023",
+        img: "./images/liminal.jpg", 
+        imgSecondary: "./images/liminal.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/liminal.html"
+      },
+      { 
+        id: "project-20", 
+        title: "Manifest", 
+        year: "2023",
+        img: "./images/manifest.jpg", 
+        imgSecondary: "./images/manifest.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/manifest.html"
+      },
+      { 
+        id: "project-21", 
+        title: "Martini", 
+        year: "2023",
+        img: "./images/martini.jpg", 
+        imgSecondary: "./images/martini.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/martini.html"
+      },
+      { 
+        id: "project-22", 
+        title: "Mitus", 
+        year: "2024",
+        img: "./images/mitus.jpg", 
+        imgSecondary: "./images/mitus.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/mitus.html"
+      },
+      { 
+        id: "project-23", 
+        title: "Recovered Mock", 
+        year: "2023",
+        img: "./images/mock-Recovered_.jpg", 
+        imgSecondary: "./images/mock-Recovered_.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/recovered-mock.html"
+      },
+      { 
+        id: "project-24", 
+        title: "Mockup", 
+        year: "2023",
+        img: "./images/Mockup.jpg", 
+        imgSecondary: "./images/Mockup.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/mockup.html"
+      },
+      { 
+        id: "project-25", 
+        title: "Nigredo", 
+        year: "2023",
+        img: "./images/nigredo.png", 
+        imgSecondary: "./images/nigredo.png",
+        categories: ["art"],
+        projectUrl: "./projects/nigredo.html"
+      },
+      { 
+        id: "project-26", 
+        title: "Plate (Alt)", 
+        year: "2023",
+        img: "./images/plate copy.jpg", 
+        imgSecondary: "./images/plate copy.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/plate-alt.html"
+      },
+      { 
+        id: "project-27", 
+        title: "Plate", 
+        year: "2023",
+        img: "./images/plate.jpg", 
+        imgSecondary: "./images/plate.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/plate.html"
+      },
+      { 
+        id: "project-28", 
+        title: "PM Kit", 
+        year: "2024",
+        img: "./images/pmkit.jpg", 
+        imgSecondary: "./images/pmkit.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/pm-kit.html"
+      },
+      { 
+        id: "project-29", 
+        title: "PRODJ 2019", 
+        year: "2019",
+        img: "./images/PRODJ-2019.jpg", 
+        imgSecondary: "./images/PRODJ-2019.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/prodj-2019.html"
+      },
+      { 
+        id: "project-30", 
+        title: "Roma Yurchak", 
+        year: "2024",
+        img: "./images/roma_yurchak.jpg", 
+        imgSecondary: "./images/roma_yurchak.jpg",
+        categories: ["photo"],
+        projectUrl: "./projects/roma-yurchak.html"
+      },
+      { 
+        id: "project-31", 
+        title: "Saenkoharenko", 
+        year: "2024",
+        img: "./images/saenkoharenko.jpg", 
+        imgSecondary: "./images/saenkoharenko.jpg",
+        categories: ["photo"],
+        projectUrl: "./projects/saenkoharenko.html"
+      },
+      { 
+        id: "project-32", 
+        title: "Screen Shot 2019", 
+        year: "2019",
+        img: "./images/Screen Shot 2019-04-11 at 17.00.49.png", 
+        imgSecondary: "./images/Screen Shot 2019-04-11 at 17.00.49.png",
+        categories: ["photo"],
+        projectUrl: "./projects/screen-shot-2019.html"
+      },
+      { 
+        id: "project-33", 
+        title: "Screenshot 2024-07-10 00:16", 
+        year: "2024",
+        img: "./images/Screenshot 2024-07-10 at 00.16.04.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.04.png",
+        categories: ["photo"],
+        projectUrl: "./projects/screenshot-2024-07-10-00-16.html"
+      },
+      { 
+        id: "project-34", 
+        title: "Screenshot 2024-07-10 00:16:28", 
+        year: "2024",
+        img: "./images/Screenshot 2024-07-10 at 00.16.28.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.28.png",
+        categories: ["photo"],
+        projectUrl: "./projects/screenshot-2024-07-10-00-16-28.html"
+      },
+      { 
+        id: "project-35", 
+        title: "Screenshot 2024-07-10 00:16:51", 
+        year: "2024",
+        img: "./images/Screenshot 2024-07-10 at 00.16.51.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.51.png",
+        categories: ["photo"],
+        projectUrl: "./projects/screenshot-2024-07-10-00-16-51.html"
+      },
+      { 
+        id: "project-36", 
+        title: "Sharespot", 
+        year: "2024",
+        img: "./images/sharespot.jpg", 
+        imgSecondary: "./images/sharespot.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/sharespot.html"
+      },
+      { 
+        id: "project-37", 
+        title: "Shm Poster A3 Print", 
+        year: "2023",
+        img: "./images/Shm_poster_a3_print.jpg", 
+        imgSecondary: "./images/Shm_poster_a3_print.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/shm-poster.html"
+      },
+      { 
+        id: "project-38", 
+        title: "Shmalgauzen Tviy Vill", 
+        year: "2023",
+        img: "./images/Shmalgauzen_TviyVill_1350х1080.jpg", 
+        imgSecondary: "./images/Shmalgauzen_TviyVill_1350х1080.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/shmolgauzen.html"
+      },
+      { 
+        id: "project-39", 
+        title: "Sinners", 
+        year: "2023",
+        img: "./images/sinners.jpg", 
+        imgSecondary: "./images/sinners.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/sinners.html"
+      },
+      { 
+        id: "project-40", 
+        title: "Slice 8", 
+        year: "2023",
+        img: "./images/Slice 8.png", 
+        imgSecondary: "./images/Slice 8.png",
+        categories: ["art"],
+        projectUrl: "./projects/slice-8.html"
+      },
+      { 
+        id: "project-41", 
+        title: "Sof Brama", 
+        year: "2023",
+        img: "./images/sof_brama.jpg", 
+        imgSecondary: "./images/sof_brama.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/sof-brama.html"
+      },
+      { 
+        id: "project-42", 
+        title: "Son", 
+        year: "2023",
+        img: "./images/son.jpg", 
+        imgSecondary: "./images/son.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/son.html"
+      },
+      { 
+        id: "project-43", 
+        title: "Triple We", 
+        year: "2023",
+        img: "./images/tripplewe.jpg", 
+        imgSecondary: "./images/tripplewe.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/triple-we.html"
+      },
+      { 
+        id: "project-44", 
+        title: "Tube Mock", 
+        year: "2023",
+        img: "./images/Tube_mock.jpg", 
+        imgSecondary: "./images/Tube_mock.jpg",
+        categories: ["branding", "art"],
+        projectUrl: "./projects/tube-mock.html"
+      },
+      { 
+        id: "project-45", 
+        title: "Twog", 
+        year: "2023",
+        img: "./images/twog.jpg", 
+        imgSecondary: "./images/twog.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/twog.html"
+      },
+      { 
+        id: "project-46", 
+        title: "Vartis", 
+        year: "2023",
+        img: "./images/vartis.jpg", 
+        imgSecondary: "./images/vartis.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/vartis.html"
+      },
+      { 
+        id: "project-47", 
+        title: "X4", 
+        year: "2023",
+        img: "./images/x4.jpg", 
+        imgSecondary: "./images/x4.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/x4.html"
       }
     ];
+    
+    // Для проектов с несколькими превью (требование 2)
+    this.addDuplicatePreviews();
   }
   
-  getOrder(projectId) {
-    const index = CONFIG.PROJECTS_ORDER.indexOf(projectId);
-    return index !== -1 ? index + 1 : 999;
-  }
-  
-  sortProjectsByOrder() {
-    this.allData.sort((a, b) => a.order - b.order);
+  addDuplicatePreviews() {
+    // Пример: добавим несколько превью для одного проекта
+    const additionalPreviews = [
+      {
+        id: "biomass-preview-2",
+        title: "Biomass Preview 2",
+        year: "2024",
+        img: "./images/biomass.jpg", // Другое изображение для превью
+        imgSecondary: "./images/biomass.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/biomass.html" // Тот же URL что у основного
+      },
+      {
+        id: "amoxlocated-preview-2",
+        title: "AMOxLOCATED Alt",
+        year: "2023",
+        img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
+        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
+        categories: ["branding", "art"],
+        projectUrl: "./projects/amoxlocated.html"
+      }
+    ];
+    
+    this.allData = [...this.allData, ...additionalPreviews];
   }
   
   filterData(filter) {
@@ -346,44 +609,17 @@ class DataManager {
     return this.allData.filter(item => item.categories.includes(filter));
   }
   
-  getProjectById(id) {
-    return this.allData.find(item => item.id === id);
-  }
-  
-  getProjectsForGallery(filter) {
-    const data = this.filterData(filter);
-    
-    // Для allworks можем добавить дополнительные превью
-    if (filter === "allworks") {
-      const extraPreviews = [];
-      data.forEach(project => {
-        // Добавляем второе превью если проект в нескольких категориях
-        if (project.categories.length > 1) {
-          const preview = {
-            ...project,
-            is_preview: true,
-            preview_category: project.categories[1]
-          };
-          extraPreviews.push(preview);
-        }
-      });
-      return [...data, ...extraPreviews];
-    }
-    
-    return data;
-  }
-  
   preloadImages(images, onProgress) {
     return new Promise((resolve) => {
-      if (!images || images.length === 0) {
+      let loaded = 0;
+      const total = images.length;
+      
+      if (total === 0) {
         resolve();
         return;
       }
       
-      let loaded = 0;
-      const total = images.length;
-      
-      images.forEach((src) => {
+      images.forEach((src, index) => {
         const img = new Image();
         img.onload = img.onerror = () => {
           loaded++;
@@ -392,38 +628,17 @@ class DataManager {
           }
           
           if (loaded === total) {
-            setTimeout(resolve, 100); // Маленькая задержка для стабильности
+            setTimeout(resolve, 500);
           }
         };
         img.src = src;
-        
-        // Таймаут для зависших загрузок
-        setTimeout(() => {
-          if (!img.complete) {
-            loaded++;
-            if (onProgress) {
-              onProgress(loaded / total);
-            }
-            if (loaded === total) {
-              setTimeout(resolve, 100);
-            }
-          }
-        }, 5000);
       });
     });
-  }
-  
-  preloadStaticBackgrounds() {
-    const bgImages = this.allData
-      .filter(item => item.bg_static)
-      .map(item => item.bg_static);
-    
-    return this.preloadImages(bgImages);
   }
 }
 
 // ==========================
-// 4. ЛЕНИС МЕНЕДЖЕР С ОПТИМИЗАЦИЯМИ
+// 4. Ленис менеджер
 // ==========================
 class LenisManager {
   constructor() {
@@ -432,18 +647,35 @@ class LenisManager {
   }
   
   init(viewType, itemCount) {
+    // Уничтожаем старый экземпляр
     if (this.lenis) {
       this.lenis.destroy();
+      this.lenis = null;
     }
     
     const config = {
-      lerp: CONFIG.IS_MOBILE ? 0.15 : CONFIG.LENIS.LERP,
+      lerp: CONFIG.LENIS.LERP,
       smoothWheel: CONFIG.LENIS.SMOOTH_WHEEL,
-      touchMultiplier: CONFIG.IS_MOBILE ? 1.5 : CONFIG.LENIS.TOUCH_MULTIPLIER,
-      wheelMultiplier: this.getWheelMultiplier(viewType, itemCount),
-      duration: CONFIG.IS_MOBILE ? 1.2 : 1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      touchMultiplier: CONFIG.LENIS.TOUCH_MULTIPLIER
     };
+    
+    // Настраиваем wheelMultiplier в зависимости от количества элементов
+    if (viewType === 'slides') {
+      let wheelMultiplier;
+      if (itemCount <= 5) {
+        wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.MAX;
+      } else if (itemCount >= 20) {
+        wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.MIN;
+      } else {
+        const ratio = itemCount / 20; // нормализуем к 20 элементам
+        wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.MIN + 
+                         (CONFIG.LENIS.WHEEL_MULTIPLIER.MAX - CONFIG.LENIS.WHEEL_MULTIPLIER.MIN) * (1 - ratio);
+      }
+      config.wheelMultiplier = wheelMultiplier;
+    } else {
+      // Для галереи используем стандартный множитель
+      config.wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.BASE;
+    }
     
     this.lenis = new Lenis(config);
     this.currentView = viewType;
@@ -452,33 +684,22 @@ class LenisManager {
       this.lenis.on("scroll", (e) => {
         appState.scroll.pos = e.scroll;
         appState.scroll.max = e.limit;
-        appState.scroll.z = (appState.scroll.pos / appState.scroll.max) * CONFIG.DEPTH * 2;
+        appState.scroll.z = (appState.scroll.pos / appState.scroll.max) * 4000 * 2;
       });
     }
     
     return this.lenis;
   }
   
-  getWheelMultiplier(viewType, itemCount) {
-    if (CONFIG.IS_MOBILE) {
-      return 0.25; // Меньшая чувствительность на мобилках
-    }
-    
-    if (viewType === 'slides') {
-      if (itemCount <= 5) return CONFIG.LENIS.WHEEL_MULTIPLIER.MAX;
-      if (itemCount >= 20) return CONFIG.LENIS.WHEEL_MULTIPLIER.MIN;
-      
-      const ratio = itemCount / 20;
-      return CONFIG.LENIS.WHEEL_MULTIPLIER.MIN + 
-             (CONFIG.LENIS.WHEEL_MULTIPLIER.MAX - CONFIG.LENIS.WHEEL_MULTIPLIER.MIN) * (1 - ratio);
-    }
-    
-    return CONFIG.LENIS.WHEEL_MULTIPLIER.BASE;
-  }
-  
   start() {
     if (this.lenis) {
       this.lenis.start();
+    }
+  }
+  
+  stop() {
+    if (this.lenis) {
+      this.lenis.stop();
     }
   }
   
@@ -491,7 +712,7 @@ class LenisManager {
 }
 
 // ==========================
-// 5. МЕНЕДЖЕР ВИДОВ С ВСЕМИ ОБНОВЛЕНИЯМИ
+// 5. Менеджер видов (ОБНОВЛЕНО)
 // ==========================
 class ViewManager {
   constructor(state, dom, dataManager) {
@@ -504,89 +725,45 @@ class ViewManager {
     this.bgChangeTimeout = null;
     this.rafId = null;
     this.isAnimating = false;
-    this.staticBgManager = new StaticBackgroundManager(dom);
-    this.orderManager = new ProjectOrderManager(dataManager);
     
+    // Добавляем инициализацию для предзагрузки фонов
     this.preloadedBackgrounds = new Set();
-    this.mobileTouchStart = { x: 0, y: 0 };
+    
+    // Проверяем мобильное устройство
+    this.checkMobileDevice();
+  }
+  
+  // Проверка мобильного устройства
+  checkMobileDevice() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && this.state.view !== 'gallery') {
+      // На мобильных устройствах принудительно включаем галерею
+      this.setView('gallery', true);
+    }
   }
   
   // ==========================
-  // 5.1 ИНИЦИАЛИЗАЦИЯ МЫШИ/ТАЧА
+  // 5.1 Мышь
   // ==========================
   initMouse() {
-    if (CONFIG.IS_MOBILE) {
-      this.initTouch();
-    } else {
-      window.addEventListener("mousemove", (e) => this.handleMouseMove(e));
-    }
-    
-    this.initKeyboard();
-  }
-  
-  initTouch() {
-    let touchStartTime = 0;
-    
-    window.addEventListener("touchstart", (e) => {
-      const touch = e.touches[0];
-      this.mobileTouchStart = { x: touch.clientX, y: touch.clientY };
-      touchStartTime = Date.now();
+    window.addEventListener("mousemove", (e) => {
+      if (this.state.view === "gallery") return;
       
-      if (this.state.view === "gallery") {
-        // Отключаем скролл при таче на галерее
-        e.preventDefault();
-      }
-    });
-    
-    window.addEventListener("touchmove", (e) => {
-      if (this.state.view === "gallery" || CONFIG.DISABLE_COMPLEX_EFFECTS) return;
-      
-      const touch = e.touches[0];
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       
-      this.state.mouse.nx = (touch.clientX - cx) / cx * 0.5; // Уменьшенный эффект
-      this.state.mouse.ny = (touch.clientY - cy) / cy * 0.5;
+      this.state.mouse.nx = (e.clientX - cx) / cx;
+      this.state.mouse.ny = (e.clientY - cy) / cy;
+      this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
+      this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
+      this.state.mouse.angle = (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
       
       this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
       this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
+      this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
     });
     
-    window.addEventListener("touchend", (e) => {
-      const touchEndTime = Date.now();
-      const duration = touchEndTime - touchStartTime;
-      
-      // Быстрый тап - возможно клик
-      if (duration < 200) {
-        const touch = e.changedTouches[0];
-        const deltaX = Math.abs(touch.clientX - this.mobileTouchStart.x);
-        const deltaY = Math.abs(touch.clientY - this.mobileTouchStart.y);
-        
-        if (deltaX < 10 && deltaY < 10) {
-          // Обработка тапа (можно использовать для открытия проектов)
-        }
-      }
-    });
-  }
-  
-  handleMouseMove(e) {
-    if (this.state.view === "gallery") return;
-    
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    
-    this.state.mouse.nx = (e.clientX - cx) / cx;
-    this.state.mouse.ny = (e.clientY - cy) / cy;
-    this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
-    this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
-    this.state.mouse.angle = (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
-    
-    this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
-    this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
-    this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
-  }
-  
-  initKeyboard() {
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (this.lenisManager.lenis) {
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -597,15 +774,13 @@ class ViewManager {
           e.preventDefault();
         } else if (e.key === 'g' || e.key === 'G') {
           this.setView(this.state.view === 'slides' ? 'gallery' : 'slides');
-        } else if (e.key === 'f' || e.key === 'F') {
-          this.setFilter(this.state.filter === 'allworks' ? 'interfaces' : 'allworks');
         }
       }
     });
   }
   
   // ==========================
-  // 5.2 РЕСАЙЗ С ОПТИМИЗАЦИЯМИ
+  // 5.2 Ресайз
   // ==========================
   initResize() {
     this.resizeCanvas();
@@ -613,12 +788,23 @@ class ViewManager {
     const optimizedResize = () => {
       clearTimeout(this.resizeTimeout);
       this.resizeTimeout = setTimeout(() => {
-        CONFIG.IS_MOBILE = window.innerWidth <= 768;
-        CONFIG.DISABLE_COMPLEX_EFFECTS = CONFIG.IS_MOBILE;
-        
         this.resizeCanvas();
         if (this.lenisManager.lenis) {
           this.lenisManager.lenis.resize();
+        }
+        
+        // Проверяем мобильное устройство при ресайзе
+        const wasMobile = this.state.isMobile;
+        this.state.isMobile = window.innerWidth <= 768;
+        
+        // Если перешли на мобильный режим, переключаем на галерею
+        if (this.state.isMobile && !wasMobile && this.state.view !== 'gallery') {
+          this.setView('gallery', true);
+        }
+        // Если перешли на десктоп и был принудительно включен галерейный режим
+        else if (!this.state.isMobile && wasMobile && this.state.view === 'gallery') {
+          // Возвращаем предыдущий режим или по умолчанию slides
+          this.setView('slides', true);
         }
         
         if (this.state.view === 'slides') {
@@ -628,52 +814,21 @@ class ViewManager {
             });
           });
         }
-        
-        // Обновляем мобильные оптимизации
-        if (CONFIG.IS_MOBILE) {
-          this.applyMobileOptimizations();
-        }
       }, 250);
     };
     
     window.addEventListener("resize", optimizedResize);
-    window.addEventListener("orientationchange", () => {
-      setTimeout(optimizedResize, 100);
-    });
+    window.addEventListener("orientationchange", optimizedResize);
   }
   
   resizeCanvas() {
-    if (!this.dom.elements.canvas || !this.dom.elements.context) return;
-    
-    const dpr = CONFIG.IS_MOBILE ? 1 : window.devicePixelRatio || 1;
-    const rect = this.dom.elements.canvas.getBoundingClientRect();
-    
-    this.dom.elements.canvas.width = rect.width * dpr;
-    this.dom.elements.canvas.height = rect.height * dpr;
-    
-    this.dom.elements.context.scale(dpr, dpr);
-    
-    if (CONFIG.IS_MOBILE) {
-      this.dom.elements.context.imageSmoothingEnabled = false;
-    }
-  }
-  
-  applyMobileOptimizations() {
-    // Упрощаем сетку
-    this.state.gridLines = this.state.generateGridLines();
-    
-    // Отключаем сложные эффекты
-    if (CONFIG.DISABLE_COMPLEX_EFFECTS) {
-      document.documentElement.style.setProperty('--bg-blur', '20px');
-      if (this.dom.elements.staticBgA) {
-        this.dom.elements.staticBgA.style.filter = 'none';
-        this.dom.elements.staticBgB.style.filter = 'none';
-      }
-    }
+    if (!this.dom.elements.canvas) return;
+    this.dom.elements.canvas.width = window.innerWidth;
+    this.dom.elements.canvas.height = window.innerHeight;
   }
   
   // ==========================
-  // 5.3 СЛАЙДЫ С ГОДАМИ И ПОРЯДКОМ
+  // 5.3 Слайды (ОБНОВЛЕНО с учетом новых данных)
   // ==========================
   buildSlides() {
     if (this.state.view !== "slides") return;
@@ -683,16 +838,15 @@ class ViewManager {
     this.state.slides.elements = [];
     this.state.slides.state = [];
     
-    // Используем отсортированные данные
-    this.state.sortedData = this.orderManager.getSortedProjects(this.state.filter);
-    
-    if (this.state.sortedData.length === 0) {
-      const emptySlide = this.createEmptySlide();
+    if (this.state.filteredData.length === 0) {
+      const emptySlide = document.createElement("div");
+      emptySlide.className = "slide-empty";
+      emptySlide.innerHTML = `<p>В этой категории пока нет работ</p>`;
       this.dom.elements.slider.appendChild(emptySlide);
       return;
     }
     
-    this.state.sortedData.forEach((data, i) => {
+    this.state.filteredData.forEach((data, i) => {
       const slide = this.createSlideElement(data, i);
       this.dom.elements.slider.appendChild(slide);
       this.state.slides.elements.push(slide);
@@ -704,113 +858,70 @@ class ViewManager {
         parallaxY: 0
       });
       
-      this.positionSlide(slide, i);
+      gsap.set(slide, {
+        position: "absolute",
+        top: "30%",
+        left: (i % 2 === 0 ? 35 : 50) + "%",
+        xPercent: 20,
+        yPercent: -50,
+        transformStyle: "preserve-3d",
+        willChange: "transform, opacity, filter"
+      });
     });
     
-    this.state.scroll.max = (this.state.sortedData.length - 1) * CONFIG.Z_GAP;
+    this.state.scroll.max = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
     
-    this.lenisManager.init('slides', this.state.sortedData.length);
+    // Инициализируем Lenis для слайдов
+    this.lenisManager.init('slides', this.state.filteredData.length);
     this.lenisManager.start();
-    
-    // Устанавливаем первый фон
-    if (this.state.sortedData.length > 0) {
-      requestAnimationFrame(() => {
-        this.setBackgroundImage(0, true);
-      });
-    }
   }
   
   createSlideElement(data, index) {
-    const template = document.getElementById('slide-template');
-    if (!template) return this.createSlideFallback(data, index);
-    
-    const slide = template.content.cloneNode(true).querySelector('.slide');
-    slide.dataset.projectId = data.id;
-    slide.dataset.index = index;
-    slide.dataset.baseZ = index * CONFIG.Z_GAP;
-    
-    // Заполняем данные
-    const img = slide.querySelector('img');
-    img.src = data.img;
-    img.alt = data.title || '';
-    img.loading = "lazy";
-    
-    slide.querySelector('.project-title').textContent = data.title || '';
-    slide.querySelector('.project-year').textContent = data.year || '2023';
-    slide.querySelector('.project-categories').textContent = data.categories?.join(", ") || '';
-    
-    // Ссылка на страницу проекта
-    const link = slide.querySelector('.project-link');
-    if (link && data.project_page) {
-      link.href = data.project_page;
-      slide.addEventListener('click', (e) => {
-        if (!e.target.closest('a')) {
-          window.open(data.project_page, '_blank');
-        }
-      });
-    } else {
-      slide.addEventListener('click', (e) => {
-        if (!e.target.closest('a')) {
-          window.open(data.img, '_blank');
-        }
-      });
-    }
-    
-    // Оптимизация для мобилок
-    if (CONFIG.IS_MOBILE) {
-      slide.style.willChange = 'transform, opacity';
-    }
-    
-    return slide;
-  }
-  
-  createSlideFallback(data, index) {
     const slide = document.createElement("div");
     slide.className = "slide";
     slide.dataset.index = index;
-    slide.dataset.projectId = data.id || `project-${index}`;
+    slide.dataset.baseZ = index * CONFIG.Z_GAP;
+    slide.dataset.projectId = data.id;
     
+    const img = new Image();
+    img.src = data.img;
+    img.alt = data.title || '';
+    img.loading = "lazy";
+    img.onerror = () => {
+      img.src = './images/fallback.jpg';
+      img.alt = 'Изображение не загружено';
+    };
+    
+    // ОБНОВЛЕНО: Добавлен год проекта
     slide.innerHTML = `
       <div class="slide-img">
-        <img src="${data.img}" alt="${data.title}" loading="lazy">
+        <!-- Image will be inserted -->
       </div>
       <div class="slide-copy">
         <p class="card-title">
           <span>${data.title || ''}</span>
         </p>
         <p class="card-subtitle">
-          <span>${data.year || '2023'}</span> • <span>${data.categories?.join(", ") || ''}</span>
+          <span class="card-year">${data.year || '2024'}</span>
+          <span class="card-category">${data.categories.join(", ")}</span>
         </p>
       </div>
     `;
     
-    if (data.project_page) {
-      slide.addEventListener('click', () => {
-        window.open(data.project_page, '_blank');
-      });
-    } else {
-      slide.addEventListener('click', () => {
-        window.open(data.img, '_blank');
-      });
-    }
+    slide.querySelector('.slide-img').appendChild(img);
+    
+    // ОБНОВЛЕНО: Открытие страницы проекта вместо изображения
+    slide.addEventListener('click', (e) => {
+      if (!e.target.closest('a')) {
+        window.open(data.projectUrl, '_blank');
+      }
+    });
     
     return slide;
   }
   
-  positionSlide(slide, index) {
-    gsap.set(slide, {
-      position: "absolute",
-      top: "30%",
-      left: (index % 2 === 0 ? 35 : 50) + "%",
-      xPercent: 20,
-      yPercent: -50,
-      transformStyle: "preserve-3d",
-      willChange: CONFIG.IS_MOBILE ? "transform, opacity" : "transform, opacity, filter"
-    });
-  }
-  
   // ==========================
-  // 5.4 ГАЛЕРЕЯ С ОПТИМИЗАЦИЯМИ
+  // 5.4 Галерея (ОБНОВЛЕНО с учетом новых данных)
   // ==========================
   buildGallery() {
     if (this.state.view !== "gallery") return;
@@ -818,11 +929,13 @@ class ViewManager {
     
     this.dom.elements.gallery.innerHTML = "";
     
-    // Используем отсортированные данные
-    this.state.sortedData = this.orderManager.getSortedProjects(this.state.filter);
-    
-    if (this.state.sortedData.length === 0) {
-      const emptyMessage = this.createEmptyGalleryMessage();
+    if (this.state.filteredData.length === 0) {
+      const emptyMessage = document.createElement("div");
+      emptyMessage.className = "gallery-empty";
+      emptyMessage.innerHTML = `
+        <h3>Работы не найдены</h3>
+        <p>Попробуйте выбрать другую категорию или переключитесь на "все работы"</p>
+      `;
       this.dom.elements.gallery.appendChild(emptyMessage);
       return;
     }
@@ -830,12 +943,7 @@ class ViewManager {
     const grid = document.createElement("div");
     grid.className = "gallery-grid";
     
-    // Оптимизация для мобилок: меньше колонок
-    if (CONFIG.IS_MOBILE) {
-      grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
-    }
-    
-    this.state.sortedData.forEach((data, i) => {
+    this.state.filteredData.forEach((data, i) => {
       const item = this.createGalleryItem(data, i);
       grid.appendChild(item);
     });
@@ -843,81 +951,37 @@ class ViewManager {
     this.dom.elements.gallery.appendChild(grid);
     this.initLazyLoading();
     
-    this.lenisManager.init('gallery', this.state.sortedData.length);
+    // Инициализируем Lenis для галереи
+    this.lenisManager.init('gallery', this.state.filteredData.length);
     this.lenisManager.start();
   }
   
   createGalleryItem(data, index) {
-    const template = document.getElementById('gallery-item-template');
-    if (!template) return this.createGalleryItemFallback(data, index);
-    
-    const item = template.content.cloneNode(true).querySelector('.gallery-item');
-    item.dataset.projectId = data.id;
-    item.dataset.index = index;
-    item.style.setProperty("--item-index", index);
-    
-    // Заполняем данные
-    const img = item.querySelector('img');
-    img.dataset.src = data.img;
-    img.alt = data.title || '';
-    
-    item.querySelector('.project-title').textContent = data.title || '';
-    item.querySelector('.project-year').textContent = data.year || '2023';
-    item.querySelector('.project-categories').textContent = data.categories?.join(", ") || '';
-    
-    // Ссылка на страницу проекта
-    const link = item.querySelector('.project-link');
-    if (link && data.project_page) {
-      link.href = data.project_page;
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(data.project_page, '_blank');
-      });
-    } else {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(data.img, '_blank');
-      });
-    }
-    
-    // Оптимизация анимации для мобилок
-    if (CONFIG.IS_MOBILE) {
-      item.style.animationDelay = `${index * 0.01}s`;
-      item.style.willChange = 'transform, opacity';
-    }
-    
-    return item;
-  }
-  
-  createGalleryItemFallback(data, index) {
     const item = document.createElement("div");
     item.className = "gallery-item";
     item.style.setProperty("--item-index", index);
     item.dataset.index = index;
+    item.dataset.projectId = data.id;
     
+    // ОБНОВЛЕНО: Добавлен год проекта
     item.innerHTML = `
       <div class="gallery-thumb">
         <img data-src="${data.img}" alt="${data.title}" class="lazy-img">
       </div>
       <div class="gallery-caption">
         <div class="g-title">${data.title}</div>
-        <div class="g-sub">
-          <span>${data.year || '2023'}</span> • <span>${data.categories?.join(", ") || ''}</span>
+        <div class="g-meta">
+          <span class="g-year">${data.year || '2024'}</span>
+          <span class="g-category">${data.categories.join(", ")}</span>
         </div>
       </div>
     `;
     
-    if (data.project_page) {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(data.project_page, '_blank');
-      });
-    } else {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(data.img, '_blank');
-      });
-    }
+    // ОБНОВЛЕНО: Открытие страницы проекта
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open(data.projectUrl, '_blank');
+    });
     
     return item;
   }
@@ -927,24 +991,15 @@ class ViewManager {
       this.lazyObserver.disconnect();
     }
     
-    const options = {
-      rootMargin: CONFIG.IS_MOBILE ? '100px' : '50px',
-      threshold: CONFIG.IS_MOBILE ? 0.05 : 0.1
-    };
-    
     this.lazyObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target.querySelector('.lazy-img');
           if (img && img.dataset.src) {
             img.src = img.dataset.src;
-            img.onload = () => {
-              img.classList.add('loaded');
-            };
             img.onerror = () => {
               img.src = './images/fallback.jpg';
-              img.alt = 'Image not loaded';
-              img.classList.add('loaded');
+              img.alt = 'Изображение не загружено';
             };
             img.removeAttribute('data-src');
             img.classList.remove('lazy-img');
@@ -952,7 +1007,10 @@ class ViewManager {
           this.lazyObserver.unobserve(entry.target);
         }
       });
-    }, options);
+    }, { 
+      rootMargin: '50px',
+      threshold: 0.1 
+    });
     
     document.querySelectorAll('.gallery-item').forEach(item => {
       this.lazyObserver.observe(item);
@@ -960,42 +1018,94 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.5 СТАТИЧНЫЕ БЭКГРАУНДЫ (замена blur)
+  // 5.5.1 Предзагрузка следующего фона
+  // ==========================
+  preloadNextBackground(currentIndex) {
+    if (this.state.view !== "slides") return;
+    
+    // Предзагружаем следующий фон если он существует
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < this.state.filteredData.length) {
+      const nextData = this.state.filteredData[nextIndex];
+      const nextSrc = nextData.imgSecondary || nextData.img;
+      
+      // Проверяем не загружали ли уже
+      if (!this.preloadedBackgrounds) {
+        this.preloadedBackgrounds = new Set();
+      }
+      
+      if (!this.preloadedBackgrounds.has(nextSrc)) {
+        const img = new Image();
+        img.onload = () => {
+          this.preloadedBackgrounds.add(nextSrc);
+        };
+        img.src = nextSrc;
+      }
+    }
+    
+    // Также предзагружаем предыдущий для обратного скролла
+    const prevIndex = currentIndex - 1;
+    if (prevIndex >= 0) {
+      const prevData = this.state.filteredData[prevIndex];
+      const prevSrc = prevData.imgSecondary || prevData.img;
+      if (!this.preloadedBackgrounds.has(prevSrc)) {
+        const img = new Image();
+        img.onload = () => {
+          this.preloadedBackgrounds.add(prevSrc);
+        };
+        img.src = prevSrc;
+      }
+    }
+  }
+  
+  // ==========================
+  // 5.5 Фон (ОБНОВЛЕНО: используем imgSecondary)
   // ==========================
   setBackgroundImage(index, immediate = false) {
+    // 1. Проверяем возможность смены
     if (this.state.view === "gallery") return;
-    if (index < 0 || index >= this.state.sortedData.length) return;
+    if (index < 0 || index >= this.state.filteredData.length) return;
     if (index === this.state.bg.currentIndex && !immediate) return;
     
+    // 2. Сбрасываем таймер (теперь не нужен)
+    if (this.bgChangeTimeout) {
+      clearTimeout(this.bgChangeTimeout);
+      this.bgChangeTimeout = null;
+    }
+    
+    // 3. Обновляем состояние
     this.state.bg.currentIndex = index;
-    const project = this.state.sortedData[index];
+    const data = this.state.filteredData[index];
+    // ИСПОЛЬЗУЕМ ВТОРИЧНОЕ ИЗОБРАЖЕНИЕ для фона
+    const src = data.imgSecondary;
     
-    // Используем статичное изображение если есть
-    const bgUrl = project.bg_static || project.img;
-    const opacity = CONFIG.IS_MOBILE ? CONFIG.MOBILE_BG_OPACITY : CONFIG.BG_OPACITY;
-    
+    // 4. Определяем активный/неактивный слой
     const activeIdx = this.state.bg.active;
     const nextIdx = 1 - activeIdx;
-    const activeEl = activeIdx === 0 ? this.dom.elements.staticBgA : this.dom.elements.staticBgB;
-    const nextEl = nextIdx === 0 ? this.dom.elements.staticBgA : this.dom.elements.staticBgB;
+    const activeEl = activeIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
+    const nextEl = nextIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
     
-    // Останавливаем предыдущие анимации
-    gsap.killTweensOf([activeEl, nextEl]);
+    // 5. Останавливаем ВСЕ предыдущие анимации фона
+    gsap.killTweensOf([this.dom.elements.bgA, this.dom.elements.bgB]);
     
+    // 6. Быстрая установка для первого фона
     if (immediate) {
-      nextEl.style.backgroundImage = `url("${bgUrl}")`;
-      nextEl.style.opacity = opacity.toString();
+      nextEl.style.backgroundImage = `url("${src}")`;
+      nextEl.style.opacity = CONFIG.BG_OPACITY.toString();
       activeEl.style.opacity = '0';
       this.state.bg.active = nextIdx;
+      this.preloadNextBackground(index);
       return;
     }
     
-    // Плавная смена
+    // 7. Плавная смена
     const img = new Image();
     
     const applyTransition = () => {
-      nextEl.style.backgroundImage = `url("${bgUrl}")`;
+      // 7.1 Устанавливаем новое изображение в неактивный слой
+      nextEl.style.backgroundImage = `url("${src}")`;
       
+      // 7.2 Одновременная анимация обоих слоёв
       gsap.to(activeEl, {
         opacity: 0,
         duration: CONFIG.BG_FADE_DURATION * 0.7,
@@ -1004,49 +1114,45 @@ class ViewManager {
       });
       
       gsap.to(nextEl, {
-        opacity: opacity,
+        opacity: CONFIG.BG_OPACITY,
         duration: CONFIG.BG_FADE_DURATION,
         ease: "power2.out",
         delay: 0.05,
         overwrite: true,
         onComplete: () => {
+          // 7.3 После завершения обновляем активный слой
           this.state.bg.active = nextIdx;
+          this.preloadNextBackground(index);
         }
       });
     };
     
+    // 8. Предзагрузка перед анимацией
     if (img.complete) {
       applyTransition();
     } else {
       img.onload = applyTransition;
       img.onerror = () => {
-        console.warn(`Не удалось загрузить фон: ${bgUrl}`);
-        applyTransition();
+        console.warn(`Не удалось загрузить фоновое изображение: ${src}`);
+        applyTransition(); // Показываем хотя бы чёрный фон
       };
-      img.src = bgUrl;
+      img.src = src;
     }
   }
   
   // ==========================
-  // 5.6 ОБНОВЛЕНИЕ СЛАЙДОВ (ОПТИМИЗИРОВАНО)
+  // 5.6 Обновление слайдов
   // ==========================
   updateSlides() {
     if (this.state.view !== "slides") return;
     if (this.state.slides.elements.length === 0) return;
     
-    // Оптимизация для мобилок: пропускаем кадры
-    if (CONFIG.IS_MOBILE && this.state.frameCount % CONFIG.FRAME_SKIP_MOBILE !== 0) {
-      return;
-    }
-    
     const progress = this.snappedProgress(this.state.scroll.pos / this.state.scroll.max, 0.1);
-    const totalDepth = (this.state.sortedData.length - 1) * CONFIG.Z_GAP;
+    const totalDepth = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
     const cameraZ = -CONFIG.START_OFFSET + progress * (totalDepth + CONFIG.START_OFFSET);
     
     let bestIdx = -1;
     let bestDist = Infinity;
-    
-    const sensitivity = this.state.getCurrentMouseSensitivity();
     
     this.state.slides.elements.forEach((slide, idx) => {
       const baseZ = this.state.slides.state[idx].baseZ;
@@ -1064,27 +1170,14 @@ class ViewManager {
         return; 
       }
       
-      // Упрощаем вычисления для мобилок
-      const opacity = Math.max(0, Math.min(1, 1 - dist / 380));
-      const scale = CONFIG.IS_MOBILE ? 
-        Math.max(0.4, Math.min(1.0, 1.0 - (dist / 400) * 0.6)) :
-        Math.max(0.4, Math.min(1.2, 1.2 - (dist / 400) * 0.8));
-      
-      this.state.slides.state[idx].opacity = opacity;
-      this.state.slides.state[idx].scale = scale;
-      
-      // Упрощаем параллакс на мобилках
-      if (CONFIG.IS_MOBILE) {
-        this.state.slides.state[idx].parallaxX = this.state.mouse.nx * sensitivity.X * 0.5;
-        this.state.slides.state[idx].parallaxY = this.state.mouse.ny * sensitivity.Y * 0.5;
-      } else {
-        this.state.slides.state[idx].parallaxX = this.state.mouse.nx * sensitivity.X;
-        this.state.slides.state[idx].parallaxY = this.state.mouse.ny * sensitivity.Y;
-      }
+      this.state.slides.state[idx].opacity = Math.max(0, Math.min(1, 1 - dist / 380));
+      this.state.slides.state[idx].scale = Math.max(0.4, Math.min(1.2, 1.2 - (dist / 400) * 0.8));
+      this.state.slides.state[idx].parallaxX = this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.X;
+      this.state.slides.state[idx].parallaxY = this.state.mouse.ny * CONFIG.MOUSE_SENSITIVITY.Y;
       
       slide.style.transform = `
         translate3d(${this.state.slides.state[idx].parallaxX}vw, ${this.state.slides.state[idx].parallaxY}vh, ${-relativeZ}px)
-        rotateY(${this.state.mouse.nx * sensitivity.ROTATION}deg)
+        rotateY(${this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.ROTATION}deg)
         rotateX(${this.state.mouse.ny * -3}deg)
         scale(${this.state.slides.state[idx].scale})
       `;
@@ -1097,54 +1190,80 @@ class ViewManager {
     }
   }
   
+  snappedProgress(progressRaw, stickiness = 0.7) {
+    const total = this.state.filteredData.length - 1;
+    if (total <= 0) return 0;
+    
+    const idxFloat = progressRaw * total;
+    const idxNearest = Math.round(idxFloat);
+    const dist = idxFloat - idxNearest;
+    const absDist = Math.abs(dist);
+    
+    let snappedIdxFloat;
+    if (absDist < stickiness / 2) {
+      const localT = absDist / (stickiness / 2);
+      const pull = 1 - (localT * localT * (3 - 2 * localT));
+      snappedIdxFloat = idxNearest + dist * (1 - pull);
+    } else {
+      snappedIdxFloat = idxFloat;
+    }
+    
+    return Math.min(1, Math.max(0, snappedIdxFloat / total));
+  }
+  
   // ==========================
-  // 5.7 СЕТКА (УПРОЩЕННАЯ ДЛЯ МОБИЛОК)
+  // 5.7 Сетка (нижняя)
   // ==========================
   drawGrid() {
     if (!this.dom.elements.context || !this.dom.elements.canvas) return;
-    if (CONFIG.IS_MOBILE && CONFIG.DISABLE_GRID_ON_MOBILE) return;
     
     const ctx = this.dom.elements.context;
     const canvas = this.dom.elements.canvas;
     
-    // Очищаем canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Упрощаем движение мыши для сетки
+    // Плавное движение мыши для сетки
     this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
     this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
     
     const mx = this.state.mouse.targetX;
     const my = this.state.mouse.targetY;
-    const lineOpacity = CONFIG.IS_MOBILE ? CONFIG.GRID.MOBILE_OPACITY : CONFIG.GRID.LINE_OPACITY;
     
-    // Рисуем только каждую вторую линию на мобилках
-    const linesToDraw = CONFIG.IS_MOBILE ? 
-      this.state.gridLines.filter((_, i) => i % 2 === 0) : 
-      this.state.gridLines;
-    
-    linesToDraw.forEach(z => {
+    // ВЕРХНИЕ горизонтальные линии (y = -600)
+    this.state.gridLines.forEach(z => {
       let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
       const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
-      const opacity = lineOpacity * fade;
-      
-      if (opacity < 0.01) return;
       
       // Верхняя линия
       const p1t = this.project3D(-1500, -800, zOffset, mx, my);
       const p2t = this.project3D(1500, -800, zOffset, mx, my);
       
-      ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
-      ctx.lineWidth = CONFIG.IS_MOBILE ? 0.5 : 1;
+      const gradTop = ctx.createLinearGradient(p1t.x, 0, p2t.x, 0);
+      gradTop.addColorStop(0, `rgba(255,255,255,0)`);
+      gradTop.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradTop.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradTop.addColorStop(1, `rgba(255,255,255,0)`);
+      
+      ctx.strokeStyle = gradTop;
+      ctx.lineWidth = 1;
       
       ctx.beginPath();
       ctx.moveTo(p1t.x, p1t.y);
       ctx.lineTo(p2t.x, p2t.y);
       ctx.stroke();
       
-      // Нижняя линия
+      // НИЖНЯЯ линия (y = 600) - добавлено
       const p1b = this.project3D(-1500, 800, zOffset, mx, my);
       const p2b = this.project3D(1500, 800, zOffset, mx, my);
+      
+      const gradBottom = ctx.createLinearGradient(p1b.x, 0, p2b.x, 0);
+      gradBottom.addColorStop(0, `rgba(255,255,255,0)`);
+      gradBottom.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradBottom.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradBottom.addColorStop(1, `rgba(255,255,255,0)`);
+      
+      ctx.strokeStyle = gradBottom;
+      ctx.lineWidth = 1;
       
       ctx.beginPath();
       ctx.moveTo(p1b.x, p1b.y);
@@ -1152,11 +1271,10 @@ class ViewManager {
       ctx.stroke();
     });
     
-    // Вертикальные линии - меньше на мобилках
-    const verticalCount = CONFIG.IS_MOBILE ? 3 : CONFIG.GRID.VERTICAL_COUNT;
-    for (let i = -verticalCount; i <= verticalCount; i++) {
+    // Вертикальные линии
+    for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
       const x = i * CONFIG.GRID.VERTICAL_SIZE;
-      this.drawVerticalLine(ctx, x, mx, my, lineOpacity);
+      this.drawVerticalLine(ctx, x, mx, my);
     }
   }
   
@@ -1164,41 +1282,41 @@ class ViewManager {
     const fov = 950;
     const scale = fov / (fov + z);
     return { 
-      x: x * scale + this.dom.elements.canvas.width / (2 * window.devicePixelRatio) + mx, 
-      y: y * scale + this.dom.elements.canvas.height / (2 * window.devicePixelRatio) + my, 
+      x: x * scale + this.dom.elements.canvas.width / 2 + mx, 
+      y: y * scale + this.dom.elements.canvas.height / 2 + my, 
       scale 
     };
   }
   
-  drawVerticalLine(ctx, x, mx, my, baseOpacity) {
+  drawVerticalLine(ctx, x, mx, my) {
     const zNear = 50;
     const zFar = CONFIG.DEPTH;
     
-    // Верхняя часть
+    // Верхняя часть вертикальной линии (от -600 до 0)
     const pNearTop = this.project3D(x, -800, zNear, mx, my);
     const pFarTop = this.project3D(x, -800, zFar, mx, my);
     
-    const gradientTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
-    gradientTop.addColorStop(0, `rgba(255,255,255,${baseOpacity * 0.8})`);
-    gradientTop.addColorStop(0.6, `rgba(255,255,255,${baseOpacity * 0.3})`);
-    gradientTop.addColorStop(1, `rgba(255,255,255,0)`);
+    const gradTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
+    gradTop.addColorStop(0, `rgba(255,255,255,0.18)`);
+    gradTop.addColorStop(0.6, `rgba(255,255,255,0.08)`);
+    gradTop.addColorStop(1, `rgba(255,255,255,0)`);
     
-    ctx.strokeStyle = gradientTop;
+    ctx.strokeStyle = gradTop;
     ctx.beginPath();
     ctx.moveTo(pNearTop.x, pNearTop.y);
     ctx.lineTo(pFarTop.x, pFarTop.y);
     ctx.stroke();
     
-    // Нижняя часть
+    // Нижняя часть вертикальной линии (от 0 до 600) - исправлено
     const pNearBot = this.project3D(x, 800, zNear, mx, my);
     const pFarBot = this.project3D(x, 800, zFar, mx, my);
     
-    const gradientBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y);
-    gradientBot.addColorStop(0, `rgba(255,255,255,${baseOpacity * 0.8})`);
-    gradientBot.addColorStop(0.4, `rgba(255,255,255,${baseOpacity * 0.3})`);
-    gradientBot.addColorStop(1, `rgba(255,255,255,0)`);
+    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); // исправлен порядок
+    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); // исправлено: начинаем с 0.18
+    gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
+    gradBot.addColorStop(1, `rgba(255,255,255,0)`); // заканчиваем 0
     
-    ctx.strokeStyle = gradientBot;
+    ctx.strokeStyle = gradBot;
     ctx.beginPath();
     ctx.moveTo(pNearBot.x, pNearBot.y);
     ctx.lineTo(pFarBot.x, pFarBot.y);
@@ -1206,18 +1324,22 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.8 УПРАВЛЕНИЕ ВИДАМИ И ФИЛЬТРАМИ
+  // 5.8 Управление видами (ОБНОВЛЕНО для мобильных)
   // ==========================
   setFilter(filter) {
     if (this.state.filter === filter) return;
     
-    // Сбрасываем скролл
+    // СБРАСЫВАЕМ СКРОЛЛ ПЕРЕД СМЕНОЙ ФИЛЬТРА
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.scrollTo(0, { immediate: true });
     }
     
     this.state.filter = filter;
-    this.state.sortedData = this.orderManager.getSortedProjects(filter);
+    this.state.filteredData = this.dataManager.filterData(filter);
+    
+    // Сбрасываем позицию скролла в состоянии
+    this.state.scroll.pos = 0;
+    this.state.scroll.z = 0;
     
     // Обновляем активные ссылки
     this.dom.elements.navLinks.forEach(link => {
@@ -1229,13 +1351,24 @@ class ViewManager {
     this.updateURL();
   }
   
-  setView(view) {
-    if (this.state.view === view) return;
+  setView(view, force = false) {
+    if (this.state.view === view && !force) return;
     
-    // Сбрасываем скролл
+    // Проверяем мобильное устройство
+    if (this.state.isMobile && view !== 'gallery' && !force) {
+      // На мобильных разрешаем только галерею
+      view = 'gallery';
+    }
+    
+    // СБРАСЫВАЕМ СКРОЛЛ ПЕРЕД СМЕНОЙ ВИДА
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.scrollTo(0, { immediate: true });
     }
+    
+    // Сбрасываем позицию скролла в состоянии
+    this.state.scroll.pos = 0;
+    this.state.scroll.z = 0;
+    
     
     // Останавливаем предыдущий вид
     if (this.state.view === "slides") {
@@ -1253,9 +1386,7 @@ class ViewManager {
       btn.classList.toggle('active-view', btn.dataset.view === view);
     });
     
-    if (this.dom.elements.viewSwitcher) {
-      this.dom.elements.viewSwitcher.setAttribute('data-active-view', view);
-    }
+    this.dom.elements.viewSwitcher.setAttribute('data-active-view', view);
     
     // Управляем классами body
     if (view === "gallery") {
@@ -1287,30 +1418,6 @@ class ViewManager {
     }
   }
   
-  // ==========================
-  // 5.9 ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
-  // ==========================
-  snappedProgress(progressRaw, stickiness = 0.7) {
-    const total = this.state.sortedData.length - 1;
-    if (total <= 0) return 0;
-    
-    const idxFloat = progressRaw * total;
-    const idxNearest = Math.round(idxFloat);
-    const dist = idxFloat - idxNearest;
-    const absDist = Math.abs(dist);
-    
-    let snappedIdxFloat;
-    if (absDist < stickiness / 2) {
-      const localT = absDist / (stickiness / 2);
-      const pull = 1 - (localT * localT * (3 - 2 * localT));
-      snappedIdxFloat = idxNearest + dist * (1 - pull);
-    } else {
-      snappedIdxFloat = idxFloat;
-    }
-    
-    return Math.min(1, Math.max(0, snappedIdxFloat / total));
-  }
-  
   updateURL() {
     let hash = '';
     
@@ -1335,25 +1442,8 @@ class ViewManager {
     }
   }
   
-  createEmptySlide() {
-    const slide = document.createElement("div");
-    slide.className = "slide-empty";
-    slide.innerHTML = `<p>No works found in this category</p>`;
-    return slide;
-  }
-  
-  createEmptyGalleryMessage() {
-    const message = document.createElement("div");
-    message.className = "gallery-empty";
-    message.innerHTML = `
-      <h3>No works found</h3>
-      <p>Try selecting a different category or switch to "all works"</p>
-    `;
-    return message;
-  }
-  
   // ==========================
-  // 5.10 ИНИЦИАЛИЗАЦИЯ
+  // 5.9 Инициализация
   // ==========================
   async init() {
     this.initMouse();
@@ -1361,52 +1451,33 @@ class ViewManager {
     
     this.state.isLoading = true;
     
-    try {
-      // 1. Предзагружаем основные изображения
-      const allImages = this.dataManager.allData.map(item => item.img);
-      await this.dataManager.preloadImages(allImages, (progress) => {
-        this.dom.updateLoaderProgress(progress * 100);
+    // 1. preload ВСЕ изображения
+    const allImages = this.dataManager.allData.map(item => item.img);
+    await this.dataManager.preloadImages(allImages, (progress) => {
+      this.dom.updateLoaderProgress(progress * 100);
+    });
+    
+    // 2. парсим URL → state
+    this.parseInitialState();
+    
+    // 3. синхронизируем UI ← state
+    this.applyInitialUIState();
+    
+    // 4. скрываем лоадер
+    this.state.isLoading = false;
+    this.dom.hideLoader();
+    
+    // 5. биндим события
+    this.initEventListeners();
+    
+    // 6. строим корректный view
+    this.rebuildCurrentView();
+    
+    // 7. форс первого фона ТОЛЬКО для slides
+    if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
+      requestAnimationFrame(() => {
+        this.setBackgroundImage(0, true);
       });
-      
-      // 2. Предзагружаем статичные бэкграунды
-      if (CONFIG.USE_STATIC_BG) {
-        await this.dataManager.preloadStaticBackgrounds();
-      }
-      
-      // 3. Парсим URL
-      this.parseInitialState();
-      
-      // 4. Применяем начальное состояние UI
-      this.applyInitialUIState();
-      
-      // 5. Применяем мобильные оптимизации
-      if (CONFIG.IS_MOBILE) {
-        this.applyMobileOptimizations();
-      }
-      
-      // 6. Скрываем лоадер
-      this.state.isLoading = false;
-      setTimeout(() => {
-        this.dom.hideLoader();
-      }, 300);
-      
-      // 7. Биндим события
-      this.initEventListeners();
-      
-      // 8. Строим текущий вид
-      this.rebuildCurrentView();
-      
-      // 9. Форсируем первый фон для слайдов
-      if (this.state.view === 'slides' && this.state.sortedData.length > 0) {
-        requestAnimationFrame(() => {
-          this.setBackgroundImage(0, true);
-        });
-      }
-      
-    } catch (error) {
-      console.error('Initialization error:', error);
-      this.state.isLoading = false;
-      this.dom.hideLoader();
     }
   }
   
@@ -1419,7 +1490,7 @@ class ViewManager {
     if (!hash) {
       this.state.filter = filter;
       this.state.view = view;
-      this.state.sortedData = this.orderManager.getSortedProjects(filter);
+      this.state.filteredData = this.dataManager.filterData(filter);
       return;
     }
     
@@ -1440,11 +1511,30 @@ class ViewManager {
     
     this.state.filter = filter;
     this.state.view = view;
-    this.state.sortedData = this.orderManager.getSortedProjects(filter);
+    this.state.filteredData = this.dataManager.filterData(filter);
+  }
+  
+  initEventListeners() {
+    // Навигация
+    this.dom.elements.navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.setFilter(link.dataset.filter);
+      });
+    });
+    
+    // Переключатель видов (скрываем на мобильных)
+    this.dom.elements.viewBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!this.state.isMobile) {
+          this.setView(btn.dataset.view);
+        }
+      });
+    });
   }
   
   applyInitialUIState() {
-    // NAV FILTERS
+    // === NAV FILTERS
     this.dom.elements.navLinks.forEach(link => {
       link.classList.toggle(
         'active-filter',
@@ -1452,7 +1542,7 @@ class ViewManager {
       );
     });
     
-    // VIEW SWITCHER
+    // === VIEW SWITCHER BUTTONS
     this.dom.elements.viewBtns.forEach(btn => {
       btn.classList.toggle(
         'active-view',
@@ -1460,14 +1550,17 @@ class ViewManager {
       );
     });
     
-    if (this.dom.elements.viewSwitcher) {
-      this.dom.elements.viewSwitcher.setAttribute(
-        'data-active-view',
-        this.state.view
-      );
+    this.dom.elements.viewSwitcher.setAttribute(
+      'data-active-view',
+      this.state.view
+    );
+    
+    // Скрываем переключатель видов на мобильных
+    if (this.state.isMobile && this.dom.elements.viewSwitcher) {
+      this.dom.elements.viewSwitcher.style.display = 'none';
     }
     
-    // BODY + CANVAS
+    // === BODY + CANVAS
     if (this.state.view === 'gallery') {
       this.dom.elements.body.classList.add('gallery-active');
       if (this.dom.elements.canvas) {
@@ -1482,188 +1575,40 @@ class ViewManager {
     }
   }
   
-  initEventListeners() {
-    // Навигация
-    this.dom.elements.navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.setFilter(link.dataset.filter);
-      });
-    });
-    
-    // Переключатель видов
-    this.dom.elements.viewBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.setView(btn.dataset.view);
-      });
-    });
-  }
-  
   // ==========================
-  // 5.11 ГЛАВНЫЙ ЦИКЛ (ОПТИМИЗИРОВАННЫЙ)
+  // 5.10 Главный цикл
   // ==========================
   mainLoop(time) {
     if (this.state.isLoading) {
-      this.rafId = requestAnimationFrame((t) => this.mainLoop(t));
+      requestAnimationFrame((t) => this.mainLoop(t));
       return;
     }
-    
-    // Оптимизация FPS для мобилок
-    const delta = time - this.lastFrameTime;
-    const targetInterval = CONFIG.IS_MOBILE ? 
-      1000 / CONFIG.MOBILE_MAX_FPS : 
-      1000 / CONFIG.MAX_FPS;
-    
-    if (delta < targetInterval) {
-      this.rafId = requestAnimationFrame((t) => this.mainLoop(t));
-      return;
-    }
-    
-    this.lastFrameTime = time;
-    this.state.frameCount++;
     
     // Обновляем Lenis
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.raf(time);
     }
     
-    // Обновляем визуализацию
     if (this.state.view === "slides") {
       this.updateSlides();
-      
-      // Рисуем сетку реже на мобилках
-      if (!CONFIG.IS_MOBILE || this.state.frameCount % 2 === 0) {
-        this.drawGrid();
-      }
+      this.drawGrid();
     }
     
-    this.rafId = requestAnimationFrame((t) => this.mainLoop(t));
+    requestAnimationFrame((t) => this.mainLoop(t));
   }
   
   start() {
-    this.rafId = requestAnimationFrame((t) => this.mainLoop(t));
-  }
-  
-  stop() {
-    if (this.rafId) {
-      cancelAnimationFrame(this.rafId);
-    }
-    if (this.lazyObserver) {
-      this.lazyObserver.disconnect();
-    }
-    this.lenisManager.destroy();
+    requestAnimationFrame((t) => this.mainLoop(t));
   }
 }
 
 // ==========================
-// 6. ДОПОЛНИТЕЛЬНЫЕ КЛАССЫ
-// ==========================
-class StaticBackgroundManager {
-  constructor(dom) {
-    this.dom = dom;
-  }
-  
-  init() {
-    // Уже инициализировано в DOMCache
-    return this;
-  }
-}
-
-class ProjectOrderManager {
-  constructor(dataManager) {
-    this.dataManager = dataManager;
-    this.customOrder = this.loadCustomOrder();
-  }
-  
-  loadCustomOrder() {
-    try {
-      const saved = localStorage.getItem('project-order');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  }
-  
-  saveCustomOrder() {
-    try {
-      localStorage.setItem('project-order', JSON.stringify(this.customOrder));
-    } catch (e) {
-      console.warn('Could not save project order:', e);
-    }
-  }
-  
-  getSortedProjects(filter) {
-    let projects = this.dataManager.filterData(filter);
-    
-    // Если есть кастомный порядок, используем его
-    if (this.customOrder.length > 0) {
-      projects = this.sortByCustomOrder(projects);
-    } else {
-      // Используем порядок из CONFIG
-      projects = this.sortByConfigOrder(projects);
-    }
-    
-    return projects;
-  }
-  
-  sortByCustomOrder(projects) {
-    const orderMap = new Map();
-    this.customOrder.forEach((id, index) => {
-      orderMap.set(id, index);
-    });
-    
-    return [...projects].sort((a, b) => {
-      const orderA = orderMap.get(a.id) ?? 9999;
-      const orderB = orderMap.get(b.id) ?? 9999;
-      return orderA - orderB;
-    });
-  }
-  
-  sortByConfigOrder(projects) {
-    return [...projects].sort((a, b) => {
-      const orderA = CONFIG.PROJECTS_ORDER.indexOf(a.id) + 1 || 9999;
-      const orderB = CONFIG.PROJECTS_ORDER.indexOf(b.id) + 1 || 9999;
-      return orderA - orderB;
-    });
-  }
-  
-  updateProjectOrder(projectId, newPosition) {
-    const currentIndex = this.customOrder.indexOf(projectId);
-    
-    if (currentIndex !== -1) {
-      this.customOrder.splice(currentIndex, 1);
-    }
-    
-    this.customOrder.splice(newPosition, 0, projectId);
-    this.saveCustomOrder();
-    
-    return this.customOrder;
-  }
-  
-  setCustomOrder(orderArray) {
-    this.customOrder = [...orderArray];
-    this.saveCustomOrder();
-    return this.customOrder;
-  }
-  
-  resetToDefault() {
-    this.customOrder = [];
-    localStorage.removeItem('project-order');
-    return [];
-  }
-}
-
-// ==========================
-// 7. ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
+// 6. Инициализация приложения
 // ==========================
 let appState, domCache, dataManager, viewManager;
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // Обновляем конфиг при загрузке
-    CONFIG.IS_MOBILE = window.innerWidth <= 768;
-    CONFIG.DISABLE_COMPLEX_EFFECTS = CONFIG.IS_MOBILE;
-    
     // Создаем экземпляры
     appState = new AppState();
     domCache = new DOMCache().init();
@@ -1676,125 +1621,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Запускаем главный цикл
     viewManager.start();
     
-    console.log('Portfolio initialized successfully');
-    console.log('Mobile mode:', CONFIG.IS_MOBILE);
-    console.log('Projects count:', dataManager.allData.length);
-    
+    console.log('3D Gallery initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize portfolio:', error);
-    if (domCache && domCache.hideLoader) {
-      domCache.hideLoader();
-    }
-    
-    // Fallback: показываем простую галерею
-    showFallbackGallery();
+    console.error('Failed to initialize gallery:', error);
+    domCache.hideLoader();
   }
 });
 
-// Fallback функция на случай ошибки
-function showFallbackGallery() {
-  const gallery = document.getElementById('gallery');
-  if (!gallery) return;
-  
-  gallery.innerHTML = `
-    <div style="padding: 40px; text-align: center; color: #888;">
-      <h3>Something went wrong</h3>
-      <p>Please refresh the page or check console for errors</p>
-      <button onclick="window.location.reload()" style="
-        margin-top: 20px;
-        padding: 10px 20px;
-        background: #333;
-        color: white;
-        border: none;
-        cursor: pointer;
-      ">Refresh Page</button>
-    </div>
-  `;
-  gallery.style.display = 'block';
-}
-
 // ==========================
-// 8. ГЛОБАЛЬНЫЕ МЕТОДЫ
+// 7. Глобальные хелперы
 // ==========================
 window.App = {
   getState: () => appState,
   getViewManager: () => viewManager,
-  getDataManager: () => dataManager,
-  getOrderManager: () => viewManager?.orderManager,
-  
-  switchToGallery: () => viewManager?.setView('gallery'),
-  switchToTunnel: () => viewManager?.setView('slides'),
-  setFilter: (filter) => viewManager?.setFilter(filter),
-  
-  // Методы для управления порядком проектов (админ)
-  setProjectOrder: (orderArray) => {
-    if (viewManager?.orderManager) {
-      const newOrder = viewManager.orderManager.setCustomOrder(orderArray);
-      console.log('Project order updated:', newOrder);
-      window.location.reload();
-      return newOrder;
-    }
-    return null;
-  },
-  
-  resetProjectOrder: () => {
-    if (viewManager?.orderManager) {
-      viewManager.orderManager.resetToDefault();
-      console.log('Project order reset to default');
-      window.location.reload();
-    }
-  },
-  
-  getCurrentOrder: () => {
-    if (viewManager?.orderManager) {
-      return viewManager.orderManager.customOrder;
-    }
-    return [];
-  },
-  
-  // Генерация страниц проектов (для админ-панели)
-  generateProjectPages: () => {
-    console.log('Project pages generation would start here');
-    console.log('Total projects:', dataManager?.allData.length);
-    // Здесь можно добавить логику генерации HTML файлов
-  }
+  switchToGallery: () => viewManager.setView('gallery'),
+  switchToTunnel: () => viewManager.setView('slides'),
+  setFilter: (filter) => viewManager.setFilter(filter)
 };
-
-// ==========================
-// 9. ОБРАБОТЧИКИ ОШИБОК И ПРОИЗВОДИТЕЛЬНОСТИ
-// ==========================
-window.addEventListener('error', (e) => {
-  console.error('Global error:', e.error);
-});
-
-window.addEventListener('unhandledrejection', (e) => {
-  console.error('Unhandled promise rejection:', e.reason);
-});
-
-// Мониторинг производительности
-if (typeof PerformanceObserver !== 'undefined') {
-  const perfObserver = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      if (entry.duration > 100) {
-        console.warn('Long task detected:', entry);
-      }
-    }
-  });
-  
-  perfObserver.observe({ entryTypes: ['longtask'] });
-}
-
-// Оптимизация для слабых устройств
-if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
-  console.log('Low-end device detected, applying additional optimizations');
-  CONFIG.DISABLE_COMPLEX_EFFECTS = true;
-  CONFIG.FRAME_SKIP_MOBILE = 3;
-  CONFIG.DISABLE_GRID_ON_MOBILE = true;
-}
-
-// Оптимизация для режима энергосбережения
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  console.log('Reduced motion preference detected');
-  CONFIG.DISABLE_COMPLEX_EFFECTS = true;
-  CONFIG.BG_FADE_DURATION = 0.5;
-}
