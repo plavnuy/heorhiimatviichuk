@@ -5,6 +5,8 @@ const CONFIG = {
   Z_GAP: 200,
   START_OFFSET: 0,
   DEPTH: 4000,
+  BG_FADE_DURATION: 1,
+  BG_OPACITY: 0.2,
   MOUSE_SENSITIVITY: { X: 5, Y: 3, ROTATION: 5 },
   GRID: {
     HORIZONTAL_SIZE: 200,
@@ -34,6 +36,7 @@ class AppState {
     this.scroll = { pos: 0, z: 0, max: 1 };
     this.view = 'slides';
     this.filter = 'allworks';
+    this.bg = { active: 0, currentIndex: -1 };
     this.isLoading = true;
     
     this.filteredData = [];
@@ -79,8 +82,28 @@ class DOMCache {
       scrollContainer: document.querySelector('.scroll-container')
     };
     
+    this.initBackgroundLayers();
     this.initLoader();
     return this;
+  }
+  
+  initBackgroundLayers() {
+    const bgWrap = document.createElement('div');
+    bgWrap.className = 'bg-blur-wrap';
+    
+    this.elements.bgA = document.createElement('div');
+    this.elements.bgB = document.createElement('div');
+    this.elements.bgA.className = 'bg-blur-layer bg-blur-a';
+    this.elements.bgB.className = 'bg-blur-layer bg-blur-b';
+    
+    bgWrap.appendChild(this.elements.bgA);
+    bgWrap.appendChild(this.elements.bgB);
+    document.body.insertBefore(bgWrap, document.body.firstChild);
+    
+    this.elements.bgA.style.opacity = '0';
+    this.elements.bgB.style.opacity = '0';
+    this.elements.bgA.style.backgroundColor = '#0b0b0b';
+    this.elements.bgB.style.backgroundColor = '#0b0b0b';
   }
   
   initLoader() {
@@ -119,7 +142,7 @@ class DOMCache {
 }
 
 // ==========================
-// 3. Менеджер данных (ОЧИЩЕНО от градиентов)
+// 3. Менеджер данных (ОБНОВЛЕНО)
 // ==========================
 class DataManager {
   constructor() {
@@ -129,6 +152,7 @@ class DataManager {
         title: "2", 
         year: "2024",
         img: "./images/2.jpg", 
+        imgSecondary: "./images/2_test.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/2.html"
       },
@@ -137,6 +161,7 @@ class DataManager {
         title: "7 Copy", 
         year: "2023",
         img: "./images/7 copy.jpg", 
+        imgSecondary: "./images/7 copy.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/7-copy.html"
       },
@@ -145,6 +170,7 @@ class DataManager {
         title: "50", 
         year: "2024",
         img: "./images/50.jpg", 
+        imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/50.html"
       },
@@ -153,6 +179,7 @@ class DataManager {
         title: "Accemedin", 
         year: "2023",
         img: "./images/accemedin.jpg", 
+        imgSecondary: "./images/accemedin.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/accemedin.html"
       },
@@ -161,6 +188,7 @@ class DataManager {
         title: "AMOxLOCATED T-Shirt Mockup", 
         year: "2023",
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg", 
+        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["branding", "art"],
         projectUrl: "./projects/amoxlocated.html"
       },
@@ -169,6 +197,7 @@ class DataManager {
         title: "Art 01", 
         year: "2023",
         img: "./images/art-01.jpg", 
+        imgSecondary: "./images/art-01.jpg",
         categories: ["art"],
         projectUrl: "./projects/art-01.html"
       },
@@ -177,6 +206,7 @@ class DataManager {
         title: "Biomass", 
         year: "2024",
         img: "./images/biomass.jpg", 
+        imgSecondary: "./images/biomass.jpg",
         categories: ["branding"],
         projectUrl: "./projects/biomass.html"
       },
@@ -185,6 +215,7 @@ class DataManager {
         title: "Delfast", 
         year: "2023",
         img: "./images/delfast.jpg", 
+        imgSecondary: "./images/delfast.jpg",
         categories: ["branding"],
         projectUrl: "./projects/delfast.html"
       },
@@ -193,6 +224,7 @@ class DataManager {
         title: "Dobro", 
         year: "2023",
         img: "./images/dobro.jpg", 
+        imgSecondary: "./images/dobro.jpg",
         categories: ["branding"],
         projectUrl: "./projects/dobro.html"
       },
@@ -201,6 +233,7 @@ class DataManager {
         title: "Egg", 
         year: "2023",
         img: "./images/egg.jpg", 
+        imgSecondary: "./images/egg.jpg",
         categories: ["art"],
         projectUrl: "./projects/egg.html"
       },
@@ -209,6 +242,7 @@ class DataManager {
         title: "Frame 1225", 
         year: "2024",
         img: "./images/Frame 1225.jpg", 
+        imgSecondary: "./images/Frame 1225.jpg",
         categories: ["photo"],
         projectUrl: "./projects/frame-1225.html"
       },
@@ -217,6 +251,7 @@ class DataManager {
         title: "Frame 1283", 
         year: "2024",
         img: "./images/Frame 1283.png", 
+        imgSecondary: "./images/Frame 1283.png",
         categories: ["photo"],
         projectUrl: "./projects/frame-1283.html"
       },
@@ -225,6 +260,7 @@ class DataManager {
         title: "Gogo Bot Avatar", 
         year: "2023",
         img: "./images/gogo_bot_avatar.png", 
+        imgSecondary: "./images/gogo_bot_avatar.png",
         categories: ["art"],
         projectUrl: "./projects/gogo-bot-avatar.html"
       },
@@ -233,6 +269,7 @@ class DataManager {
         title: "Hmelisoneli", 
         year: "2023",
         img: "./images/hmelisoneli.jpg", 
+        imgSecondary: "./images/hmelisoneli.jpg",
         categories: ["branding"],
         projectUrl: "./projects/hmelisoneli.html"
       },
@@ -241,6 +278,7 @@ class DataManager {
         title: "HRAM: LOCATED Color Reference", 
         year: "2023",
         img: "./images/HRAM:LOCATED_color_reference.jpg", 
+        imgSecondary: "./images/HRAM:LOCATED_color_reference.jpg",
         categories: ["branding"],
         projectUrl: "./projects/hram-located.html"
       },
@@ -249,6 +287,7 @@ class DataManager {
         title: "III3 Cover", 
         year: "2023",
         img: "./images/iii3_cover.png", 
+        imgSecondary: "./images/iii3_cover.png",
         categories: ["branding"],
         projectUrl: "./projects/iii3-cover.html"
       },
@@ -257,6 +296,7 @@ class DataManager {
         title: "Jernov", 
         year: "2023",
         img: "./images/jernov.jpg", 
+        imgSecondary: "./images/jernov.jpg",
         categories: ["branding"],
         projectUrl: "./projects/jernov.html"
       },
@@ -265,6 +305,7 @@ class DataManager {
         title: "K19 Dase A3 Poster", 
         year: "2023",
         img: "./images/K19-Dase_a3_poster.jpg", 
+        imgSecondary: "./images/K19-Dase_a3_poster.jpg",
         categories: ["branding"],
         projectUrl: "./projects/k19-dase.html"
       },
@@ -273,6 +314,7 @@ class DataManager {
         title: "Liminal", 
         year: "2023",
         img: "./images/liminal.jpg", 
+        imgSecondary: "./images/liminal.jpg",
         categories: ["art"],
         projectUrl: "./projects/liminal.html"
       },
@@ -281,6 +323,7 @@ class DataManager {
         title: "Manifest", 
         year: "2023",
         img: "./images/manifest.jpg", 
+        imgSecondary: "./images/manifest.jpg",
         categories: ["art"],
         projectUrl: "./projects/manifest.html"
       },
@@ -289,6 +332,7 @@ class DataManager {
         title: "Martini", 
         year: "2023",
         img: "./images/martini.jpg", 
+        imgSecondary: "./images/martini.jpg",
         categories: ["branding"],
         projectUrl: "./projects/martini.html"
       },
@@ -297,6 +341,7 @@ class DataManager {
         title: "Mitus", 
         year: "2024",
         img: "./images/mitus.jpg", 
+        imgSecondary: "./images/mitus.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/mitus.html"
       },
@@ -305,6 +350,7 @@ class DataManager {
         title: "Recovered Mock", 
         year: "2023",
         img: "./images/mock-Recovered_.jpg", 
+        imgSecondary: "./images/mock-Recovered_.jpg",
         categories: ["branding"],
         projectUrl: "./projects/recovered-mock.html"
       },
@@ -313,6 +359,7 @@ class DataManager {
         title: "Mockup", 
         year: "2023",
         img: "./images/Mockup.jpg", 
+        imgSecondary: "./images/Mockup.jpg",
         categories: ["branding"],
         projectUrl: "./projects/mockup.html"
       },
@@ -321,6 +368,7 @@ class DataManager {
         title: "Nigredo", 
         year: "2023",
         img: "./images/nigredo.png", 
+        imgSecondary: "./images/nigredo.png",
         categories: ["art"],
         projectUrl: "./projects/nigredo.html"
       },
@@ -329,6 +377,7 @@ class DataManager {
         title: "Plate (Alt)", 
         year: "2023",
         img: "./images/plate copy.jpg", 
+        imgSecondary: "./images/plate copy.jpg",
         categories: ["branding"],
         projectUrl: "./projects/plate-alt.html"
       },
@@ -337,6 +386,7 @@ class DataManager {
         title: "Plate", 
         year: "2023",
         img: "./images/plate.jpg", 
+        imgSecondary: "./images/plate.jpg",
         categories: ["branding"],
         projectUrl: "./projects/plate.html"
       },
@@ -345,6 +395,7 @@ class DataManager {
         title: "PM Kit", 
         year: "2024",
         img: "./images/pmkit.jpg", 
+        imgSecondary: "./images/pmkit.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/pm-kit.html"
       },
@@ -353,6 +404,7 @@ class DataManager {
         title: "PRODJ 2019", 
         year: "2019",
         img: "./images/PRODJ-2019.jpg", 
+        imgSecondary: "./images/PRODJ-2019.jpg",
         categories: ["branding"],
         projectUrl: "./projects/prodj-2019.html"
       },
@@ -361,6 +413,7 @@ class DataManager {
         title: "Roma Yurchak", 
         year: "2024",
         img: "./images/roma_yurchak.jpg", 
+        imgSecondary: "./images/roma_yurchak.jpg",
         categories: ["photo"],
         projectUrl: "./projects/roma-yurchak.html"
       },
@@ -369,6 +422,7 @@ class DataManager {
         title: "Saenkoharenko", 
         year: "2024",
         img: "./images/saenkoharenko.jpg", 
+        imgSecondary: "./images/saenkoharenko.jpg",
         categories: ["photo"],
         projectUrl: "./projects/saenkoharenko.html"
       },
@@ -377,6 +431,7 @@ class DataManager {
         title: "Screen Shot 2019", 
         year: "2019",
         img: "./images/Screen Shot 2019-04-11 at 17.00.49.png", 
+        imgSecondary: "./images/Screen Shot 2019-04-11 at 17.00.49.png",
         categories: ["photo"],
         projectUrl: "./projects/screen-shot-2019.html"
       },
@@ -385,6 +440,7 @@ class DataManager {
         title: "Screenshot 2024-07-10 00:16", 
         year: "2024",
         img: "./images/Screenshot 2024-07-10 at 00.16.04.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.04.png",
         categories: ["photo"],
         projectUrl: "./projects/screenshot-2024-07-10-00-16.html"
       },
@@ -393,6 +449,7 @@ class DataManager {
         title: "Screenshot 2024-07-10 00:16:28", 
         year: "2024",
         img: "./images/Screenshot 2024-07-10 at 00.16.28.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.28.png",
         categories: ["photo"],
         projectUrl: "./projects/screenshot-2024-07-10-00-16-28.html"
       },
@@ -401,6 +458,7 @@ class DataManager {
         title: "Screenshot 2024-07-10 00:16:51", 
         year: "2024",
         img: "./images/Screenshot 2024-07-10 at 00.16.51.png", 
+        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.51.png",
         categories: ["photo"],
         projectUrl: "./projects/screenshot-2024-07-10-00-16-51.html"
       },
@@ -409,6 +467,7 @@ class DataManager {
         title: "Sharespot", 
         year: "2024",
         img: "./images/sharespot.jpg", 
+        imgSecondary: "./images/sharespot.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/sharespot.html"
       },
@@ -417,6 +476,7 @@ class DataManager {
         title: "Shm Poster A3 Print", 
         year: "2023",
         img: "./images/Shm_poster_a3_print.jpg", 
+        imgSecondary: "./images/Shm_poster_a3_print.jpg",
         categories: ["branding"],
         projectUrl: "./projects/shm-poster.html"
       },
@@ -425,6 +485,7 @@ class DataManager {
         title: "Shmalgauzen Tviy Vill", 
         year: "2023",
         img: "./images/Shmalgauzen_TviyVill_1350х1080.jpg", 
+        imgSecondary: "./images/Shmalgauzen_TviyVill_1350х1080.jpg",
         categories: ["art"],
         projectUrl: "./projects/shmolgauzen.html"
       },
@@ -433,6 +494,7 @@ class DataManager {
         title: "Sinners", 
         year: "2023",
         img: "./images/sinners.jpg", 
+        imgSecondary: "./images/sinners.jpg",
         categories: ["art"],
         projectUrl: "./projects/sinners.html"
       },
@@ -441,6 +503,7 @@ class DataManager {
         title: "Slice 8", 
         year: "2023",
         img: "./images/Slice 8.png", 
+        imgSecondary: "./images/Slice 8.png",
         categories: ["art"],
         projectUrl: "./projects/slice-8.html"
       },
@@ -449,6 +512,7 @@ class DataManager {
         title: "Sof Brama", 
         year: "2023",
         img: "./images/sof_brama.jpg", 
+        imgSecondary: "./images/sof_brama.jpg",
         categories: ["branding"],
         projectUrl: "./projects/sof-brama.html"
       },
@@ -457,6 +521,7 @@ class DataManager {
         title: "Son", 
         year: "2023",
         img: "./images/son.jpg", 
+        imgSecondary: "./images/son.jpg",
         categories: ["art"],
         projectUrl: "./projects/son.html"
       },
@@ -465,6 +530,7 @@ class DataManager {
         title: "Triple We", 
         year: "2023",
         img: "./images/tripplewe.jpg", 
+        imgSecondary: "./images/tripplewe.jpg",
         categories: ["branding"],
         projectUrl: "./projects/triple-we.html"
       },
@@ -473,6 +539,7 @@ class DataManager {
         title: "Tube Mock", 
         year: "2023",
         img: "./images/Tube_mock.jpg", 
+        imgSecondary: "./images/Tube_mock.jpg",
         categories: ["branding", "art"],
         projectUrl: "./projects/tube-mock.html"
       },
@@ -481,6 +548,7 @@ class DataManager {
         title: "Twog", 
         year: "2023",
         img: "./images/twog.jpg", 
+        imgSecondary: "./images/twog.jpg",
         categories: ["branding"],
         projectUrl: "./projects/twog.html"
       },
@@ -489,6 +557,7 @@ class DataManager {
         title: "Vartis", 
         year: "2023",
         img: "./images/vartis.jpg", 
+        imgSecondary: "./images/vartis.jpg",
         categories: ["branding"],
         projectUrl: "./projects/vartis.html"
       },
@@ -497,6 +566,7 @@ class DataManager {
         title: "X4", 
         year: "2023",
         img: "./images/x4.jpg", 
+        imgSecondary: "./images/x4.jpg",
         categories: ["branding"],
         projectUrl: "./projects/x4.html"
       }
@@ -513,15 +583,17 @@ class DataManager {
         id: "biomass-preview-2",
         title: "Biomass Preview 2",
         year: "2024",
-        img: "./images/biomass.jpg",
+        img: "./images/biomass.jpg", // Другое изображение для превью
+        imgSecondary: "./images/biomass.jpg",
         categories: ["branding"],
-        projectUrl: "./projects/biomass.html"
+        projectUrl: "./projects/biomass.html" // Тот же URL что у основного
       },
       {
         id: "amoxlocated-preview-2",
         title: "AMOxLOCATED Alt",
         year: "2023",
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
+        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["branding", "art"],
         projectUrl: "./projects/amoxlocated.html"
       }
@@ -640,7 +712,7 @@ class LenisManager {
 }
 
 // ==========================
-// 5. Менеджер видов (ОЧИЩЕНО от фоновых систем)
+// 5. Менеджер видов (ОБНОВЛЕНО)
 // ==========================
 class ViewManager {
   constructor(state, dom, dataManager) {
@@ -650,7 +722,12 @@ class ViewManager {
     this.lenisManager = new LenisManager();
     this.lazyObserver = null;
     this.resizeTimeout = null;
+    this.bgChangeTimeout = null;
     this.rafId = null;
+    this.isAnimating = false;
+    
+    // Добавляем инициализацию для предзагрузки фонов
+    this.preloadedBackgrounds = new Set();
     
     // Проверяем мобильное устройство
     this.checkMobileDevice();
@@ -751,7 +828,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.3 Слайды (ОЧИЩЕНО от фоновых зависимостей)
+  // 5.3 Слайды (ОБНОВЛЕНО с учетом новых данных)
   // ==========================
   buildSlides() {
     if (this.state.view !== "slides") return;
@@ -788,7 +865,7 @@ class ViewManager {
         xPercent: 20,
         yPercent: -50,
         transformStyle: "preserve-3d",
-        willChange: "transform, opacity"
+        willChange: "transform, opacity, filter"
       });
     });
     
@@ -815,6 +892,7 @@ class ViewManager {
       img.alt = 'Изображение не загружено';
     };
     
+    // ОБНОВЛЕНО: Добавлен год проекта
     slide.innerHTML = `
       <div class="slide-img">
         <!-- Image will be inserted -->
@@ -832,7 +910,7 @@ class ViewManager {
     
     slide.querySelector('.slide-img').appendChild(img);
     
-    // Открытие страницы проекта
+    // ОБНОВЛЕНО: Открытие страницы проекта вместо изображения
     slide.addEventListener('click', (e) => {
       if (!e.target.closest('a')) {
         window.open(data.projectUrl, '_blank');
@@ -843,7 +921,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.4 Галерея
+  // 5.4 Галерея (ОБНОВЛЕНО с учетом новых данных)
   // ==========================
   buildGallery() {
     if (this.state.view !== "gallery") return;
@@ -885,6 +963,7 @@ class ViewManager {
     item.dataset.index = index;
     item.dataset.projectId = data.id;
     
+    // ОБНОВЛЕНО: Добавлен год проекта
     item.innerHTML = `
       <div class="gallery-thumb">
         <img data-src="${data.img}" alt="${data.title}" class="lazy-img">
@@ -898,7 +977,7 @@ class ViewManager {
       </div>
     `;
     
-    // Открытие страницы проекта
+    // ОБНОВЛЕНО: Открытие страницы проекта
     item.addEventListener('click', (e) => {
       e.preventDefault();
       window.open(data.projectUrl, '_blank');
@@ -939,7 +1018,130 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.6 Обновление слайдов (ОЧИЩЕНО от фоновых функций)
+  // 5.5.1 Предзагрузка следующего фона
+  // ==========================
+  preloadNextBackground(currentIndex) {
+    if (this.state.view !== "slides") return;
+    
+    // Предзагружаем следующий фон если он существует
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < this.state.filteredData.length) {
+      const nextData = this.state.filteredData[nextIndex];
+      const nextSrc = nextData.imgSecondary || nextData.img;
+      
+      // Проверяем не загружали ли уже
+      if (!this.preloadedBackgrounds) {
+        this.preloadedBackgrounds = new Set();
+      }
+      
+      if (!this.preloadedBackgrounds.has(nextSrc)) {
+        const img = new Image();
+        img.onload = () => {
+          this.preloadedBackgrounds.add(nextSrc);
+        };
+        img.src = nextSrc;
+      }
+    }
+    
+    // Также предзагружаем предыдущий для обратного скролла
+    const prevIndex = currentIndex - 1;
+    if (prevIndex >= 0) {
+      const prevData = this.state.filteredData[prevIndex];
+      const prevSrc = prevData.imgSecondary || prevData.img;
+      if (!this.preloadedBackgrounds.has(prevSrc)) {
+        const img = new Image();
+        img.onload = () => {
+          this.preloadedBackgrounds.add(prevSrc);
+        };
+        img.src = prevSrc;
+      }
+    }
+  }
+  
+  // ==========================
+  // 5.5 Фон (ОБНОВЛЕНО: используем imgSecondary)
+  // ==========================
+  setBackgroundImage(index, immediate = false) {
+    // 1. Проверяем возможность смены
+    if (this.state.view === "gallery") return;
+    if (index < 0 || index >= this.state.filteredData.length) return;
+    if (index === this.state.bg.currentIndex && !immediate) return;
+    
+    // 2. Сбрасываем таймер (теперь не нужен)
+    if (this.bgChangeTimeout) {
+      clearTimeout(this.bgChangeTimeout);
+      this.bgChangeTimeout = null;
+    }
+    
+    // 3. Обновляем состояние
+    this.state.bg.currentIndex = index;
+    const data = this.state.filteredData[index];
+    // ИСПОЛЬЗУЕМ ВТОРИЧНОЕ ИЗОБРАЖЕНИЕ для фона
+    const src = data.imgSecondary;
+    
+    // 4. Определяем активный/неактивный слой
+    const activeIdx = this.state.bg.active;
+    const nextIdx = 1 - activeIdx;
+    const activeEl = activeIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
+    const nextEl = nextIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
+    
+    // 5. Останавливаем ВСЕ предыдущие анимации фона
+    gsap.killTweensOf([this.dom.elements.bgA, this.dom.elements.bgB]);
+    
+    // 6. Быстрая установка для первого фона
+    if (immediate) {
+      nextEl.style.backgroundImage = `url("${src}")`;
+      nextEl.style.opacity = CONFIG.BG_OPACITY.toString();
+      activeEl.style.opacity = '0';
+      this.state.bg.active = nextIdx;
+      this.preloadNextBackground(index);
+      return;
+    }
+    
+    // 7. Плавная смена
+    const img = new Image();
+    
+    const applyTransition = () => {
+      // 7.1 Устанавливаем новое изображение в неактивный слой
+      nextEl.style.backgroundImage = `url("${src}")`;
+      
+      // 7.2 Одновременная анимация обоих слоёв
+      gsap.to(activeEl, {
+        opacity: 0,
+        duration: CONFIG.BG_FADE_DURATION * 0.7,
+        ease: "power2.in",
+        overwrite: true
+      });
+      
+      gsap.to(nextEl, {
+        opacity: CONFIG.BG_OPACITY,
+        duration: CONFIG.BG_FADE_DURATION,
+        ease: "power2.out",
+        delay: 0.05,
+        overwrite: true,
+        onComplete: () => {
+          // 7.3 После завершения обновляем активный слой
+          this.state.bg.active = nextIdx;
+          this.preloadNextBackground(index);
+        }
+      });
+    };
+    
+    // 8. Предзагрузка перед анимацией
+    if (img.complete) {
+      applyTransition();
+    } else {
+      img.onload = applyTransition;
+      img.onerror = () => {
+        console.warn(`Не удалось загрузить фоновое изображение: ${src}`);
+        applyTransition(); // Показываем хотя бы чёрный фон
+      };
+      img.src = src;
+    }
+  }
+  
+  // ==========================
+  // 5.6 Обновление слайдов
   // ==========================
   updateSlides() {
     if (this.state.view !== "slides") return;
@@ -949,10 +1151,18 @@ class ViewManager {
     const totalDepth = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
     const cameraZ = -CONFIG.START_OFFSET + progress * (totalDepth + CONFIG.START_OFFSET);
     
+    let bestIdx = -1;
+    let bestDist = Infinity;
+    
     this.state.slides.elements.forEach((slide, idx) => {
       const baseZ = this.state.slides.state[idx].baseZ;
       const relativeZ = baseZ - cameraZ;
       const dist = Math.abs(relativeZ);
+      
+      if (dist < bestDist) { 
+        bestDist = dist; 
+        bestIdx = idx; 
+      }
       
       if (relativeZ < -110 || relativeZ > 2000) { 
         slide.style.opacity = 0; 
@@ -960,21 +1170,24 @@ class ViewManager {
         return; 
       }
       
-      const opacity = Math.max(0, Math.min(1, 1 - dist / 380));
-      const scale = Math.max(0.4, Math.min(1.2, 1.2 - (dist / 400) * 0.8));
-      const parallaxX = this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.X;
-      const parallaxY = this.state.mouse.ny * CONFIG.MOUSE_SENSITIVITY.Y;
+      this.state.slides.state[idx].opacity = Math.max(0, Math.min(1, 1 - dist / 380));
+      this.state.slides.state[idx].scale = Math.max(0.4, Math.min(1.2, 1.2 - (dist / 400) * 0.8));
+      this.state.slides.state[idx].parallaxX = this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.X;
+      this.state.slides.state[idx].parallaxY = this.state.mouse.ny * CONFIG.MOUSE_SENSITIVITY.Y;
       
-      // Используем translate3d для аппаратного ускорения
       slide.style.transform = `
-        translate3d(${parallaxX}vw, ${parallaxY}vh, ${-relativeZ}px)
+        translate3d(${this.state.slides.state[idx].parallaxX}vw, ${this.state.slides.state[idx].parallaxY}vh, ${-relativeZ}px)
         rotateY(${this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.ROTATION}deg)
         rotateX(${this.state.mouse.ny * -3}deg)
-        scale(${scale})
+        scale(${this.state.slides.state[idx].scale})
       `;
-      slide.style.opacity = opacity;
-      slide.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
+      slide.style.opacity = this.state.slides.state[idx].opacity;
+      slide.style.pointerEvents = 'auto';
     });
+    
+    if (bestIdx !== -1 && bestDist < 220 && bestIdx !== this.state.bg.currentIndex) {
+      this.setBackgroundImage(bestIdx);
+    }
   }
   
   snappedProgress(progressRaw, stickiness = 0.7) {
@@ -999,7 +1212,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.7 Сетка
+  // 5.7 Сетка (нижняя)
   // ==========================
   drawGrid() {
     if (!this.dom.elements.context || !this.dom.elements.canvas) return;
@@ -1098,10 +1311,10 @@ class ViewManager {
     const pNearBot = this.project3D(x, 800, zNear, mx, my);
     const pFarBot = this.project3D(x, 800, zFar, mx, my);
     
-    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y);
-    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`);
+    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); // исправлен порядок
+    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); // исправлено: начинаем с 0.18
     gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
-    gradBot.addColorStop(1, `rgba(255,255,255,0)`);
+    gradBot.addColorStop(1, `rgba(255,255,255,0)`); // заканчиваем 0
     
     ctx.strokeStyle = gradBot;
     ctx.beginPath();
@@ -1111,7 +1324,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.8 Управление видами
+  // 5.8 Управление видами (ОБНОВЛЕНО для мобильных)
   // ==========================
   setFilter(filter) {
     if (this.state.filter === filter) return;
@@ -1155,6 +1368,7 @@ class ViewManager {
     // Сбрасываем позицию скролла в состоянии
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
+    
     
     // Останавливаем предыдущий вид
     if (this.state.view === "slides") {
@@ -1258,6 +1472,13 @@ class ViewManager {
     
     // 6. строим корректный view
     this.rebuildCurrentView();
+    
+    // 7. форс первого фона ТОЛЬКО для slides
+    if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
+      requestAnimationFrame(() => {
+        this.setBackgroundImage(0, true);
+      });
+    }
   }
   
   parseInitialState() {
