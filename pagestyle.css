@@ -223,6 +223,19 @@ html, body {
 .project-image {
   margin: 60px 0;
   position: relative;
+  
+}
+
+
+
+.scaled15 {
+width: 150%;
+    max-width: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+
 }
 
 .project-image.full-bleed {
