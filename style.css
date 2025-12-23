@@ -42,6 +42,13 @@ body:not(.gallery-active) {
   min-height: 800vh;
 }
 
+.content-container {
+  width: 100%;
+  max-width: 900px;
+position: absolute;
+margin: auto;
+}
+
 .scroll-container {
   position: relative;
   width: 100%;
@@ -347,7 +354,6 @@ body:not(.gallery-active) {
 
 .slide-img {
   width: 100%;
-  background: #111;
   overflow: hidden;
   display: block;
 }
@@ -378,7 +384,7 @@ body:not(.gallery-active) {
   font-family: "Science Gothic", sans-serif;
   font-variation-settings: "wdth" 200, "wght" 600;
   font-size: 8px;
-  color: var(--bg-20);
+  color: rgba(255, 255, 255, 0.434);
 }
 
 /* ==========================
@@ -430,7 +436,7 @@ body:not(.gallery-active) {
 /* Pinterest-style masonry grid */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -441,7 +447,7 @@ body:not(.gallery-active) {
 /* Элементы галереи */
 .gallery-item {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
+
   border-radius: 0; /* Убрал скругление углов */
   overflow: hidden;
   cursor: pointer;
@@ -477,7 +483,6 @@ body:not(.gallery-active) {
 .gallery-thumb {
   width: 100%;
   overflow: hidden;
-  background: #111;
   position: relative;
   flex-shrink: 0;
 }
@@ -974,7 +979,7 @@ body:not(.gallery-active) {
 /* Улучшенная masonry сетка для Pinterest-эффекта */
 @media (min-width: 768px) {
   .gallery-grid {
-    column-count: 3;
+    column-count: 4;
     column-gap: 24px;
     display: block;
   }

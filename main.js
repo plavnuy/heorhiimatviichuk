@@ -150,22 +150,22 @@ class DataManager {
     this.allData = [
       { 
         id: "project-1", 
-        title: "2", 
-        year: "2024",
-        img: "./images/2.jpg", 
-        imgSecondary: "./images/2_test.jpg",
+        title: "TRADEMOTIONS", 
+        year: "2021",
+        img: "./images/trademotions.gif", 
+        imgSecondary: "./images/trademotions.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/2.html",
-        gradientColors: ["#0b0b0b", "#2a2a5a"] // Темно-серый + фиолетовый
+        projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
+        gradientColors: ["#c72626ff", "#f55f08ff"] // Темно-серый + фиолетовый
       },
       { 
         id: "project-2", 
-        title: "7 Copy", 
-        year: "2023",
-        img: "./images/7 copy.jpg", 
+        title: "K19", 
+        year: "2025",
+        img: "./images/k19.png", 
         imgSecondary: "./images/7 copy.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/7-copy.html",
+        categories: ["branding"],
+        projectUrl: "./projects/k19.html",
         gradientColors: ["#1a1a2e", "#16213e"] // Темно-синий градиент
       },
       { 
@@ -939,7 +939,7 @@ class ViewManager {
       img.alt = 'Изображение не загружено';
     };
     
-    // ОБНОВЛЕНО: Добавлен год проекта
+    // ОБНОВЛЕНО: Добавлен год проекта          <span class="card-category">${data.categories.join(", ")}</span>
     slide.innerHTML = `
       <div class="slide-img">
         <!-- Image will be inserted -->
@@ -950,7 +950,7 @@ class ViewManager {
         </p>
         <p class="card-subtitle">
           <span class="card-year">${data.year || '2024'}</span>
-          <span class="card-category">${data.categories.join(", ")}</span>
+
         </p>
       </div>
     `;
