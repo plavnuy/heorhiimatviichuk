@@ -152,8 +152,8 @@ class DataManager {
         id: "project-1", 
         title: "TRADEMOTIONS", 
         year: "2021",
-        img: "./images/trademotions.gif", 
-        imgSecondary: "./images/trademotions.jpg",
+        img: "./images/TM/trademotions.gif", 
+        imgSecondary: "./images/k19/trademotions.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
         gradientColors: ["#c72626ff", "#f55f08ff"] // Темно-серый + фиолетовый
@@ -162,7 +162,7 @@ class DataManager {
         id: "project-2", 
         title: "K19", 
         year: "2025",
-        img: "./images/k19.png", 
+        img: "./images/k19/k19.png", 
         imgSecondary: "./images/7 copy.jpg",
         categories: ["branding"],
         projectUrl: "./projects/k19.html",
@@ -190,12 +190,12 @@ class DataManager {
       },
       { 
         id: "project-5", 
-        title: "AMOxLOCATED T-Shirt Mockup", 
-        year: "2023",
+        title: "LOCATED", 
+        year: "2024-2025",
         img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["branding", "art"],
-        projectUrl: "./projects/amoxlocated.html",
+        projectUrl: "./projects/located.html",
         gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент
       },
       { 

@@ -74,6 +74,10 @@ html, body {
   color: #ffffff;
 }
 
+a {
+
+  color: #fff;
+}
 .footer {
   position: fixed;
   z-index: 1000;
@@ -108,6 +112,11 @@ html, body {
 
 /* PROJECT PAGE STYLES */
 .project-article {
+  max-width:  800px;
+  margin: 0 auto;
+}
+
+.back-link {
   max-width:  800px;
   margin: 0 auto;
 }
@@ -294,6 +303,7 @@ width: 150%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+    color: #3b3b3b;
 }
 
 .nav-link {
@@ -327,6 +337,18 @@ width: 150%;
   color: #888;
 }
 
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+.video-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 /* CASE STUDY STYLES */
 .case-study {
   background: rgba(255, 255, 255, 0.05);
