@@ -170,454 +170,75 @@ class DataManager {
       },
       { 
         id: "project-3", 
-        title: "50", 
-        year: "2024",
-        img: "./images/50.jpg", 
+        title: "Dr. Gavrylin", 
+        year: "2023",
+        img: "./images/Vibe-Coding.jpg", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/50.html",
+        projectUrl: "./projects/Vibe-Coding.html",
         gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
       },
       { 
         id: "project-4", 
-        title: "Accemedin", 
+        title: "Parking Exchange", 
         year: "2023",
-        img: "./images/accemedin.jpg", 
+        img: "./images/sharespot.jpg", 
         imgSecondary: "./images/accemedin.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/accemedin.html",
+        projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
         gradientColors: ["#1e1e2e", "#3d3d5c"] // Темно-серый + серо-синий
       },
       { 
         id: "project-5", 
-        title: "LOCATED", 
-        year: "2024-2025",
-        img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg", 
+        title: "Airport Operations", 
+        year: "2020",
+        img: "./images/Airport-Operations-Platform.png", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        categories: ["branding", "art"],
-        projectUrl: "./projects/located.html",
+        categories: ["interfaces"],
+        projectUrl: "https://www.behance.net/gallery/213908009/Airport-Operations-Platform-Design",
         gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент
       },
       { 
         id: "project-6", 
-        title: "Art 01", 
-        year: "2023",
-        img: "./images/art-01.jpg", 
+        title: "X4 CLUB", 
+        year: "2024",
+        img: "./images/x4/x4_present.gif", 
         imgSecondary: "./images/art-01.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/art-01.html",
-        gradientColors: ["#1a1a2e", "#2d2d4d"] // Синий градиент
-      },
-      { 
-        id: "project-7", 
-        title: "Biomass", 
-        year: "2024",
-        img: "./images/biomass.jpg", 
-        imgSecondary: "./images/biomass.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/biomass.html",
-        gradientColors: ["#0d2818", "#1a472a"] // Темно-зеленый градиент
-      },
-      { 
-        id: "project-8", 
-        title: "Delfast", 
-        year: "2023",
-        img: "./images/delfast.jpg", 
-        imgSecondary: "./images/delfast.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/delfast.html",
-        gradientColors: ["#1c1c3b", "#2d2d5a"] // Индиго градиент
-      },
-      { 
-        id: "project-9", 
-        title: "Dobro", 
-        year: "2023",
-        img: "./images/dobro.jpg", 
-        imgSecondary: "./images/dobro.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/dobro.html",
-        gradientColors: ["#2b2b4a", "#3c3c6b"] // Глубокий синий
-      },
-      { 
-        id: "project-10", 
-        title: "Egg", 
-        year: "2023",
-        img: "./images/egg.jpg", 
-        imgSecondary: "./images/egg.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/egg.html",
-        gradientColors: ["#3d2b5a", "#5a3d7a"] // Фиолетовый градиент
-      },
-      { 
-        id: "project-11", 
-        title: "Frame 1225", 
-        year: "2024",
-        img: "./images/Frame 1225.jpg", 
-        imgSecondary: "./images/Frame 1225.jpg",
-        categories: ["photo"],
-        projectUrl: "./projects/frame-1225.html",
-        gradientColors: ["#2a2a4a", "#3b3b6b"] // Темно-синий градиент
-      },
-      { 
-        id: "project-12", 
-        title: "Frame 1283", 
-        year: "2024",
-        img: "./images/Frame 1283.png", 
-        imgSecondary: "./images/Frame 1283.png",
-        categories: ["photo"],
-        projectUrl: "./projects/frame-1283.html",
-        gradientColors: ["#1e1e3e", "#2f2f5f"] // Полуночный синий
-      },
-      { 
-        id: "project-13", 
-        title: "Gogo Bot Avatar", 
-        year: "2023",
-        img: "./images/gogo_bot_avatar.png", 
-        imgSecondary: "./images/gogo_bot_avatar.png",
-        categories: ["art"],
-        projectUrl: "./projects/gogo-bot-avatar.html",
-        gradientColors: ["#2d1e3e", "#4a2f5e"] // Темно-фиолетовый
-      },
-      { 
-        id: "project-14", 
-        title: "Hmelisoneli", 
-        year: "2023",
-        img: "./images/hmelisoneli.jpg", 
-        imgSecondary: "./images/hmelisoneli.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/hmelisoneli.html",
-        gradientColors: ["#3a2b4a", "#5a3d6a"] // Пурпурный градиент
-      },
-      { 
-        id: "project-15", 
-        title: "HRAM: LOCATED Color Reference", 
-        year: "2023",
-        img: "./images/HRAM:LOCATED_color_reference.jpg", 
-        imgSecondary: "./images/HRAM:LOCATED_color_reference.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/hram-located.html",
-        gradientColors: ["#2b2b5a", "#3c3c7b"] // Богатый синий
-      },
-      { 
-        id: "project-16", 
-        title: "III3 Cover", 
-        year: "2023",
-        img: "./images/iii3_cover.png", 
-        imgSecondary: "./images/iii3_cover.png",
-        categories: ["branding"],
-        projectUrl: "./projects/iii3-cover.html",
-        gradientColors: ["#1e1e4a", "#2f2f6b"] // Темный кобальт
-      },
-      { 
-        id: "project-17", 
-        title: "Jernov", 
-        year: "2023",
-        img: "./images/jernov.jpg", 
-        imgSecondary: "./images/jernov.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/jernov.html",
-        gradientColors: ["#2a1e3e", "#3d2f5a"] // Темный сливовый
-      },
-      { 
-        id: "project-18", 
-        title: "K19 Dase A3 Poster", 
-        year: "2023",
-        img: "./images/K19-Dase_a3_poster.jpg", 
-        imgSecondary: "./images/K19-Dase_a3_poster.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/k19-dase.html",
-        gradientColors: ["#1e2b3e", "#2f3d5f"] // Стальной синий
-      },
-      { 
-        id: "project-19", 
-        title: "Liminal", 
-        year: "2023",
-        img: "./images/liminal.jpg", 
-        imgSecondary: "./images/liminal.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/liminal.html",
-        gradientColors: ["#2d3b4a", "#3d5a6b"] // Серо-синий градиент
-      },
-      { 
-        id: "project-20", 
-        title: "Manifest", 
-        year: "2023",
-        img: "./images/manifest.jpg", 
-        imgSecondary: "./images/manifest.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/manifest.html",
-        gradientColors: ["#3a1e4a", "#5a2f6a"] // Глубокий фиолетовый
-      },
-      { 
-        id: "project-21", 
-        title: "Martini", 
-        year: "2023",
-        img: "./images/martini.jpg", 
-        imgSecondary: "./images/martini.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/martini.html",
-        gradientColors: ["#2b3d4a", "#3c5a6b"] // Морской синий
-      },
-      { 
-        id: "project-22", 
-        title: "Mitus", 
-        year: "2024",
-        img: "./images/mitus.jpg", 
-        imgSecondary: "./images/mitus.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/mitus.html",
-        gradientColors: ["#1e3e4a", "#2f5f6b"] // Бирюзовый градиент
-      },
-      { 
-        id: "project-23", 
-        title: "Recovered Mock", 
-        year: "2023",
-        img: "./images/mock-Recovered_.jpg", 
-        imgSecondary: "./images/mock-Recovered_.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/recovered-mock.html",
-        gradientColors: ["#3e2b5a", "#5a3d7a"] // Фиолетовый градиент
-      },
-      { 
-        id: "project-24", 
-        title: "Mockup", 
-        year: "2023",
-        img: "./images/Mockup.jpg", 
-        imgSecondary: "./images/Mockup.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/mockup.html",
-        gradientColors: ["#2a4a3e", "#3b6b5f"] // Зеленый градиент
-      },
-      { 
-        id: "project-25", 
-        title: "Nigredo", 
-        year: "2023",
-        img: "./images/nigredo.png", 
-        imgSecondary: "./images/nigredo.png",
-        categories: ["art"],
-        projectUrl: "./projects/nigredo.html",
-        gradientColors: ["#0f0f0f", "#2a2a2a"] // Черный градиент
-      },
-      { 
-        id: "project-26", 
-        title: "Plate (Alt)", 
-        year: "2023",
-        img: "./images/plate copy.jpg", 
-        imgSecondary: "./images/plate copy.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/plate-alt.html",
-        gradientColors: ["#3a2b5a", "#5a3d7a"] // Фиолетово-синий
-      },
-      { 
-        id: "project-27", 
-        title: "Plate", 
-        year: "2023",
-        img: "./images/plate.jpg", 
-        imgSecondary: "./images/plate.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/plate.html",
-        gradientColors: ["#2b4a5a", "#3c6b7b"] // Сине-зеленый градиент
-      },
-      { 
-        id: "project-28", 
-        title: "PM Kit", 
-        year: "2024",
-        img: "./images/pmkit.jpg", 
-        imgSecondary: "./images/pmkit.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/pm-kit.html",
-        gradientColors: ["#1e4a3e", "#2f6b5f"] // Изумрудный градиент
-      },
-      { 
-        id: "project-29", 
-        title: "PRODJ 2019", 
-        year: "2019",
-        img: "./images/PRODJ-2019.jpg", 
-        imgSecondary: "./images/PRODJ-2019.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/prodj-2019.html",
-        gradientColors: ["#2a1e3e", "#3d2f5a"] // Темный фиолетовый
-      },
-      { 
-        id: "project-30", 
-        title: "Roma Yurchak", 
-        year: "2024",
-        img: "./images/roma_yurchak.jpg", 
-        imgSecondary: "./images/roma_yurchak.jpg",
-        categories: ["photo"],
-        projectUrl: "./projects/roma-yurchak.html",
-        gradientColors: ["#3e2b4a", "#5a3d6b"] // Пурпурный градиент
-      },
-      { 
-        id: "project-31", 
-        title: "Saenkoharenko", 
-        year: "2024",
-        img: "./images/saenkoharenko.jpg", 
-        imgSecondary: "./images/saenkoharenko.jpg",
-        categories: ["photo"],
-        projectUrl: "./projects/saenkoharenko.html",
-        gradientColors: ["#2b3e4a", "#3c5f6b"] // Сине-серый градиент
-      },
-      { 
-        id: "project-32", 
-        title: "Screen Shot 2019", 
-        year: "2019",
-        img: "./images/Screen Shot 2019-04-11 at 17.00.49.png", 
-        imgSecondary: "./images/Screen Shot 2019-04-11 at 17.00.49.png",
-        categories: ["photo"],
-        projectUrl: "./projects/screen-shot-2019.html",
-        gradientColors: ["#1e3e5a", "#2f5f7b"] // Океанский синий
-      },
-      { 
-        id: "project-33", 
-        title: "Screenshot 2024-07-10 00:16", 
-        year: "2024",
-        img: "./images/Screenshot 2024-07-10 at 00.16.04.png", 
-        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.04.png",
-        categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16.html",
-        gradientColors: ["#4a2b3e", "#6b3d5f"] // Бордовый градиент
-      },
-      { 
-        id: "project-34", 
-        title: "Screenshot 2024-07-10 00:16:28", 
-        year: "2024",
-        img: "./images/Screenshot 2024-07-10 at 00.16.28.png", 
-        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.28.png",
-        categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16-28.html",
-        gradientColors: ["#3e4a2b", "#5f6b3d"] // Оливковый градиент
-      },
-      { 
-        id: "project-35", 
-        title: "Screenshot 2024-07-10 00:16:51", 
-        year: "2024",
-        img: "./images/Screenshot 2024-07-10 at 00.16.51.png", 
-        imgSecondary: "./images/Screenshot 2024-07-10 at 00.16.51.png",
-        categories: ["photo"],
-        projectUrl: "./projects/screenshot-2024-07-10-00-16-51.html",
-        gradientColors: ["#2b4a3e", "#3c6b5f"] // Темно-зеленый
-      },
-      { 
-        id: "project-36", 
-        title: "Sharespot", 
-        year: "2024",
-        img: "./images/sharespot.jpg", 
-        imgSecondary: "./images/sharespot.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/sharespot.html",
-        gradientColors: ["#3e2b2b", "#5f3d3d"] // Коричневый градиент
-      },
-      { 
-        id: "project-37", 
-        title: "Shm Poster A3 Print", 
-        year: "2023",
-        img: "./images/Shm_poster_a3_print.jpg", 
-        imgSecondary: "./images/Shm_poster_a3_print.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/shm-poster.html",
-        gradientColors: ["#2b3e2b", "#3c5f3d"] // Темно-зеленый градиент
-      },
-      { 
-        id: "project-38", 
-        title: "Shmalgauzen Tviy Vill", 
-        year: "2023",
-        img: "./images/Shmalgauzen_TviyVill_1350х1080.jpg", 
-        imgSecondary: "./images/Shmalgauzen_TviyVill_1350х1080.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/shmolgauzen.html",
-        gradientColors: ["#4a3e2b", "#6b5f3d"] // Золотой градиент
-      },
-      { 
-        id: "project-39", 
-        title: "Sinners", 
-        year: "2023",
-        img: "./images/sinners.jpg", 
-        imgSecondary: "./images/sinners.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/sinners.html",
-        gradientColors: ["#3e2b4a", "#5f3d6b"] // Пурпурно-синий
-      },
-      { 
-        id: "project-40", 
-        title: "Slice 8", 
-        year: "2023",
-        img: "./images/Slice 8.png", 
-        imgSecondary: "./images/Slice 8.png",
-        categories: ["art"],
-        projectUrl: "./projects/slice-8.html",
-        gradientColors: ["#2b4a5a", "#3c6b7b"] // Морской волны
-      },
-      { 
-        id: "project-41", 
-        title: "Sof Brama", 
-        year: "2023",
-        img: "./images/sof_brama.jpg", 
-        imgSecondary: "./images/sof_brama.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/sof-brama.html",
-        gradientColors: ["#3e4a5a", "#5f6b7b"] // Серо-голубой градиент
-      },
-      { 
-        id: "project-42", 
-        title: "Son", 
-        year: "2023",
-        img: "./images/son.jpg", 
-        imgSecondary: "./images/son.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/son.html",
-        gradientColors: ["#4a2b3e", "#6b3d5f"] // Фиолетово-красный
-      },
-      { 
-        id: "project-43", 
-        title: "Triple We", 
-        year: "2023",
-        img: "./images/tripplewe.jpg", 
-        imgSecondary: "./images/tripplewe.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/triple-we.html",
-        gradientColors: ["#2b5a4a", "#3c7b6b"] // Бирюзовый градиент
-      },
-      { 
-        id: "project-44", 
-        title: "Tube Mock", 
-        year: "2023",
-        img: "./images/Tube_mock.jpg", 
-        imgSecondary: "./images/Tube_mock.jpg",
-        categories: ["branding", "art"],
-        projectUrl: "./projects/tube-mock.html",
-        gradientColors: ["#5a2b3e", "#7b3d5f"] // Темно-розовый градиент
-      },
-      { 
-        id: "project-45", 
-        title: "Twog", 
-        year: "2023",
-        img: "./images/twog.jpg", 
-        imgSecondary: "./images/twog.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/twog.html",
-        gradientColors: ["#3e5a2b", "#5f7b3d"] // Лаймовый градиент
-      },
-      { 
-        id: "project-46", 
-        title: "Vartis", 
-        year: "2023",
-        img: "./images/vartis.jpg", 
-        imgSecondary: "./images/vartis.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/vartis.html",
-        gradientColors: ["#2b5a3e", "#3c7b5f"] // Зеленый градиент
-      },
-      { 
-        id: "project-47", 
-        title: "X4", 
-        year: "2023",
-        img: "./images/x4.jpg", 
-        imgSecondary: "./images/x4.jpg",
         categories: ["branding"],
         projectUrl: "./projects/x4.html",
-        gradientColors: ["#3e2b5a", "#5f3d7b"] // Индиго градиент
+        gradientColors: ["#1a1a2e", "#2d2d4d"] // Синий градиент
+      },
+                  { 
+        id: "project-7", 
+        title: "Langing pages", 
+        year: "2018",
+        img: "./images/Langing-pages.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "https://www.behance.net/gallery/102040031/Langing-pages-2018-2019",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+      },
+                  { 
+        id: "project-8", 
+        title: "Accemedin", 
+        year: "2017",
+        img: "./images/Accemedin.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+      },
+                        { 
+        id: "project-9", 
+        title: "E-commerce App", 
+        year: "2017",
+        img: "./images/E-commerce-App.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
       }
+      
     ];
     
     // Для проектов с несколькими превью (требование 2)
@@ -627,26 +248,47 @@ class DataManager {
   addDuplicatePreviews() {
     // Пример: добавим несколько превью для одного проекта
     const additionalPreviews = [
-      {
-        id: "biomass-preview-2",
-        title: "Biomass Preview 2",
-        year: "2024",
-        img: "./images/biomass.jpg",
-        imgSecondary: "./images/biomass.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/biomass.html",
-        gradientColors: ["#0d2818", "#1a472a"] // Темно-зеленый градиент (как у основного)
-      },
-      {
-        id: "amoxlocated-preview-2",
-        title: "AMOxLOCATED Alt",
+      { 
+        id: "project-3", 
+        title: "Snedeker Yoga", 
         year: "2023",
-        img: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        categories: ["branding", "art"],
-        projectUrl: "./projects/amoxlocated.html",
-        gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент (как у основного)
+        img: "./images/Vibe-Coding-2.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Vibe-Coding.html",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+      },
+            { 
+        id: "project-3", 
+        title: "o0_series", 
+        year: "2023",
+        img: "./images/Vibe-Coding-3.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Vibe-Coding.html",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+      },
+            { 
+        id: "project-3", 
+        title: "RACONTEUR Studio", 
+        year: "2023",
+        img: "./images/Vibe-Coding-4.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Vibe-Coding.html",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+      },
+      { 
+        id: "project-3", 
+        title: "The I-Ching", 
+        year: "2023",
+        img: "./images/Vibe-Coding-5.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Vibe-Coding.html",
+        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
       }
+
     ];
     
     this.allData = [...this.allData, ...additionalPreviews];
