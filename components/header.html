@@ -1,3 +1,4 @@
+<!-- header.html -->
 <header class="header">
     <div class="header-content">
         <div class="logo">
@@ -9,5 +10,19 @@
             <a href="../index.html" class="active">contact</a>
         </nav>
     </div>
-    <a href="#" onclick="history.back(); return false;" class="back-link">← back</a>
+<nav class="nav"><a href="#" onclick="
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('referrer');
+    if (ref) {
+        window.location.href = decodeURIComponent(ref);
+        return false;
+    }
+    if (window.history.length > 1) {
+        history.back();
+        return false;
+    }
+    window.location.href = '../index.html';
+    return false;
+" class="back-link">← back</a>
+</nav>
 </header>

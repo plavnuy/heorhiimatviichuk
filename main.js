@@ -1,5 +1,5 @@
 // ==========================
-// 0. Конфигурация
+// 0. Configuration
 // ==========================
 const CONFIG = {
   Z_GAP: 200,
@@ -28,7 +28,7 @@ const CONFIG = {
 };
 
 // ==========================
-// 1. Глобальное состояние
+// 1. Global Application State
 // ==========================
 class AppState {
   constructor() {
@@ -45,7 +45,7 @@ class AppState {
     this.imagesLoaded = 0;
     this.totalImages = 0;
     
-    // Добавляем состояние для мобильных устройств
+    // Add mobile device state
     this.isMobile = window.innerWidth <= 768;
   }
   
@@ -59,7 +59,8 @@ class AppState {
 }
 
 // ==========================
-// 2. Дом кэш
+// ==========================
+// 2. DOM Cache
 // ==========================
 class DOMCache {
   constructor() {
@@ -102,7 +103,9 @@ class DOMCache {
     
     this.elements.bgA.style.opacity = '0';
     this.elements.bgB.style.opacity = '0';
-    // Устанавливаем базовый цвет для градиентов
+    // Set base color for gradients before applying gradient backgrounds
+    this.elements.bgA.style.backgroundColor = '#0b0b0b';
+    this.elements.bgB.style.backgroundColor = '#0b0b0b';
     this.elements.bgA.style.background = 'radial-gradient(circle at center, #0b0b0b 0%, #1a1a1a 100%)';
     this.elements.bgB.style.background = 'radial-gradient(circle at center, #0b0b0b 0%, #1a1a1a 100%)';
   }
@@ -143,7 +146,8 @@ class DOMCache {
 }
 
 // ==========================
-// 3. Менеджер данных (ОБНОВЛЕНО - добавлены градиенты)
+// ==========================
+// 3. Data Manager (UPDATED - gradients added)
 // ==========================
 class DataManager {
   constructor() {
@@ -156,7 +160,7 @@ class DataManager {
         imgSecondary: "./images/k19/trademotions.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
-        gradientColors: ["#c72626ff", "#f55f08ff"] // Темно-серый + фиолетовый
+        gradientColors: ["#c72626ff", "#f55f08ff"] 
       },
       { 
         id: "project-2", 
@@ -166,7 +170,7 @@ class DataManager {
         imgSecondary: "./images/7 copy.jpg",
         categories: ["branding"],
         projectUrl: "./projects/k19.html",
-        gradientColors: ["#1a1a2e", "#16213e"] // Темно-синий градиент
+        gradientColors: ["#1a1a2e", "#16213e"] 
       },
       { 
         id: "project-3", 
@@ -176,7 +180,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
       { 
         id: "project-4", 
@@ -186,7 +190,7 @@ class DataManager {
         imgSecondary: "./images/accemedin.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
-        gradientColors: ["#1e1e2e", "#3d3d5c"] // Темно-серый + серо-синий
+        gradientColors: ["#1e1e2e", "#3d3d5c"] 
       },
       { 
         id: "project-5", 
@@ -196,7 +200,7 @@ class DataManager {
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/213908009/Airport-Operations-Platform-Design",
-        gradientColors: ["#2d1b3d", "#4a2c5e"] // Темно-фиолетовый градиент
+        gradientColors: ["#2d1b3d", "#4a2c5e"] 
       },
       { 
         id: "project-6", 
@@ -206,7 +210,7 @@ class DataManager {
         imgSecondary: "./images/art-01.jpg",
         categories: ["branding"],
         projectUrl: "./projects/x4.html",
-        gradientColors: ["#1a1a2e", "#2d2d4d"] // Синий градиент
+        gradientColors: ["#1a1a2e", "#2d2d4d"] 
       },
                   { 
         id: "project-7", 
@@ -216,7 +220,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/102040031/Langing-pages-2018-2019",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
                   { 
         id: "project-8", 
@@ -226,7 +230,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
                         { 
         id: "project-9", 
@@ -236,17 +240,17 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       }
       
     ];
     
-    // Для проектов с несколькими превью (требование 2)
+  
     this.addDuplicatePreviews();
   }
   
   addDuplicatePreviews() {
-    // Пример: добавим несколько превью для одного проекта
+
     const additionalPreviews = [
       { 
         id: "project-3", 
@@ -256,7 +260,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
             { 
         id: "project-3", 
@@ -266,7 +270,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
             { 
         id: "project-3", 
@@ -276,7 +280,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
+        gradientColors: ["#0f0f23", "#232347"] 
       },
       { 
         id: "project-3", 
@@ -286,9 +290,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] // Почти черный + темно-синий
-      }
-
+        gradientColors: ["#0f0f23", "#232347"] 
     ];
     
     this.allData = [...this.allData, ...additionalPreviews];
@@ -330,7 +332,7 @@ class DataManager {
 }
 
 // ==========================
-// 4. Ленис менеджер
+// 4. Lnis Manager (UPDATED - dynamic wheelMultiplier)
 // ==========================
 class LenisManager {
   constructor() {
@@ -339,7 +341,7 @@ class LenisManager {
   }
   
   init(viewType, itemCount) {
-    // Уничтожаем старый экземпляр
+    
     if (this.lenis) {
       this.lenis.destroy();
       this.lenis = null;
@@ -351,7 +353,7 @@ class LenisManager {
       touchMultiplier: CONFIG.LENIS.TOUCH_MULTIPLIER
     };
     
-    // Настраиваем wheelMultiplier в зависимости от количества элементов
+    //wheelMultiplier adjustment based on view type and item count
     if (viewType === 'slides') {
       let wheelMultiplier;
       if (itemCount <= 5) {
@@ -359,13 +361,13 @@ class LenisManager {
       } else if (itemCount >= 20) {
         wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.MIN;
       } else {
-        const ratio = itemCount / 20; // нормализуем к 20 элементам
+        const ratio = itemCount / 20; 
         wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.MIN + 
                          (CONFIG.LENIS.WHEEL_MULTIPLIER.MAX - CONFIG.LENIS.WHEEL_MULTIPLIER.MIN) * (1 - ratio);
       }
       config.wheelMultiplier = wheelMultiplier;
     } else {
-      // Для галереи используем стандартный множитель
+      //
       config.wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.BASE;
     }
     
@@ -404,7 +406,7 @@ class LenisManager {
 }
 
 // ==========================
-// 5. Менеджер видов (ОБНОВЛЕНО)
+// 5. Manager View (UPDATED - mobile check, gradient backgrounds, project links)
 // ==========================
 class ViewManager {
   constructor(state, dom, dataManager) {
@@ -418,21 +420,21 @@ class ViewManager {
     this.rafId = null;
     this.isAnimating = false;
     
-    // Проверяем мобильное устройство
+    
     this.checkMobileDevice();
   }
   
-  // Проверка мобильного устройства
+  
   checkMobileDevice() {
     const isMobile = window.innerWidth <= 768;
     if (isMobile && this.state.view !== 'gallery') {
-      // На мобильных устройствах принудительно включаем галерею
+      
       this.setView('gallery', true);
     }
   }
   
   // ==========================
-  // 5.1 Мышь
+  // 5.1 Mouse Move
   // ==========================
   initMouse() {
     window.addEventListener("mousemove", (e) => {
@@ -469,7 +471,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.2 Ресайз
+  // 5.2 Resize
   // ==========================
   initResize() {
     this.resizeCanvas();
@@ -482,17 +484,17 @@ class ViewManager {
           this.lenisManager.lenis.resize();
         }
         
-        // Проверяем мобильное устройство при ресайзе
+        
         const wasMobile = this.state.isMobile;
         this.state.isMobile = window.innerWidth <= 768;
         
-        // Если перешли на мобильный режим, переключаем на галерею
+       
         if (this.state.isMobile && !wasMobile && this.state.view !== 'gallery') {
           this.setView('gallery', true);
         }
-        // Если перешли на десктоп и был принудительно включен галерейный режим
+      
         else if (!this.state.isMobile && wasMobile && this.state.view === 'gallery') {
-          // Возвращаем предыдущий режим или по умолчанию slides
+          
           this.setView('slides', true);
         }
         
@@ -517,7 +519,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.3 Слайды (ОБНОВЛЕНО с учетом новых данных)
+  // 5.3 Slides 
   // ==========================
   buildSlides() {
     if (this.state.view !== "slides") return;
@@ -530,7 +532,7 @@ class ViewManager {
     if (this.state.filteredData.length === 0) {
       const emptySlide = document.createElement("div");
       emptySlide.className = "slide-empty";
-      emptySlide.innerHTML = `<p>В этой категории пока нет работ</p>`;
+      emptySlide.innerHTML = `<p>No works in this category yet</p>`;
       this.dom.elements.slider.appendChild(emptySlide);
       return;
     }
@@ -560,7 +562,7 @@ class ViewManager {
     
     this.state.scroll.max = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
     
-    // Инициализируем Lenis для слайдов
+
     this.lenisManager.init('slides', this.state.filteredData.length);
     this.lenisManager.start();
   }
@@ -581,7 +583,7 @@ class ViewManager {
       img.alt = 'Изображение не загружено';
     };
     
-    // ОБНОВЛЕНО: Добавлен год проекта          <span class="card-category">${data.categories.join(", ")}</span>
+    //   <span class="card-category">${data.categories.join(", ")}</span>
     slide.innerHTML = `
       <div class="slide-img">
         <!-- Image will be inserted -->
@@ -599,18 +601,24 @@ class ViewManager {
     
     slide.querySelector('.slide-img').appendChild(img);
     
-    // ОБНОВЛЕНО: Открытие страницы проекта вместо изображения
-    slide.addEventListener('click', (e) => {
-      if (!e.target.closest('a')) {
-        window.open(data.projectUrl, '_blank');
-      }
-    });
+
+slide.addEventListener('click', (e) => {
+  if (!e.target.closest('a')) {
+    const currentUrl = window.location.href;
+    const projectUrl = data.projectUrl;
+    
+    const separator = projectUrl.includes('?') ? '&' : '?';
+    const finalUrl = projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
+    
+    window.open(finalUrl, '_blank');
+  }
+});
     
     return slide;
   }
   
   // ==========================
-  // 5.4 Галерея (ОБНОВЛЕНО с учетом новых данных)
+  // 5.4 Gallery
   // ==========================
   buildGallery() {
     if (this.state.view !== "gallery") return;
@@ -622,8 +630,8 @@ class ViewManager {
       const emptyMessage = document.createElement("div");
       emptyMessage.className = "gallery-empty";
       emptyMessage.innerHTML = `
-        <h3>Работы не найдены</h3>
-        <p>Попробуйте выбрать другую категорию или переключитесь на "все работы"</p>
+        <h3>No works found</h3>
+        <p>Try selecting a different category or switch to "all works"</p>
       `;
       this.dom.elements.gallery.appendChild(emptyMessage);
       return;
@@ -640,7 +648,7 @@ class ViewManager {
     this.dom.elements.gallery.appendChild(grid);
     this.initLazyLoading();
     
-    // Инициализируем Lenis для галереи
+
     this.lenisManager.init('gallery', this.state.filteredData.length);
     this.lenisManager.start();
   }
@@ -652,7 +660,7 @@ class ViewManager {
     item.dataset.index = index;
     item.dataset.projectId = data.id;
     
-    // ОБНОВЛЕНО: Добавлен год проекта
+
     item.innerHTML = `
       <div class="gallery-thumb">
         <img data-src="${data.img}" alt="${data.title}" class="lazy-img">
@@ -660,17 +668,28 @@ class ViewManager {
       <div class="gallery-caption">
         <div class="g-title">${data.title}</div>
         <div class="g-meta">
-          <span class="g-year">${data.year || '2024'}</span>
+
           <span class="g-category">${data.categories.join(", ")}</span>
+                    <span class="g-year">${data.year || '2024'}</span>
         </div>
       </div>
     `;
     
-    // ОБНОВЛЕНО: Открытие страницы проекта
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.open(data.projectUrl, '_blank');
-    });
+
+item.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+
+  const currentUrl = window.location.href;
+  const projectUrl = data.projectUrl;
+  
+
+  const separator = projectUrl.includes('?') ? '&' : '?';
+  const finalUrl = projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
+  
+  console.log('Opening project with referrer:', finalUrl);
+  window.open(finalUrl, '_blank');
+});
     
     return item;
   }
@@ -707,37 +726,36 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.5 Фон (ОБНОВЛЕНО: используем градиенты вместо изображений)
+  // 5.5 BG Image Management
   // ==========================
   setBackgroundImage(index, immediate = false) {
-    // 1. Проверяем возможность смены
+
     if (this.state.view === "gallery") return;
     if (index < 0 || index >= this.state.filteredData.length) return;
     if (index === this.state.bg.currentIndex && !immediate) return;
     
-    // 2. Сбрасываем таймер (теперь не нужен)
+
     if (this.bgChangeTimeout) {
       clearTimeout(this.bgChangeTimeout);
       this.bgChangeTimeout = null;
     }
     
-    // 3. Обновляем состояние
+
     this.state.bg.currentIndex = index;
     const data = this.state.filteredData[index];
     
-    // 4. Определяем активный/неактивный слой
+
     const activeIdx = this.state.bg.active;
     const nextIdx = 1 - activeIdx;
     const activeEl = activeIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
     const nextEl = nextIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
     
-    // 5. Останавливаем ВСЕ предыдущие анимации фона
+ 
     gsap.killTweensOf([this.dom.elements.bgA, this.dom.elements.bgB]);
-    
-    // 6. Создаем градиент из двух цветов проекта
+
     const gradient = this.createGradient(data.gradientColors);
     
-    // 7. Быстрая установка для первого фона
+
     if (immediate) {
       nextEl.style.backgroundImage = gradient;
       nextEl.style.opacity = CONFIG.BG_OPACITY.toString();
@@ -746,12 +764,11 @@ class ViewManager {
       return;
     }
     
-    // 8. Плавная смена
+
     const applyTransition = () => {
-      // 8.1 Устанавливаем новый градиент в неактивный слой
+
       nextEl.style.backgroundImage = gradient;
-      
-      // 8.2 Одновременная анимация обоих слоёв
+
       gsap.to(activeEl, {
         opacity: 0,
         duration: CONFIG.BG_FADE_DURATION * 0.7,
@@ -766,24 +783,24 @@ class ViewManager {
         delay: 0.05,
         overwrite: true,
         onComplete: () => {
-          // 8.3 После завершения обновляем активный слой
+
           this.state.bg.active = nextIdx;
         }
       });
     };
     
-    // 9. Немедленное применение (градиенты не требуют предзагрузки)
+
     applyTransition();
   }
   
   createGradient(colors) {
-    // Создаем радиальный градиент из двух цветов
+
     const [color1, color2] = colors;
     return `radial-gradient(circle at center, ${color1} 0%, ${color2} 100%)`;
   }
   
   // ==========================
-  // 5.6 Обновление слайдов
+  // 5.6 Update Slides
   // ==========================
   updateSlides() {
     if (this.state.view !== "slides") return;
@@ -854,7 +871,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.7 Сетка (нижняя)
+  // 5.7 Grid Drawing
   // ==========================
   drawGrid() {
     if (!this.dom.elements.context || !this.dom.elements.canvas) return;
@@ -863,20 +880,19 @@ class ViewManager {
     const canvas = this.dom.elements.canvas;
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Плавное движение мыши для сетки
+
     this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
     this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
     
     const mx = this.state.mouse.targetX;
     const my = this.state.mouse.targetY;
     
-    // ВЕРХНИЕ горизонтальные линии (y = -600)
+  
     this.state.gridLines.forEach(z => {
       let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
       const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
       
-      // Верхняя линия
+
       const p1t = this.project3D(-1500, -800, zOffset, mx, my);
       const p2t = this.project3D(1500, -800, zOffset, mx, my);
       
@@ -894,7 +910,7 @@ class ViewManager {
       ctx.lineTo(p2t.x, p2t.y);
       ctx.stroke();
       
-      // НИЖНЯЯ линия (y = 600) - добавлено
+ 
       const p1b = this.project3D(-1500, 800, zOffset, mx, my);
       const p2b = this.project3D(1500, 800, zOffset, mx, my);
       
@@ -913,7 +929,7 @@ class ViewManager {
       ctx.stroke();
     });
     
-    // Вертикальные линии
+
     for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
       const x = i * CONFIG.GRID.VERTICAL_SIZE;
       this.drawVerticalLine(ctx, x, mx, my);
@@ -933,8 +949,7 @@ class ViewManager {
   drawVerticalLine(ctx, x, mx, my) {
     const zNear = 50;
     const zFar = CONFIG.DEPTH;
-    
-    // Верхняя часть вертикальной линии (от -600 до 0)
+
     const pNearTop = this.project3D(x, -800, zNear, mx, my);
     const pFarTop = this.project3D(x, -800, zFar, mx, my);
     
@@ -949,14 +964,14 @@ class ViewManager {
     ctx.lineTo(pFarTop.x, pFarTop.y);
     ctx.stroke();
     
-    // Нижняя часть вертикальной линии (от 0 до 600) - исправлено
+
     const pNearBot = this.project3D(x, 800, zNear, mx, my);
     const pFarBot = this.project3D(x, 800, zFar, mx, my);
     
-    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); // исправлен порядок
-    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); // исправлено: начинаем с 0.18
+    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); 
+    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); 
     gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
-    gradBot.addColorStop(1, `rgba(255,255,255,0)`); // заканчиваем 0
+    gradBot.addColorStop(1, `rgba(255,255,255,0)`); 
     
     ctx.strokeStyle = gradBot;
     ctx.beginPath();
@@ -966,12 +981,12 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.8 Управление видами (ОБНОВЛЕНО для мобильных)
+  // 5.8  Set Filter & View
   // ==========================
   setFilter(filter) {
     if (this.state.filter === filter) return;
     
-    // СБРАСЫВАЕМ СКРОЛЛ ПЕРЕД СМЕНОЙ ФИЛЬТРА
+
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.scrollTo(0, { immediate: true });
     }
@@ -979,16 +994,14 @@ class ViewManager {
     this.state.filter = filter;
     this.state.filteredData = this.dataManager.filterData(filter);
     
-    // Сбрасываем позицию скролла в состоянии
+ 
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
     
-    // Обновляем активные ссылки
     this.dom.elements.navLinks.forEach(link => {
       link.classList.toggle('active-filter', link.dataset.filter === filter);
     });
     
-    // Перестраиваем текущий вид
     this.rebuildCurrentView();
     this.updateURL();
   }
@@ -996,22 +1009,17 @@ class ViewManager {
   setView(view, force = false) {
     if (this.state.view === view && !force) return;
     
-    // Проверяем мобильное устройство
     if (this.state.isMobile && view !== 'gallery' && !force) {
-      // На мобильных разрешаем только галерею
       view = 'gallery';
     }
     
-    // СБРАСЫВАЕМ СКРОЛЛ ПЕРЕД СМЕНОЙ ВИДА
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.scrollTo(0, { immediate: true });
     }
     
-    // Сбрасываем позицию скролла в состоянии
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
     
-    // Останавливаем предыдущий вид
     if (this.state.view === "slides") {
       this.state.slides.elements = [];
       this.state.slides.state = [];
@@ -1022,14 +1030,12 @@ class ViewManager {
     
     this.state.view = view;
     
-    // Обновляем UI
     this.dom.elements.viewBtns.forEach(btn => {
       btn.classList.toggle('active-view', btn.dataset.view === view);
     });
     
     this.dom.elements.viewSwitcher.setAttribute('data-active-view', view);
     
-    // Управляем классами body
     if (view === "gallery") {
       this.dom.elements.body.classList.add('gallery-active');
       if (this.dom.elements.canvas) {
@@ -1043,7 +1049,6 @@ class ViewManager {
       }
     }
     
-    // Перестраиваем вид
     this.rebuildCurrentView();
     this.updateURL();
   }
@@ -1054,7 +1059,6 @@ class ViewManager {
         this.dom.elements.gallery.innerHTML = '';
       }
       this.buildSlides();
-      // Устанавливаем фон для первого слайда
       if (this.state.filteredData.length > 0) {
         requestAnimationFrame(() => {
           this.setBackgroundImage(0, true);
@@ -1090,7 +1094,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.9 Инициализация
+  // 5.9  Initialization
   // ==========================
   async init() {
     this.initMouse();
@@ -1098,29 +1102,22 @@ class ViewManager {
     
     this.state.isLoading = true;
     
-    // 1. preload ВСЕ изображения
     const allImages = this.dataManager.allData.map(item => item.img);
     await this.dataManager.preloadImages(allImages, (progress) => {
       this.dom.updateLoaderProgress(progress * 100);
     });
     
-    // 2. парсим URL → state
     this.parseInitialState();
     
-    // 3. синхронизируем UI ← state
     this.applyInitialUIState();
     
-    // 4. скрываем лоадер
     this.state.isLoading = false;
     this.dom.hideLoader();
     
-    // 5. биндим события
     this.initEventListeners();
     
-    // 6. строим корректный view
     this.rebuildCurrentView();
     
-    // 7. форс первого фона ТОЛЬКО для slides (теперь градиент)
     if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
       requestAnimationFrame(() => {
         this.setBackgroundImage(0, true);
@@ -1162,7 +1159,6 @@ class ViewManager {
   }
   
   initEventListeners() {
-    // Навигация
     this.dom.elements.navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1170,7 +1166,6 @@ class ViewManager {
       });
     });
     
-    // Переключатель видов (скрываем на мобильных)
     this.dom.elements.viewBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         if (!this.state.isMobile) {
@@ -1202,7 +1197,6 @@ class ViewManager {
       this.state.view
     );
     
-    // Скрываем переключатель видов на мобильных
     if (this.state.isMobile && this.dom.elements.viewSwitcher) {
       this.dom.elements.viewSwitcher.style.display = 'none';
     }
@@ -1223,7 +1217,7 @@ class ViewManager {
   }
   
   // ==========================
-  // 5.10 Главный цикл
+  // 5.10 Main Loop
   // ==========================
   mainLoop(time) {
     if (this.state.isLoading) {
@@ -1231,7 +1225,7 @@ class ViewManager {
       return;
     }
     
-    // Обновляем Lenis
+ 
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.raf(time);
     }
@@ -1250,22 +1244,20 @@ class ViewManager {
 }
 
 // ==========================
-// 6. Инициализация приложения
+// 6. Initialization
 // ==========================
 let appState, domCache, dataManager, viewManager;
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // Создаем экземпляры
+
     appState = new AppState();
     domCache = new DOMCache().init();
     dataManager = new DataManager();
     viewManager = new ViewManager(appState, domCache, dataManager);
-    
-    // Инициализируем
+
     await viewManager.init();
-    
-    // Запускаем главный цикл
+
     viewManager.start();
     
     console.log('3D Gallery initialized successfully');
@@ -1276,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ==========================
-// 7. Глобальные хелперы
+// 7. Global helpers
 // ==========================
 window.App = {
   getState: () => appState,

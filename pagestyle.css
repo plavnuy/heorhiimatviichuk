@@ -58,7 +58,6 @@ html, body {
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
   color: #3b3b3b;
   text-decoration: none;
-  margin-left: 48px;
   font-size: 14px;
   position: relative;
   padding: 4px 8px;
@@ -232,8 +231,25 @@ a {
   margin: 60px 0;
   position: relative;
   
+}.scaled20 {
+width: 200%;
+    max-width: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+
 }
 
+.scaled30 {
+width: 300%;
+    max-width: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+
+}
 
 
 .scaled15 {
@@ -335,6 +351,10 @@ width: 150%;
 
 .nav-link.back {
   color: #888;
+}
+
+.back-link {
+  cursor: pointer;
 }
 
 .video-container {
@@ -533,13 +553,13 @@ width: 150%;
 .parallax {
     position: relative;
     overflow: hidden;
-    height: 400px; /* высота окна параллакса */
+    height: 400px; 
 }
 
 .parallax img {
-    position: absolute; /* теперь картинка свободно сдвигается */
-    height: 200%; /* выше контейнера для параллакса */
-    object-fit: cover; /* сохраняет пропорции и обрезает лишнее */
+    position: absolute;
+    height: 200%;
+    object-fit: cover;
     transform: translateY(0);
     transition: transform 0.1s linear;
     will-change: transform;
@@ -578,12 +598,12 @@ width: 100%;
   opacity: 0.2;
   transition: opacity 0.3s ease-in-out;
   
-  /* ДОБАВЬТЕ ЭТИ СТРОКИ: */
-  z-index: 1001; /* Выше чем .footer (1000) */
-  pointer-events: auto; /* Явное разрешение событий */
+  /* ADD THESE LINES: */
+  z-index: 1001; /* Higher than .footer (1000) */
+  pointer-events: auto; /* Explicitly allow events */
 }
 
-/* Остальной CSS без изменений */
+
 .head::after {
   content: "";
   position: absolute;
@@ -753,9 +773,11 @@ width: 100%;
   }
   
   .project-image.full-bleed {
-    margin-left: calc((100vw - 1200px) / -2);
-    margin-right: calc((100vw - 1200px) / -2);
-    width: 100vw;
-    max-width: 100vw;
+width: 180%;
+    max-width: none;
+    position: relative;
+    left: 80%;
+    transform: translateX(-80%);
+
   }
 }

@@ -31,13 +31,11 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Убираем фиксированную высоту body */
 body {
   min-height: 100vh;
   position: relative;
 }
 
-/* Фиксируем минимальную высоту для режима слайдов */
 body:not(.gallery-active) {
   min-height: 800vh;
 }
@@ -114,7 +112,6 @@ margin: auto;
   margin: 0 auto;
 }
 
-/* Стили для навигации с неоном */
 .nav a {
   font-family: "Science Gothic", sans-serif;
   font-variation-settings: "wdth" 200, "wght" 600;
@@ -142,7 +139,6 @@ margin: auto;
   animation: navLampFlicker 0.8s ease forwards;
 }
 
-/* Эффект лампы при активации фильтра */
 @keyframes navLampFlicker {
   0% {
     text-shadow: none;
@@ -204,7 +200,6 @@ margin: auto;
   }
 }
 
-/* Статичное свечение после анимации для навигации */
 .nav a.active-filter::after {
   content: '';
   position: absolute;
@@ -231,14 +226,13 @@ margin: auto;
   }
 }
 
-/* Убираем underline из старого стиля */
 .nav a.active-filter {
   text-decoration: none;
 }
 
 .footer {
   position: fixed;
-  z-index: 1000; /* Поверх всего */
+  z-index: 1000; 
   bottom: 0;
   left: 0;
   width: 100%;
@@ -247,7 +241,7 @@ margin: auto;
   text-align: center;
   font-family: 'Science Gothic', monospace;
   text-transform: uppercase;
-  pointer-events: none; /* Пропускаем события мыши */
+  pointer-events: none; 
 }
 
 .footer-content {
@@ -388,29 +382,29 @@ margin: auto;
 }
 
 /* ==========================
-   СТИЛИ ГАЛЕРЕИ (PINTEREST-STYLE GRID)
-   ========================== */
+  GALLERY STYLES (PINTEREST-STYLE GRID)
+  ========================== */
 
-/* Контейнер галереи */
+/* Gallery container */
 #gallery {
   display: none;
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  padding: 100px 20px 120px; /* Увеличил нижний padding для футера */
+  padding: 100px 20px 120px; /* Increased bottom padding for footer */
   background: var(--bg);
   opacity: 0;
   transition: opacity 0.4s ease;
   width: 100%;
 }
 
-/* Показываем галерею в активном состоянии */
+/* Show gallery in active state */
 .gallery-active #gallery {
   display: block;
   opacity: 1;
 }
 
-/* Скрываем tunnel элементы в режиме галереи */
+/* Hide tunnel elements in gallery mode */
 .gallery-active .tunnel-scene,
 .gallery-active #scene,
 .gallery-active .bg-blur-wrap,
@@ -421,7 +415,7 @@ margin: auto;
   visibility: hidden;
 }
 
-/* Разрешаем скролл в режиме галереи */
+/* Allow scroll in gallery mode */
 .gallery-active {
   overflow-y: auto;
   overflow-x: hidden;
@@ -441,14 +435,14 @@ margin: auto;
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px 0;
-  align-items: start; /* Важно для разной высоты карточек */
+  align-items: start; /* Important for different card heights */
 }
 
-/* Элементы галереи */
+/* Gallery items */
 .gallery-item {
   position: relative;
 
-  border-radius: 0; /* Убрал скругление углов */
+  border-radius: 0; /* Removed border radius */
   overflow: hidden;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.04);
@@ -457,8 +451,8 @@ margin: auto;
   animation: slideUp 0.5s ease forwards;
   animation-delay: calc(var(--item-index, 0) * 0.03s);
   will-change: transform, opacity;
-  break-inside: avoid; /* Предотвращает разрыв карточек */
-  display: flex;
+  break-inside: avoid; 
+  break-inside: avoid; /* Prevents card break */
   flex-direction: column;
 }
 
@@ -479,7 +473,7 @@ margin: auto;
 
 }
 
-/* Изображение в галерее - сохраняем пропорции оригинального изображения */
+/* Image in gallery - maintain original image proportions */
 .gallery-thumb {
   width: 100%;
   overflow: hidden;
@@ -492,25 +486,23 @@ margin: auto;
   height: auto;
   display: block;
   transition: transform 0.6s ease;
-  object-fit: contain; /* Показываем все изображение */
+  object-fit: contain; /* Show the entire image */
   max-width: 100%;
-  max-height: none; /* Убираем ограничение по высоте */
+  max-height: none; /* Remove height restriction */
 }
 
-
-
-/* Ленивая загрузка */
+/* Lazy loading */
 .gallery-thumb .lazy-img {
   opacity: 0;
   transition: opacity 0.4s ease;
-  min-height: 200px; /* Минимальная высота для placeholder */
+  min-height: 200px; /* Minimum height for placeholder */
+}
 }
 
 .gallery-thumb img:not(.lazy-img) {
   opacity: 1;
 }
 
-/* Подпись к изображению */
 .gallery-caption {
   padding: 16px;
   background: rgba(0, 0, 0, 0.7);
@@ -539,7 +531,6 @@ margin: auto;
   line-height: 1.4;
 }
 
-/* Пустое состояние галереи */
 .gallery-empty {
   grid-column: 1 / -1;
   text-align: center;
@@ -563,7 +554,6 @@ margin: auto;
   color: #666;
 }
 
-/* Пустое состояние слайдов */
 .slide-empty {
   position: absolute;
   top: 50%;
@@ -576,8 +566,6 @@ margin: auto;
   font-variation-settings: "wdth" 200, "wght" 400;
 }
 
-/* View switcher стили - белый неон с ламповым переключением */
-/* View switcher стили - белый неон с ламповым переключением */
 .view-switcher {
   display: flex;
   align-items: center;
@@ -615,7 +603,6 @@ margin: auto;
   animation: lampFlicker 0.8s ease forwards;
 }
 
-/* Эффект мигания лампы при переключении видов */
 @keyframes lampFlicker {
   0% {
     text-shadow: none;
@@ -677,7 +664,6 @@ margin: auto;
   }
 }
 
-/* Статичное свечение после анимации */
 .view-btn.active-view::after {
   content: '';
   position: absolute;
@@ -703,7 +689,6 @@ margin: auto;
   }
 }
 
-/* Адаптивность для галереи */
 @media (max-width: 1200px) {
   .gallery-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -777,7 +762,6 @@ margin: auto;
   }
 }
 
-/* Fix для активной табы all works при загрузке */
 .nav a[data-filter="allworks"].active-filter {
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -798,12 +782,10 @@ margin: auto;
   opacity: 0.2;
   transition: opacity 0.3s ease-in-out;
   
-  /* ДОБАВЬТЕ ЭТИ СТРОКИ: */
-  z-index: 1001; /* Выше чем .footer (1000) */
-  pointer-events: auto; /* Явное разрешение событий */
+  z-index: 1001; /* Higher than .footer (1000) */
+  pointer-events: auto; /* Explicitly allow events */
 }
 
-/* Остальной CSS без изменений */
 .head::after {
   content: "";
   position: absolute;
@@ -859,7 +841,6 @@ margin: auto;
   }
 }
 
-/* Loader стили */
 .loader {
   position: fixed;
   top: 0;
@@ -912,7 +893,6 @@ margin: auto;
   letter-spacing: 0.05em;
 }
 
-/* Улучшение скроллбара для галереи */
 .gallery-active::-webkit-scrollbar {
   width: 8px;
 }
@@ -930,7 +910,6 @@ margin: auto;
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Ховер эффекты для элементов галереи */
 @media (hover: hover) {
   .gallery-item::before {
     content: '';
@@ -951,7 +930,6 @@ margin: auto;
   }
 }
 
-/* Анимация затухания для переключения видов */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -961,7 +939,6 @@ margin: auto;
   animation: fadeIn 0.4s ease;
 }
 
-/* Стили для ленивой загрузки */
 .lazy-img {
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -971,12 +948,11 @@ margin: auto;
   opacity: 1;
 }
 
-/* Убираем pointer-events для контента за футером в галерее */
 .gallery-active .gallery-grid {
-  padding-bottom: 60px; /* Добавляем отступ для футера */
+  padding-bottom: 60px; 
 }
 
-/* Улучшенная masonry сетка для Pinterest-эффекта */
+
 @media (min-width: 768px) {
   .gallery-grid {
     column-count: 4;
@@ -1020,11 +996,9 @@ margin: auto;
   }
 }
 
-/* Исправление для коррекции высоты страницы в режиме слайдов */
 body:not(.gallery-active) {
   height: auto;
   min-height: 800vh;
   overflow-y: auto;
 }
 
-/* Исправление для футера в режиме галереи */

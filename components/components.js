@@ -55,3 +55,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Показываем контент после загрузки компонентов
     document.body.style.opacity = 1;
 });
+
+// После загрузки хедера
+fetch('../components/header.html')
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('header-component').innerHTML = data;
+    initBackButton(); // ← Инициализируем кнопку
+  });
+
+function initBackButton() {
+  const backLink = document.getElementById('back-link');
+  if (!backLink) {
+    console.log('Back link not found, retrying...');
+    setTimeout(initBackButton, 100); // Повторяем попытку
+    return;
+  }
+  
+  backLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const referrer = urlParams.get('referrer');
+    
+    if (referrer) {
+      window.location.href = decodeURIComponent(referrer);
+      return;
+    }
+    
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    
+    window.location.href = '../index.html';
+  });
+  
+  console.log('Back button initialized');
+}
