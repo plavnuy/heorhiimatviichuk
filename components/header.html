@@ -1,16 +1,9 @@
 <!-- header.html -->
 <header class="header">
     <div class="header-content">
-        <div class="logo">
-            <a href="../index.html">
-                <img src="../images/hm_logo.png" alt="Heorhii Matviichuk Logo" style="width: 48px; opacity: 0.3;">
-            </a>
-        </div>
-        <nav class="nav">
-            <a href="../index.html" class="active">contact</a>
-        </nav>
-    </div>
-<nav class="nav"><a href="#" onclick="
+
+   <!--  <div class="logo"> <a href="https://www.heorhiimatviichuk.design/"><img src="/images/hm-logo.svg" alt="Heorhii Matviichuk Logo" ></a></div> -->
+        <nav class="nav"><a style="margin-left: 0px; margin-top: 20px;" href="#" onclick="
     const params = new URLSearchParams(window.location.search);
     const ref = params.get('referrer');
     if (ref) {
@@ -25,4 +18,22 @@
     return false;
 " class="back-link">← back</a>
 </nav>
+                    <nav class="contact-icons">
+  <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
+    <img src="/images/icons/telegram.svg" alt="Telegram">
+  </a>
+
+  <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
+    <img src="/images/icons/instagram.svg" alt="Instagram">
+  </a>
+  <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
+    <img src="/images/icons/linkedin.svg" alt="LinkedIn">
+  </a>
+
+
+        
+        </nav>
+    </div>
+
 </header>
+
