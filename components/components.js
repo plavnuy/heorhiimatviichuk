@@ -27,7 +27,7 @@ class ComponentLoader {
         if (element) {
             element.innerHTML = html;
             
-            // Восстанавливаем обработчики событий для кнопки "назад"
+            // Restore event handlers for the back button
             if (elementId === 'header-component') {
                 const backLink = element.querySelector('.back-link');
                 if (backLink) {
@@ -41,34 +41,34 @@ class ComponentLoader {
     }
 }
 
-// Инициализация и загрузка при загрузке DOM
+// Initialize and load components on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', async () => {
     const loader = new ComponentLoader();
     
-    // Загружаем компоненты параллельно
+    // Load components in parallel
     await Promise.all([
         loader.renderComponent('header-component', '/components/header.html'),
         loader.renderComponent('footer-component', '/components/footer.html'),
         loader.renderComponent('project-nav-component', '/components/project-nav.html')
     ]);
     
-    // Показываем контент после загрузки компонентов
+    // Show content after components load
     document.body.style.opacity = 1;
 });
 
-// После загрузки хедера
+// After header load
 fetch('../components/header.html')
   .then(response => response.text())
   .then(data => {
     document.getElementById('header-component').innerHTML = data;
-    initBackButton(); // ← Инициализируем кнопку
+    initBackButton(); // Initialize back button
   });
 
 function initBackButton() {
   const backLink = document.getElementById('back-link');
   if (!backLink) {
     console.log('Back link not found, retrying...');
-    setTimeout(initBackButton, 100); // Повторяем попытку
+    setTimeout(initBackButton, 100); // Retry after a short delay
     return;
   }
   

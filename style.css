@@ -116,19 +116,51 @@ margin: auto;
   font-family: "Science Gothic", sans-serif;
   font-variation-settings: "wdth" 200, "wght" 600;
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
-  color: #3b3b3b;
+  color: #ffffff;
+  opacity: 0.2;
   text-decoration: none;
-  margin-left: 48px;
+  margin-left: 24px;
   font-size: 14px;
   position: relative;
   padding: 4px 8px;
   border-radius: 2px;
   filter: brightness(0.8);
 }
+.contact {
+color: #ffffff;
+opacity: 1;}
+
+.logo {
+  display: inline-block; //
+  width: 48px;           /
+  height: auto;          
+  opacity: 0.2;
+  transition: opacity 0.8s ease, transform 0.3s ease; /
+}
+
+.logo:hover {
+  opacity: 1;
+  transform: scale(1.1); 
+}
+
+.logo img {
+  width: 48px;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease, opacity 0.8s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.1);
+  opacity: 1;
+}
 
 .nav a:hover {
   font-variation-settings: "wdth" 300, "wght" 900;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 1);
+   text-decoration: underline;
+  text-decoration-thickness: 2px;
+  opacity: 1;
   text-shadow: 
     0 0 8px rgba(255, 255, 255, 0.3);
 }
@@ -136,6 +168,7 @@ margin: auto;
 .nav a.active-filter {
   font-variation-settings: "wdth" 300, "wght" 900;
   color: #ffffff;
+  opacity: 1;
   animation: navLampFlicker 0.8s ease forwards;
 }
 
@@ -241,20 +274,24 @@ margin: auto;
   text-align: center;
   font-family: 'Science Gothic', monospace;
   text-transform: uppercase;
-  pointer-events: none; 
 }
 
 .footer-content {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   align-items: center;
   gap: 4px;
 }
 
 .footer-text {
-  color: #3b3b3b;
+  color: #ffffff;
+  opacity: 0.2;
   line-height: 1.4;
   font-size: 6px;
+}
+.footer-text:hover {
+  opacity: 1;
+    animation: navLampFlicker 0.8s ease forwards;
 }
 
 .footer-image img {
@@ -431,6 +468,7 @@ margin: auto;
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-flow: row;
   gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -497,7 +535,7 @@ margin: auto;
   transition: opacity 0.4s ease;
   min-height: 200px; /* Minimum height for placeholder */
 }
-}
+
 
 .gallery-thumb img:not(.lazy-img) {
   opacity: 1;
@@ -572,7 +610,31 @@ margin: auto;
   gap: 6px;
   margin-left: 48px;
   padding: 4px;
+    animation: navLampFlicker 0.8s ease forwards;
+
 }
+.contact-icons {
+  display: flex;
+margin-left: 20px;
+  align-items: center;
+}
+
+.contact-icons a img {
+  width: 24px;
+  height: 24px;
+opacity: 0.2;
+  margin-left: 20px;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.contact-icons a:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.1); 
+opacity: 1;
+  animation: navLampFlicker 0.8s ease forwards;
+}
+
+
 
 .view-btn {
   background: transparent;
@@ -593,7 +655,7 @@ margin: auto;
 }
 
 .view-btn:hover {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgb(255, 255, 255);
   filter: brightness(1.1);
 }
 
@@ -763,15 +825,14 @@ margin: auto;
 }
 
 .nav a[data-filter="allworks"].active-filter {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+
   color: #f0f0f0;
   font-variation-settings: "wdth" 300, "wght" 900;
 }
 
-.head {
-  width: 148px;
-  height: 148px;
+.myhead {
+  width: 156px;
+  height: 156px;
   background-image: url('./images/head5.gif');
   background-size: cover;
   position: absolute;
@@ -780,13 +841,14 @@ margin: auto;
   overflow: hidden;
   cursor: pointer;
   opacity: 0.2;
-  transition: opacity 0.3s ease-in-out;
+  transform: scale(1);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-image 0.3s ease-in-out;
   
   z-index: 1001; /* Higher than .footer (1000) */
-  pointer-events: auto; /* Explicitly allow events */
+  pointer-events: auto;
 }
 
-.head::after {
+.myhead::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -794,16 +856,17 @@ margin: auto;
   background-size: cover;
   opacity: 0;
   mix-blend-mode: screen;
-  transform: translate(0, 0);
   pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.head:hover {
+.myhead:hover {
   opacity: 1;
+  transform: scale(1.1); /* плавное увеличение */
   background-image: url('./images/head7.gif');
 }
 
-.head:hover::after {
+.myhead:hover::after {
   opacity: 1;
   animation: glitch-fade 0.5s steps(2, end);
 }

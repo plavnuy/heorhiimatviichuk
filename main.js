@@ -156,7 +156,7 @@ class DataManager {
         id: "project-1", 
         title: "TRADEMOTIONS", 
         year: "2021",
-        img: "./images/TM/trademotions.gif", 
+        img: "./images/TM/trademotions.webp", 
         imgSecondary: "./images/k19/trademotions.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
@@ -166,7 +166,7 @@ class DataManager {
         id: "project-2", 
         title: "K19", 
         year: "2025",
-        img: "./images/k19/k19.png", 
+        img: "./images/k19/k19-sign-transparent.png", 
         imgSecondary: "./images/7 copy.jpg",
         categories: ["branding"],
         projectUrl: "./projects/k19.html",
@@ -206,7 +206,7 @@ class DataManager {
         id: "project-6", 
         title: "X4 CLUB", 
         year: "2024",
-        img: "./images/x4/x4_present.gif", 
+        img: "./images/x4/x4-present.webp", 
         imgSecondary: "./images/art-01.jpg",
         categories: ["branding"],
         projectUrl: "./projects/x4.html",
@@ -291,6 +291,7 @@ class DataManager {
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
         gradientColors: ["#0f0f23", "#232347"] 
+      }
     ];
     
     this.allData = [...this.allData, ...additionalPreviews];
@@ -580,7 +581,7 @@ class ViewManager {
     img.loading = "lazy";
     img.onerror = () => {
       img.src = './images/fallback.jpg';
-      img.alt = 'Изображение не загружено';
+      img.alt = 'Image not loaded';
     };
     
     //   <span class="card-category">${data.categories.join(", ")}</span>
@@ -707,7 +708,7 @@ item.addEventListener('click', (e) => {
             img.src = img.dataset.src;
             img.onerror = () => {
               img.src = './images/fallback.jpg';
-              img.alt = 'Изображение не загружено';
+              img.alt = 'Image not loaded';
             };
             img.removeAttribute('data-src');
             img.classList.remove('lazy-img');
