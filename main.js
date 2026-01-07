@@ -158,7 +158,7 @@ class DataManager {
         year: "2021",
         img: "./images/TM/trademotions.webp", 
         imgSecondary: "./images/k19/trademotions.jpg",
-        categories: ["interfaces"],
+        categories: ["interfaces", "branding"],
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
         gradientColors: ["#c72626ff", "#f55f08ff"] 
       },
@@ -178,7 +178,7 @@ class DataManager {
         year: "2023",
         img: "./images/LC/LC-logo-anim.gif", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["merch"],
         projectUrl: "./projects/LOCATED.html",
         gradientColors: ["#f51212ff", "#000000ff"] 
       },
@@ -269,7 +269,7 @@ class DataManager {
         year: "2023",
         img: "./images/OO/OO-logo-onblack.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["interfaces", "branding"],
         projectUrl: "./projects/Vibe-Coding.html",
         gradientColors: ["#0f0f23", "#232347"] 
       },
@@ -594,8 +594,11 @@ class ViewManager {
         <p class="card-title">
           <span>${data.title || ''}</span>
         </p>
+    
         <p class="card-subtitle">
-          <span class="card-year">${data.year || '2024'}</span>
+        <span class="card-category">${data.categories.join(", ")}</span>
+          
+        <span class="card-year"> — ${data.year || '2024'}</span>
 
         </p>
       </div>
