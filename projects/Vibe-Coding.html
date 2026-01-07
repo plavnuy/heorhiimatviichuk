@@ -1,28 +1,37 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Статические метатеги -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Vibe Coding — Heorhii Matviichuk | Design Portfolio</title>
-    <link rel="stylesheet" href="../pagestyle.css">
+    <meta name="description" content="Vibe Coding — Heorhii Matviichuk design portfolio." >
+    
+    <!-- Общие стили и шрифты -->
+    <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&display=swap" rel="stylesheet">
+        <link rel="icon" href="../images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="../images/favicon/favicon-16x16.png" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="../images/favicon/apple-touch-icon.png" sizes="180x180">
+    <!-- Уникальный заголовок для страницы -->
+    <title>Vibe Coding — Heorhii Matviichuk | Design Portfolio</title>
+    
+    <!-- Open Graph для этой страницы -->
+    <meta property="og:title" content="Vibe Coding — Heorhii Matviichuk | Design Portfolio">
+    <meta property="og:description" content="Brand identity design for exclusive members club in Madrid">
+    <meta property="og:image" content="../images/x4-club-og.jpg">
+    <meta property="og:url" content="https://heorhiimatviichuk.design/projects/Vibe-Coding.html">
 </head>
 
 <body>
-<header class="header">
-    <div class="header-content">
-        <div class="logo">
-            <a href="../index.html">
-                <img src="../images/hm_logo.png" alt="Heorhii Matviichuk Logo" style="width: 48px; opacity: 0.3;">
-            </a>
+    <div id="header-component">
+        <div class="loading-placeholder" style="text-align: center; padding: 2rem;">
+            Loading...
         </div>
-        <nav class="nav">
-            <a href="../index.html" class="active">all works</a>
-        </nav>
     </div>
-</header>
 
 <div class="content-container">
     <article class="project-article">
@@ -93,28 +102,16 @@
 
 
         <!-- Project Footer -->
-        <footer class="project-footer">
-            <div class="project-navigation">
-                <a href="previous-project.html" class="nav-link prev">Previous Project</a>
-                <a href="../index.html" class="nav-link back">All Works</a>
-                <a href="next-project.html" class="nav-link next">Next Project</a>
-            </div>
-        </footer>
+            <footer class="project-footer">
+                <!-- Project Navigation Component -->
+                <div id="project-nav-component"></div>
+            </footer>
 
     </article>
 </div>
-
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-text">
-            Designed & coded with intention<br>
-            Solar system → Earth → Ukraine → Kyiv
-        </div>
-        <div class="footer-image">
-            <img src="../images/gif_solar.gif" alt="Solar animation" style="width: 56px; opacity: 0.3;">
-        </div>
-    </div>
-</footer>
+    <script src="../components/components.js"></script>
+<div id="footer-component">
+</div>
 
 </body>
 </html>
