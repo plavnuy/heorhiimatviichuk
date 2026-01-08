@@ -187,7 +187,7 @@ class DataManager {
         title: "Parking Exchange", 
         year: "2023",
         img: "/images/other/sharespot.jpg", 
-        imgSecondary: "./images/accemedin.jpg",
+        imgSecondary: "./images/other/accemedin.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
         gradientColors: ["#1e1e2e", "#3d3d5c"] 
@@ -598,7 +598,7 @@ class ViewManager {
         <p class="card-subtitle">
         <span class="card-category">${data.categories.join(", ")}</span>
           
-        <span class="card-year"> — ${data.year || '2024'}</span>
+        <span class="card-year">/ ${data.year || '2024'}</span>
 
         </p>
       </div>
