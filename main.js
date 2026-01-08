@@ -192,6 +192,16 @@ class DataManager {
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
         gradientColors: ["#1e1e2e", "#3d3d5c"] 
       },
+                        { 
+        id: "project-10", 
+        title: "SCHMALGAUZEN", 
+        year: "2025",
+        img: "/images/SC/SCHM-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["merch"],
+        projectUrl: "/projects/SCHMALGAUZEN.html",
+        gradientColors: ["#ff2200ff", "#232347"] 
+      },
       { 
         id: "project-5", 
         title: "INUPT SOFT", 
@@ -200,7 +210,7 @@ class DataManager {
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/213908009/Airport-Operations-Platform-Design",
-        gradientColors: ["#2d1b3d", "#4a2c5e"] 
+        gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
 
                   { 
@@ -211,7 +221,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/102040031/Langing-pages-2018-2019",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#22ba61ff", "#174628ff"] 
       },
                   { 
         id: "project-8", 
@@ -221,7 +231,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#e55134ff", "#232347"] 
       },
             { 
         id: "project-6", 
@@ -241,7 +251,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#919191ff", "#232347"] 
       }
       
     ];
@@ -261,7 +271,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#e9d1a6ff", "#524c40ff"] 
       },
             { 
         id: "project-3", 
@@ -271,7 +281,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces", "branding"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#a5a5a5ff", "#10101dff"] 
       },
             { 
         id: "project-3", 
@@ -291,7 +301,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] 
+        gradientColors: ["#badc5bff", "#232347"] 
       }
     ];
     
