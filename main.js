@@ -152,16 +152,17 @@ class DOMCache {
 class DataManager {
   constructor() {
     this.allData = [
-      { 
-        id: "project-1", 
-        title: "TRADEMOTIONS", 
-        year: "2021",
-        img: "./images/TM/trademotions.webp", 
-        imgSecondary: "./images/k19/trademotions.jpg",
-        categories: ["interfaces", "branding"],
-        projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
-        gradientColors: ["#c72626ff", "#f55f08ff"] 
+                              { 
+        id: "project-10", 
+        title: "SCHMALGAUZEN", 
+        year: "2025",
+        img: "/images/SC/SCHM-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["merch"],
+        projectUrl: "/projects/SCHMALGAUZEN.html",
+        gradientColors: ["#ff2200ff", "#232347"] 
       },
+
       { 
         id: "project-2", 
         title: "K19", 
@@ -171,6 +172,16 @@ class DataManager {
         categories: ["branding"],
         projectUrl: "./projects/k19.html",
         gradientColors: ["#1a1a2e", "#ffa600ff"] 
+      },
+                  { 
+        id: "project-6", 
+        title: "X4 CLUB", 
+        year: "2024",
+        img: "./images/x4/x4-present.webp", 
+        imgSecondary: "./images/art-01.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/x4.html",
+        gradientColors: ["#1a1a2e", "#2d2d4d"] 
       },
       { 
         id: "project-3", 
@@ -182,7 +193,28 @@ class DataManager {
         projectUrl: "./projects/LOCATED.html",
         gradientColors: ["#f51212ff", "#000000ff"] 
       },
-      { 
+                        { 
+        id: "project-7", 
+        title: "oO_series", 
+        year: "2024",
+        img: "./images/OO/OO-logo-animation.webp", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces", "branding", "merch"],
+        projectUrl: "/projects/o0_series.html",
+        gradientColors: ["#777777ff", "#33af61ff"] 
+      },
+
+            { 
+        id: "project-1", 
+        title: "TRADEMOTIONS", 
+        year: "2021",
+        img: "./images/TM/trademotions.webp", 
+        imgSecondary: "./images/k19/trademotions.jpg",
+        categories: ["interfaces", "branding"],
+        projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
+        gradientColors: ["#c72626ff", "#f55f08ff"] 
+      },
+            { 
         id: "project-4", 
         title: "Parking Exchange", 
         year: "2023",
@@ -192,16 +224,7 @@ class DataManager {
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
         gradientColors: ["#1e1e2e", "#3d3d5c"] 
       },
-                        { 
-        id: "project-10", 
-        title: "SCHMALGAUZEN", 
-        year: "2025",
-        img: "/images/SC/SCHM-cover.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["merch"],
-        projectUrl: "/projects/SCHMALGAUZEN.html",
-        gradientColors: ["#ff2200ff", "#232347"] 
-      },
+
       { 
         id: "project-5", 
         title: "INUPT SOFT", 
@@ -213,16 +236,7 @@ class DataManager {
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
 
-                  { 
-        id: "project-7", 
-        title: "Langing pages", 
-        year: "2018",
-        img: "./images/other/Langing-pages.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
-        projectUrl: "https://www.behance.net/gallery/102040031/Langing-pages-2018-2019",
-        gradientColors: ["#22ba61ff", "#174628ff"] 
-      },
+
                   { 
         id: "project-8", 
         title: "Accemedin", 
@@ -233,16 +247,7 @@ class DataManager {
         projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
         gradientColors: ["#e55134ff", "#232347"] 
       },
-            { 
-        id: "project-6", 
-        title: "X4 CLUB", 
-        year: "2024",
-        img: "./images/x4/x4-present.webp", 
-        imgSecondary: "./images/art-01.jpg",
-        categories: ["branding"],
-        projectUrl: "./projects/x4.html",
-        gradientColors: ["#1a1a2e", "#2d2d4d"] 
-      },
+
                         { 
         id: "project-9", 
         title: "E-commerce App", 
