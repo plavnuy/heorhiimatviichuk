@@ -200,7 +200,7 @@ class DataManager {
         img: "./images/OO/OO-logo-animation.webp", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces", "branding", "merch"],
-        projectUrl: "/projects/o0_series.html",
+        projectUrl: "/projects/o0series.html",
         gradientColors: ["#777777ff", "#33af61ff"] 
       },
 
@@ -278,16 +278,7 @@ class DataManager {
         projectUrl: "./projects/Vibe-Coding.html",
         gradientColors: ["#e9d1a6ff", "#524c40ff"] 
       },
-            { 
-        id: "project-3", 
-        title: "o0_series", 
-        year: "2023",
-        img: "./images/OO/OO-logo-onblack.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["interfaces", "branding"],
-        projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#a5a5a5ff", "#10101dff"] 
-      },
+
             { 
         id: "project-3", 
         title: "RACONTEUR", 
