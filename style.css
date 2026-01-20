@@ -35,15 +35,24 @@ body {
   min-height: 100vh;
   position: relative;
 }
+body[data-page="case"] {
+  min-height: auto;
+}
 
 body:not(.gallery-active) {
   min-height: 800vh;
 }
 
+body.no-long-body {
+  min-height: auto !important;
+}
+
+
 body[data-page="case"] {
     min-height: auto;
 }
 /* ========================== HEADER & NAVIGATION ========================== */
+body .no-long-body {min-height: 100%;}
 
 .header {
   position: fixed;

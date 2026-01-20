@@ -225,6 +225,39 @@ class DataManager {
         gradientColors: ["#1e1e2e", "#3d3d5c"] 
       },
 
+                  { 
+        id: "project-4", 
+        title: "50 inventions", 
+        year: "2015",
+        img: "./images/50-inventions/50-cover.jpg", 
+        imgSecondary: "./images/other/accemedin.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/50inventions.html",
+        gradientColors: ["#010101", "#3d3d5c"] 
+      },
+
+                        { 
+        id: "project-4", 
+        title: "Vognyar", 
+        year: "2016",
+        img: "./images/VG/vognyar-bottle-04.png", 
+        imgSecondary: "./images/other/accemedin.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/Vognyar.html",
+        gradientColors: ["#010101", "#ff0a0a"] 
+      },
+
+                            { 
+        id: "project-4", 
+        title: "GOGO bot", 
+        year: "2021",
+        img: "./images/other/gogo-bot.jpg", 
+        imgSecondary: "./images/other/accemedin.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/gogo-bot.html",
+        gradientColors: ["#010101", "#ff890a"] 
+      },
+
       { 
         id: "project-5", 
         title: "INUPT SOFT", 
