@@ -214,6 +214,17 @@ class DataManager {
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
         gradientColors: ["#c72626ff", "#f55f08ff"] 
       },
+
+                              { 
+        id: "project-4", 
+        title: "Binary", 
+        year: "2023",
+        img: "./images/BN/BN-case-01.jpg", 
+        imgSecondary: "./images/other/accemedin.jpg",
+        categories: ["Merch"],
+        projectUrl: "./projects/Binary.html",
+        gradientColors: ["#010101", "#ff0a0a"] 
+      },
             { 
         id: "project-4", 
         title: "Parking App", 
@@ -265,7 +276,7 @@ class DataManager {
         id: "project-8", 
         title: "Accemedin", 
         year: "2017",
-        img: "./images/other/Accemedin.jpg", 
+        img: "./images/other/accemedin.jpg", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
@@ -330,7 +341,7 @@ class DataManager {
         img: "./images/Vibe-Coding-5.webp", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
-        projectUrl: "./projects/Vibe-Coding.html",
+        projectUrl: "./projects/The-I-Ching.html",
         gradientColors: ["#badc5bff", "#232347"] 
       }
     ];

@@ -1259,6 +1259,8 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 
 .project-image {
   position: relative;
+  padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .scaled15 {
