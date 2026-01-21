@@ -74,6 +74,86 @@ body .no-long-body {min-height: 100%;}
   margin: 0 auto;
 }
 
+.nav-dropdown {
+    position: relative;
+    display: none;
+    width: 100%;
+    justify-content: left;
+    align-items:center ;
+}
+
+.nav-dropdown-toggle {
+  font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 900;
+  transition: font-variation-settings 0.3s ease, color 0.3s ease;
+
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+      background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.08) 25%,
+    transparent 65%
+  );
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    padding: 10px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-dropdown-arrow {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    min-width: 220px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    display: none;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.03);
+
+}
+
+.nav-dropdown-menu li {
+    font-variation-settings: "wdth" 200, "wght" 600;
+  transition: font-variation-settings 0.3s ease, color 0.3s ease;
+  
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-dropdown-menu li:hover {
+    font-family: "Science Gothic", sans-serif;
+  font-variation-settings: "wdth" 200, "wght" 900;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+      animation: navLampFlicker 0.2s ease forwards;
+
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown.open .nav-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+
+
 .nav a {
   font-family: "Science Gothic", sans-serif;
   font-variation-settings: "wdth" 200, "wght" 600;
@@ -130,6 +210,23 @@ body .no-long-body {min-height: 100%;}
   animation: navStaticGlow 0.5s ease 0.8s forwards;
   pointer-events: none;
 }
+
+@media (max-width: 1024px) {
+    .nav {
+        display: none;
+    }
+
+    .nav-dropdown {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .header-content {
+        align-items: center;
+        gap: 12px;
+    }
+}
+
 
 @keyframes navLampFlicker {
   0% {
@@ -896,16 +993,16 @@ body .no-long-body {min-height: 100%;}
 /* ========================== MY HEAD / INTERACTIVE ========================== */
 
 .myhead {
-  width: 156px;
-  height: 156px;
+  width: 12vh;
+  height: 12vh;
   background-image: url('./images/head5.gif');
   background-size: cover;
   position: absolute;
-  left: 16px;
-  bottom: 4px;
+  left: 2vh;
+  bottom: 0vh;
   overflow: hidden;
   cursor: pointer;
-  opacity: 0.2;
+  opacity: 0.3;
   transform: scale(1);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-image 0.3s ease-in-out;
   z-index: 1001;

@@ -240,7 +240,7 @@ class DataManager {
         id: "project-4", 
         title: "Vognyar", 
         year: "2016",
-        img: "./images/VG/vognyar-bottle-04.png", 
+        img: "./images/VG/vognyar-souses-07.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
         categories: ["art"],
         projectUrl: "./projects/Vognyar.html",
@@ -1048,6 +1048,11 @@ item.addEventListener('click', (e) => {
     
     this.rebuildCurrentView();
     this.updateURL();
+    // уведомляем UI (dropdown, future stuff)
+document.dispatchEvent(
+  new CustomEvent('filterchange', { detail: filter })
+);
+
   }
   
   setView(view, force = false) {
@@ -1321,3 +1326,51 @@ window.App = {
   switchToTunnel: () => viewManager.setView('slides'),
   setFilter: (filter) => viewManager.setFilter(filter)
 };
+
+// ==========================
+// 8. Mobile Filter Dropdown
+// ==========================
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdown = document.querySelector('[data-nav-dropdown]');
+  if (!dropdown) return;
+
+  const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+  const label = dropdown.querySelector('.nav-dropdown-label');
+  const items = dropdown.querySelectorAll('[data-filter]');
+
+  toggle.addEventListener('click', () => {
+    dropdown.classList.toggle('open');
+  });
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const filter = item.dataset.filter;
+
+      // 🔑 ВХОД В ТВОЮ СИСТЕМУ
+      window.App.setFilter(filter);
+
+      label.textContent = item.textContent;
+      dropdown.classList.remove('open');
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+
+  // === начальная синхронизация
+  const state = window.App.getState();
+  const active = dropdown.querySelector(
+    `[data-filter="${state.filter}"]`
+  );
+  if (active) label.textContent = active.textContent;
+
+  // === синхронизация при изменении фильтра извне
+  document.addEventListener('filterchange', e => {
+    const filter = e.detail;
+    const item = dropdown.querySelector(`[data-filter="${filter}"]`);
+    if (item) label.textContent = item.textContent;
+  });
+});
