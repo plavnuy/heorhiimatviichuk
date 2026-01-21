@@ -233,7 +233,7 @@ body .no-long-body {min-height: 100%;}
   pointer-events: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .nav {
         display: none;
     }
@@ -1549,6 +1549,11 @@ a {
   border-radius: 4px;
   z-index: 2;
 }
+.madein{
+display:flex; align-items:center; gap: 12px;
+
+}
+
 
 .head {
   width: 148px;
@@ -1621,6 +1626,9 @@ a {
 }
 
 @media (max-width: 768px) {
+.madein {
+    display: none;
+}
 
   .logo {
   display: none;
@@ -1633,8 +1641,21 @@ margin-top: 0;
 }
 
 .nav-case a {
-color: rgba(255, 255, 255, 0.5);
+opacity: 0.5;
+}
 
+.contact-icons a img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  margin-left: 20px;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.myhead{
+  opacity: 0.5;
+    position: absolute;
+  left: calc(50% - 6vh);
 }
 
   .project-article {
