@@ -258,7 +258,48 @@ class DataManager {
         gradientColors: ["#010101", "#ff0a0a"] 
       },
 
+            { 
+        id: "project-3", 
+        title: "RACONTEUR", 
+        year: "2023",
+        img: "./images/Vibe-Coding-4.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Raconteur.html",
+        gradientColors: ["#0f0f23", "#232347"] 
+      },
+      { 
+        id: "project-3", 
+        title: "The I-Ching", 
+        year: "2023",
+        img: "./images/Vibe-Coding-5.webp", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/The-I-Ching.html",
+        gradientColors: ["#badc5bff", "#232347"] 
+      },
 
+      { 
+        id: "project-3", 
+        title: "Snedeker Yoga", 
+        year: "2023",
+        img: "./images/Vibe-Coding-2.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Snedeker-Yoga.html",
+        gradientColors: ["#e9d1a6ff", "#524c40ff"] 
+      },
+
+            { 
+        id: "project-3", 
+        title: "Dr. Gavrylin", 
+        year: "2023",
+        img: "./images/DG/DG-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/Dr-Gavrylin.html",
+        gradientColors: ["#e9d1a6ff", "#524c40ff"] 
+      },
 
       { 
         id: "project-5", 
@@ -313,37 +354,9 @@ class DataManager {
   addDuplicatePreviews() {
 
     const additionalPreviews = [
-      { 
-        id: "project-3", 
-        title: "Snedeker Yoga", 
-        year: "2023",
-        img: "./images/Vibe-Coding-2.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#e9d1a6ff", "#524c40ff"] 
-      },
 
-            { 
-        id: "project-3", 
-        title: "RACONTEUR", 
-        year: "2023",
-        img: "./images/Vibe-Coding-4.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/Vibe-Coding.html",
-        gradientColors: ["#0f0f23", "#232347"] 
-      },
-      { 
-        id: "project-3", 
-        title: "The I-Ching", 
-        year: "2023",
-        img: "./images/Vibe-Coding-5.webp", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
-        projectUrl: "./projects/The-I-Ching.html",
-        gradientColors: ["#badc5bff", "#232347"] 
-      }
+
+
     ];
     
     this.allData = [...this.allData, ...additionalPreviews];

@@ -1017,8 +1017,26 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   width: 148px;
   height: 148px;
   background-size: cover;
+  background-image: url('./images/head5.gif');
+  opacity: 0.3;
+}
+
+.loader-spinner:after {
+  position: absolute;
+  inset: 0;
   background-image: url('./images/head7.gif');
+  background-size: cover;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transform: translate(0, 0);
+  pointer-events: none;
+}
+
+.loader-spinner:hover {
   opacity: 1;
+    animation: glitch-fade 0.5s steps(2, end);
+
+  background-image: url('./images/head7.gif');
 }
 
 .loader-text {
@@ -1157,7 +1175,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   font-family: 'Science Gothic', sans-serif;
   font-variation-settings: "wdth" 150, "wght" 400;
   color: #fff;
-  font-size: clamp(48px, 8vw, 96px);
+  font-size: clamp(42px, 8vw, 80px);
   line-height: 1;
   margin-bottom: 40px;
   text-transform: uppercase;
