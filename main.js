@@ -281,7 +281,7 @@ class DataManager {
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
         gradientColors: ["#919191ff", "#232347"] 
-      }
+      },
                                   { 
         id: "project-4", 
         title: "GOGO bot", 
@@ -291,7 +291,7 @@ class DataManager {
         categories: ["art"],
         projectUrl: "./projects/gogo-bot.html",
         gradientColors: ["#010101", "#ff890a"] 
-      },
+      }
       
     ];
     
