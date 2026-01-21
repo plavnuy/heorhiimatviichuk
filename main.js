@@ -216,7 +216,7 @@ class DataManager {
       },
             { 
         id: "project-4", 
-        title: "Parking Exchange", 
+        title: "Parking App", 
         year: "2023",
         img: "/images/other/sharespot.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
@@ -247,16 +247,7 @@ class DataManager {
         gradientColors: ["#010101", "#ff0a0a"] 
       },
 
-                            { 
-        id: "project-4", 
-        title: "GOGO bot", 
-        year: "2021",
-        img: "./images/other/gogo-bot.jpg", 
-        imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["art"],
-        projectUrl: "./projects/gogo-bot.html",
-        gradientColors: ["#010101", "#ff890a"] 
-      },
+
 
       { 
         id: "project-5", 
@@ -291,6 +282,16 @@ class DataManager {
         projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
         gradientColors: ["#919191ff", "#232347"] 
       }
+                                  { 
+        id: "project-4", 
+        title: "GOGO bot", 
+        year: "2021",
+        img: "./images/other/gogo-bot.jpg", 
+        imgSecondary: "./images/other/accemedin.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/gogo-bot.html",
+        gradientColors: ["#010101", "#ff890a"] 
+      },
       
     ];
     
@@ -637,7 +638,7 @@ class ViewManager {
         <p class="card-subtitle">
         <span class="card-category">${data.categories.join(", ")}</span>
           
-        <span class="card-year">/ ${data.year || '2024'}</span>
+        <span class="card-year">${data.year || '2024'}</span>
 
         </p>
       </div>
@@ -732,7 +733,7 @@ item.addEventListener('click', (e) => {
   const finalUrl = projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
   
   console.log('Opening project with referrer:', finalUrl);
-  window.open(finalUrl, '_blank');
+window.location.href = finalUrl;
 });
     
     return item;
@@ -1222,7 +1223,34 @@ document.dispatchEvent(
         }
       });
     });
-  }
+    // Typed.js для описания дизайнера
+/*let typedInstance;
+const myhead = document.getElementById("myhead");
+const autoTypeEl = myhead.querySelector(".auto-type");
+
+myhead.addEventListener("mouseenter", () => {
+  if (typedInstance) typedInstance.destroy();
+  autoTypeEl.textContent = "";
+  
+  typedInstance = new Typed(".auto-type", {
+    strings: [  "Product Designer",
+  "Art Director",
+  "Kyiv-based"],
+    typeSpeed: 70,
+    backSpeed: 30,
+    showCursor: true,
+    cursorChar: "|",
+    loop: true
+  });
+});
+
+myhead.addEventListener("mouseleave", () => {
+  if (typedInstance) typedInstance.destroy();
+  typedInstance = null;
+  autoTypeEl.textContent = "";
+}); */
+
+}
   
   applyInitialUIState() {
     // === NAV FILTERS

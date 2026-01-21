@@ -93,3 +93,29 @@ function initBackButton() {
   
   console.log('Back button initialized');
 }
+
+let typedInstance;
+const myhead = document.getElementById("myhead");
+const autoTypeEl = myhead.querySelector(".auto-type");
+
+myhead.addEventListener("mouseenter", () => {
+  if (typedInstance) typedInstance.destroy();
+  autoTypeEl.textContent = "";
+  
+  typedInstance = new Typed(".auto-type", {
+    strings: [  "Product Designer",
+  "Art Director",,
+  "Kyiv-based"],
+    typeSpeed: 70,
+    backSpeed: 30,
+    showCursor: true,
+    cursorChar: "|",
+    loop: true
+  });
+});
+
+myhead.addEventListener("mouseleave", () => {
+  if (typedInstance) typedInstance.destroy();
+  typedInstance = null;
+  autoTypeEl.textContent = "";
+});
