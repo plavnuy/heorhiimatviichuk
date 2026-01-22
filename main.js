@@ -223,7 +223,7 @@ class DataManager {
         imgSecondary: "./images/other/accemedin.jpg",
         categories: ["Merch"],
         projectUrl: "./projects/Binary.html",
-        gradientColors: ["#010101", "#ff0a0a"] 
+        gradientColors: ["#010101", "#ffa21f"] 
       },
             { 
         id: "project-4", 
@@ -233,18 +233,18 @@ class DataManager {
         imgSecondary: "./images/other/accemedin.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
-        gradientColors: ["#1e1e2e", "#3d3d5c"] 
+        gradientColors: ["#3434ff", "#2424c2"] 
       },
 
                   { 
         id: "project-4", 
         title: "50 inventions", 
         year: "2015",
-        img: "./images/50-inventions/50-cover.jpg", 
+        img: "./images/50/50-cover.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
         categories: ["art"],
         projectUrl: "./projects/50inventions.html",
-        gradientColors: ["#010101", "#3d3d5c"] 
+        gradientColors: ["#d53939", "#6fcd26"] 
       },
 
                         { 
@@ -256,6 +256,17 @@ class DataManager {
         categories: ["art"],
         projectUrl: "./projects/Vognyar.html",
         gradientColors: ["#010101", "#ff0a0a"] 
+      },
+
+                             { 
+        id: "project-4", 
+        title: "Jernov Jewellery", 
+        year: "2016",
+        img: "./images/JE/JE-broushure-cover.jpg", 
+        imgSecondary: "./images/JE/JE-broushure-cover.jpg",
+        categories: ["art"],
+        projectUrl: "./projects/jernov.html",
+        gradientColors: ["#010101", "rgb(240, 235, 235)"] 
       },
 
             { 
@@ -325,13 +336,39 @@ class DataManager {
 
       { 
         id: "project-5", 
-        title: "INUPT SOFT", 
+        title: "Khmeli Suneli", 
         year: "2020",
         img: "./images/HS/HS-logo.jpg", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        categories: ["interfaces"],
+        categories: ["branding"],
         projectUrl: "./projects/khmeli-suneli.html",
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
+      },
+
+
+  
+
+                        { 
+        id: "project-8", 
+        title: "Symerio", 
+        year: "2014",
+        img: "./images/SM/SM-logo-visitcard.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/symerio.html",
+        gradientColors: ["rgb(231, 146, 28)", "#232347"] 
+      },
+
+
+        { 
+        id: "project-9", 
+        title: "SAYENKO&KHARENKO", 
+        year: "2017",
+        img: "./images/SK/SK-mock.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/SAYENKO&KHARENKO.html",
+        gradientColors: ["#919191ff", "#232347"] 
       },
                   { 
         id: "project-8", 
@@ -341,7 +378,7 @@ class DataManager {
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
         projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
-        gradientColors: ["#e55134ff", "#232347"] 
+        gradientColors: ["rgb(220, 42, 6)", "#232347"] 
       },
 
                         { 

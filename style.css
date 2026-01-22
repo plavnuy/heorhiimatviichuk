@@ -348,7 +348,9 @@ body .no-long-body {min-height: 100%;}
   transform: scale(1.1);
   opacity: 1;
 }
-
+.project-image.no-padding {
+    padding: 0;
+}
 /* ========================== FOOTER ========================== */
 
 .footer {
