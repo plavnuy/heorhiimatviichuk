@@ -88,14 +88,14 @@ body .no-long-body {min-height: 100%;}
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
 
     border: none;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
       background: radial-gradient(
     ellipse at center,
     rgba(255, 255, 255, 0.12) 0%,
     rgba(255, 255, 255, 0.08) 25%,
     transparent 65%
   );
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     padding: 10px 24px;
     cursor: pointer;
@@ -116,7 +116,7 @@ body .no-long-body {min-height: 100%;}
     margin: 0;
     padding: 8px 0;
     min-width: 220px;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
     display: none;
     z-index: 10;
     background: rgba(255, 255, 255, 0.03);
@@ -172,7 +172,7 @@ body .no-long-body {min-height: 100%;}
   text-decoration: underline;
   text-decoration-thickness: 2px;
   opacity: 1;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
 
@@ -197,7 +197,7 @@ body .no-long-body {min-height: 100%;}
   text-decoration: underline;
   text-decoration-thickness: 2px;
   opacity: 1;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
 .nav a.active-filter {
@@ -260,7 +260,7 @@ body .no-long-body {min-height: 100%;}
   }
   15% {
     text-shadow: none;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
   }
   20% {
     text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 60px #ffffff;
@@ -801,7 +801,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 .g-meta {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   margin-bottom: 6px;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -816,7 +816,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   font-family: "Science Gothic", sans-serif;
   font-variation-settings: "wdth" 150, "wght" 400;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   line-height: 1.4;
@@ -937,7 +937,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   }
   15% {
     text-shadow: none;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
   }
   20% {
     text-shadow: 0 0 25px #ffffff, 0 0 50px #ffffff, 0 0 80px #ffffff;
@@ -1020,7 +1020,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   height: 148px;
   background-size: cover;
   background-image: url('./images/head5.gif');
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .loader-spinner:after {
@@ -1071,7 +1071,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   bottom: 0vh;
   overflow: hidden;
   cursor: pointer;
-  opacity: 0.3;
+  opacity: 0.4;
   transform: scale(1);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-image 0.3s ease-in-out;
   z-index: 1001;
@@ -1587,7 +1587,7 @@ a {
 .links-container a:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .parallax {
