@@ -301,6 +301,17 @@ class DataManager {
         gradientColors: ["#e9d1a6ff", "#524c40ff"] 
       },
 
+                  { 
+        id: "project-3", 
+        title: "Tripple We", 
+        year: "2023",
+        img: "./images/TW/TW-sign.png", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["branding"],
+        projectUrl: "./projects/tripple-we.html",
+        gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"] 
+      },
+
       { 
         id: "project-5", 
         title: "INUPT SOFT", 
