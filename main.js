@@ -323,7 +323,16 @@ class DataManager {
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
 
-
+      { 
+        id: "project-5", 
+        title: "INUPT SOFT", 
+        year: "2020",
+        img: "./images/HS/HS-logo.jpg", 
+        imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
+        categories: ["interfaces"],
+        projectUrl: "./projects/khmeli-suneli.html",
+        gradientColors: ["#ffe066ff", "#4a2c5e"] 
+      },
                   { 
         id: "project-8", 
         title: "Accemedin", 
