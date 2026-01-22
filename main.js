@@ -178,7 +178,7 @@ class DataManager {
         title: "X4 CLUB", 
         year: "2024",
         img: "./images/x4/x4-present.webp", 
-        imgSecondary: "./images/art-01.jpg",
+        imgSecondary: "./images/graphic-01.jpg",
         categories: ["branding"],
         projectUrl: "./projects/x4.html",
         gradientColors: ["#1a1a2e", "#2d2d4d"] 
@@ -242,7 +242,7 @@ class DataManager {
         year: "2015",
         img: "./images/50/50-cover.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["art"],
+        categories: ["graphic"],
         projectUrl: "./projects/50inventions.html",
         gradientColors: ["#d53939", "#6fcd26"] 
       },
@@ -253,7 +253,7 @@ class DataManager {
         year: "2016",
         img: "./images/VG/vognyar-souses-07.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["art"],
+        categories: ["graphic"],
         projectUrl: "./projects/Vognyar.html",
         gradientColors: ["#010101", "#ff0a0a"] 
       },
@@ -264,7 +264,7 @@ class DataManager {
         year: "2016",
         img: "./images/JE/JE-broushure-cover.jpg", 
         imgSecondary: "./images/JE/JE-broushure-cover.jpg",
-        categories: ["art"],
+        categories: ["graphic"],
         projectUrl: "./projects/jernov.html",
         gradientColors: ["#010101", "rgb(240, 235, 235)"] 
       },
@@ -377,9 +377,87 @@ class DataManager {
         img: "./images/other/accemedin.jpg", 
         imgSecondary: "./images/50.jpg",
         categories: ["interfaces"],
-        projectUrl: "https://www.behance.net/gallery/75177521/UIUX-Website-Accemedin",
+        projectUrl: "./projects/accemedin.html",
         gradientColors: ["rgb(220, 42, 6)", "#232347"] 
       },
+
+                       { 
+        id: "project-8", 
+        title: "Lettering", 
+        year: "2024",
+        img: "./images/LT/LT-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/Lettering.html",
+        gradientColors: ["rgb(220, 42, 6)", "#232347"] 
+      },
+
+{ 
+        id: "project-8", 
+        title: "Lettering", 
+        year: "2024",
+        img: "./images/LT/LT-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/Lettering.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
+      },
+
+           { 
+        id: "project-8", 
+        title: "Art", 
+        year: "2024",
+        img: "./images/art/art-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/art.html",
+        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"] 
+      },
+
+      { 
+        id: "project-8", 
+        title: "iii3", 
+        year: "2024",
+        img: "./images/iii3/iii3-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/iii3.html",
+        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"] 
+      },
+
+          { 
+        id: "project-8", 
+        title: "Fundraising", 
+        year: "2022",
+        img: "./images/FD/FD-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/Fundraising.html.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
+      },
+
+                { 
+        id: "project-8", 
+        title: "Dobro", 
+        year: "2019",
+        img: "./images/DB/DB-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/dobro.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
+      },
+
+          { 
+        id: "project-8", 
+        title: "iii3", 
+        year: "2024",
+        img: "./images/iii3/iii3-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["graphic"],
+        projectUrl: "./projects/iii3.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
+      },
+
 
                         { 
         id: "project-9", 
@@ -397,7 +475,7 @@ class DataManager {
         year: "2021",
         img: "./images/other/gogo-bot.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["art"],
+        categories: ["graphic"],
         projectUrl: "./projects/gogo-bot.html",
         gradientColors: ["#010101", "#ff890a"] 
       }
@@ -1315,7 +1393,7 @@ myhead.addEventListener("mouseenter", () => {
   
   typedInstance = new Typed(".auto-type", {
     strings: [  "Product Designer",
-  "Art Director",
+  "Graphic Director",
   "Kyiv-based"],
     typeSpeed: 70,
     backSpeed: 30,
