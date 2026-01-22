@@ -158,7 +158,7 @@ class DataManager {
         year: "2025",
         img: "/images/SC/SCHM-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["merch"],
+        categories: ["Merch"],
         projectUrl: "/projects/SCHMALGAUZEN.html",
         gradientColors: ["#ff2200ff", "#232347"] 
       },
@@ -169,7 +169,7 @@ class DataManager {
         year: "2025",
         img: "./images/k19/k19-sign-transparent.png", 
         imgSecondary: "./images/7 copy.jpg",
-        categories: ["branding"],
+        categories: ["Branding"],
         projectUrl: "./projects/k19.html",
         gradientColors: ["#1a1a2e", "#ffa600ff"] 
       },
@@ -178,8 +178,8 @@ class DataManager {
         title: "X4 CLUB", 
         year: "2024",
         img: "./images/x4/x4-present.webp", 
-        imgSecondary: "./images/graphic-01.jpg",
-        categories: ["branding"],
+        imgSecondary: "./images/Graphic-01.jpg",
+        categories: ["Branding"],
         projectUrl: "./projects/x4.html",
         gradientColors: ["#1a1a2e", "#2d2d4d"] 
       },
@@ -189,7 +189,7 @@ class DataManager {
         year: "2023",
         img: "./images/LC/LC-logo-anim.gif", 
         imgSecondary: "./images/50.jpg",
-        categories: ["merch"],
+        categories: ["Merch"],
         projectUrl: "./projects/LOCATED.html",
         gradientColors: ["#f51212ff", "#000000ff"] 
       },
@@ -199,7 +199,7 @@ class DataManager {
         year: "2024",
         img: "./images/OO/OO-logo-animation.webp", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces", "branding", "merch"],
+        categories: ["Interfaces", "Branding", "Graphic"],
         projectUrl: "/projects/o0series.html",
         gradientColors: ["#777777ff", "#33af61ff"] 
       },
@@ -210,7 +210,7 @@ class DataManager {
         year: "2021",
         img: "./images/TM/trademotions.webp", 
         imgSecondary: "./images/k19/trademotions.jpg",
-        categories: ["interfaces", "branding"],
+        categories: ["Interfaces", "Branding"],
         projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
         gradientColors: ["#c72626ff", "#f55f08ff"] 
       },
@@ -231,7 +231,7 @@ class DataManager {
         year: "2023",
         img: "/images/other/sharespot.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
         gradientColors: ["#3434ff", "#2424c2"] 
       },
@@ -242,7 +242,7 @@ class DataManager {
         year: "2015",
         img: "./images/50/50-cover.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/50inventions.html",
         gradientColors: ["#d53939", "#6fcd26"] 
       },
@@ -253,7 +253,7 @@ class DataManager {
         year: "2016",
         img: "./images/VG/vognyar-souses-07.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Vognyar.html",
         gradientColors: ["#010101", "#ff0a0a"] 
       },
@@ -264,7 +264,7 @@ class DataManager {
         year: "2016",
         img: "./images/JE/JE-broushure-cover.jpg", 
         imgSecondary: "./images/JE/JE-broushure-cover.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/jernov.html",
         gradientColors: ["#010101", "rgb(240, 235, 235)"] 
       },
@@ -275,7 +275,7 @@ class DataManager {
         year: "2023",
         img: "./images/Vibe-Coding-4.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "./projects/Raconteur.html",
         gradientColors: ["#0f0f23", "#232347"] 
       },
@@ -285,7 +285,7 @@ class DataManager {
         year: "2023",
         img: "./images/Vibe-Coding-5.webp", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "./projects/The-I-Ching.html",
         gradientColors: ["#badc5bff", "#232347"] 
       },
@@ -296,7 +296,7 @@ class DataManager {
         year: "2023",
         img: "./images/Vibe-Coding-2.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "./projects/Snedeker-Yoga.html",
         gradientColors: ["#e9d1a6ff", "#524c40ff"] 
       },
@@ -307,7 +307,7 @@ class DataManager {
         year: "2023",
         img: "./images/DG/DG-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "./projects/Dr-Gavrylin.html",
         gradientColors: ["#e9d1a6ff", "#524c40ff"] 
       },
@@ -318,7 +318,7 @@ class DataManager {
         year: "2023",
         img: "./images/TW/TW-sign.png", 
         imgSecondary: "./images/50.jpg",
-        categories: ["branding"],
+        categories: ["Branding"],
         projectUrl: "./projects/tripple-we.html",
         gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"] 
       },
@@ -329,7 +329,7 @@ class DataManager {
         year: "2020",
         img: "./images/other/Airport-Operations-Platform.png", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "https://www.behance.net/gallery/213908009/Airport-Operations-Platform-Design",
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
@@ -340,7 +340,7 @@ class DataManager {
         year: "2020",
         img: "./images/HS/HS-logo.jpg", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
-        categories: ["branding"],
+        categories: ["Branding"],
         projectUrl: "./projects/khmeli-suneli.html",
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
@@ -354,7 +354,7 @@ class DataManager {
         year: "2014",
         img: "./images/SM/SM-logo-visitcard.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["branding"],
+        categories: ["Branding"],
         projectUrl: "./projects/symerio.html",
         gradientColors: ["rgb(231, 146, 28)", "#232347"] 
       },
@@ -366,7 +366,7 @@ class DataManager {
         year: "2017",
         img: "./images/SK/SK-mock.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["branding"],
+        categories: ["Branding"],
         projectUrl: "./projects/SAYENKO&KHARENKO.html",
         gradientColors: ["#919191ff", "#232347"] 
       },
@@ -376,7 +376,7 @@ class DataManager {
         year: "2017",
         img: "./images/other/accemedin.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "./projects/accemedin.html",
         gradientColors: ["rgb(220, 42, 6)", "#232347"] 
       },
@@ -387,21 +387,11 @@ class DataManager {
         year: "2024",
         img: "./images/LT/LT-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Lettering.html",
         gradientColors: ["rgb(220, 42, 6)", "#232347"] 
       },
 
-{ 
-        id: "project-8", 
-        title: "Lettering", 
-        year: "2024",
-        img: "./images/LT/LT-cover.jpg", 
-        imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
-        projectUrl: "./projects/Lettering.html",
-        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
-      },
 
            { 
         id: "project-8", 
@@ -409,7 +399,7 @@ class DataManager {
         year: "2024",
         img: "./images/art/art-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/art.html",
         gradientColors: ["rgb(39, 111, 255)", "#0f0fed"] 
       },
@@ -420,7 +410,7 @@ class DataManager {
         year: "2024",
         img: "./images/iii3/iii3-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/iii3.html",
         gradientColors: ["rgb(39, 111, 255)", "#0f0fed"] 
       },
@@ -431,7 +421,7 @@ class DataManager {
         year: "2022",
         img: "./images/FD/FD-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Fundraising.html.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
@@ -442,7 +432,7 @@ class DataManager {
         year: "2019",
         img: "./images/DB/DB-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/dobro.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
@@ -453,7 +443,7 @@ class DataManager {
         year: "2024",
         img: "./images/iii3/iii3-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/iii3.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
@@ -465,7 +455,7 @@ class DataManager {
         year: "2017",
         img: "./images/other/E-commerce-App.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["interfaces"],
+        categories: ["Interfaces"],
         projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
         gradientColors: ["#919191ff", "#232347"] 
       },
@@ -475,7 +465,7 @@ class DataManager {
         year: "2021",
         img: "./images/other/gogo-bot.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["graphic"],
+        categories: ["Graphic"],
         projectUrl: "./projects/gogo-bot.html",
         gradientColors: ["#010101", "#ff890a"] 
       }
