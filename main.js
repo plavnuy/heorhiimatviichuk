@@ -419,10 +419,10 @@ class DataManager {
         id: "project-8", 
         title: "Fundraising", 
         year: "2022",
-        img: "./images/FD/Fundrasing-02.png", 
+        img: "./images/FD/FD-zbir.gif", 
         imgSecondary: "./images/50.jpg",
         categories: ["Graphic"],
-        projectUrl: "./projects/Fundraising.html.html",
+        projectUrl: "./projects/Fundraising.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
 
