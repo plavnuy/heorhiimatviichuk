@@ -158,7 +158,7 @@ class DataManager {
         year: "2025",
         img: "/images/SC/SCHM-cover.jpg", 
         imgSecondary: "./images/50.jpg",
-        categories: ["Merch"],
+        categories: ["Graphic"],
         projectUrl: "/projects/SCHMALGAUZEN.html",
         gradientColors: ["#ff2200ff", "#232347"] 
       },
@@ -189,7 +189,7 @@ class DataManager {
         year: "2023",
         img: "./images/LC/LC-logo-anim.gif", 
         imgSecondary: "./images/50.jpg",
-        categories: ["Merch"],
+        categories: ["Graphic"],
         projectUrl: "./projects/LOCATED.html",
         gradientColors: ["#f51212ff", "#000000ff"] 
       },
@@ -221,7 +221,7 @@ class DataManager {
         year: "2023",
         img: "./images/BN/BN-case-01.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
-        categories: ["Merch"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Binary.html",
         gradientColors: ["#010101", "#ffa21f"] 
       },
@@ -432,7 +432,7 @@ class DataManager {
         year: "2019",
         img: "./images/DB/DB-logo.png", 
         imgSecondary: "./images/50.jpg",
-        categories: ["Graphic"],
+        categories: ["Branding"],
         projectUrl: "./projects/dobro.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
