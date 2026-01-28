@@ -211,7 +211,7 @@ class DataManager {
         img: "./images/TM/trademotions.webp", 
         imgSecondary: "./images/k19/trademotions.jpg",
         categories: ["Interfaces", "Branding"],
-        projectUrl: "https://www.behance.net/gallery/201256117/Trading-Platform-interface-design",
+        projectUrl: "/projects/trademotions.html",
         gradientColors: ["#c72626ff", "#f55f08ff"] 
       },
 
