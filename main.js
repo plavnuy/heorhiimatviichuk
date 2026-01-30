@@ -232,7 +232,7 @@ class DataManager {
         img: "/images/other/sharespot.jpg", 
         imgSecondary: "./images/other/accemedin.jpg",
         categories: ["Interfaces"],
-        projectUrl: "https://www.behance.net/gallery/214943165/App-for-Parking-Exchange",
+        projectUrl: "/projects/parking-app.html",
         gradientColors: ["#3434ff", "#2424c2"] 
       },
 
@@ -327,10 +327,10 @@ class DataManager {
         id: "project-5", 
         title: "INUPT SOFT", 
         year: "2020",
-        img: "./images/other/Airport-Operations-Platform.png", 
+        img: "./images/IS/IS-main.jpg", 
         imgSecondary: "./images/AMOxLOCATED_tshitmockup_3new copy.jpg",
         categories: ["Interfaces"],
-        projectUrl: "https://www.behance.net/gallery/213908009/Airport-Operations-Platform-Design",
+        projectUrl: "/projects/input-soft.html",
         gradientColors: ["#ffe066ff", "#4a2c5e"] 
       },
 
@@ -437,6 +437,28 @@ class DataManager {
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"] 
       },
 
+                      { 
+        id: "project-8", 
+        title: "Mitus", 
+        year: "2025",
+        img: "./images/MI/MI-logo.png", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["Interfaces", "Branding"],
+        projectUrl: "./projects/mitus.html",
+        gradientColors: ["rgb(186, 188, 188)", "#9595f2"] 
+      },
+
+                            { 
+        id: "project-8", 
+        title: "X-plane", 
+        year: "2023",
+        img: "./images/XP/XP-cover.jpg", 
+        imgSecondary: "./images/50.jpg",
+        categories: ["Interfaces", "Branding"],
+        projectUrl: "./projects/x-plane.html",
+        gradientColors: ["rgb(255, 111, 28)", "#9595f2"] 
+      },
+
 
                         { 
         id: "project-9", 
@@ -445,8 +467,8 @@ class DataManager {
         img: "./images/other/E-commerce-App.jpg", 
         imgSecondary: "./images/50.jpg",
         categories: ["Interfaces"],
-        projectUrl: "https://www.behance.net/gallery/75716697/E-commerce-App",
-        gradientColors: ["#919191ff", "#232347"] 
+        projectUrl: "/projects/e-commerce-app.html",
+        gradientColors: ["rgb(219, 15, 165)", "#111112"] 
       },
                                   { 
         id: "project-4", 
