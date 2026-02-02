@@ -81,8 +81,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([
     loader.renderComponent('header-component', '/components/header.html'),
     loader.renderComponent('footer-component', '/components/footer.html'),
-    loader.renderComponent('project-nav-component', '/components/project-nav.html')
+   /* loader.renderComponent('project-nav-component', '/components/project-nav.html')*/
   ]);
+  initProjectGallery(); // ← ВОТ ЗДЕСЬ
 
   document.body.style.opacity = 1;
   enterPage();
@@ -170,5 +171,44 @@ if (myhead) {
     if (typedInstance) typedInstance.destroy();
     typedInstance = null;
     autoTypeEl.textContent = '';
+  });
+}
+
+// ==========================
+// Project Image Viewer (PhotoSwipe)
+// ==========================
+let PhotoSwipeModule;
+
+async function initProjectGallery() {
+  const images = document.querySelectorAll('.project-image img');
+  if (!images.length) return;
+
+  if (!PhotoSwipeModule) {
+    PhotoSwipeModule = (await import(
+      'https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'
+    )).default;
+  }
+
+  const items = Array.from(images).map(img => ({
+    src: img.src,
+    w: img.naturalWidth || 1600,
+    h: img.naturalHeight || 1000,
+    el: img
+  }));
+
+  images.forEach((img, index) => {
+    img.style.cursor = 'zoom-in';
+
+    img.addEventListener('click', () => {
+      const pswp = new PhotoSwipeModule({
+        dataSource: items,
+        index,
+        bgOpacity: 0.96,
+        showHideAnimationType: 'fade',
+        wheelToZoom: true
+      });
+
+      pswp.init();
+    });
   });
 }

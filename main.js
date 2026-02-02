@@ -390,16 +390,6 @@ class DataManager {
 
 
       {
-        id: "project-22",
-        title: "Khmeli Suneli",
-        year: "2016",
-        img: "./images/HS/HS-logo.jpg",
-        categories: ["Branding"],
-        projectUrl: "./projects/khmeli-suneli.html",
-        gradientColors: ["#ffe066ff", "#4a2c5e"]
-      },
-
-      {
         id: "project-23",
         title: "Dobro",
         year: "2018",
@@ -410,6 +400,17 @@ class DataManager {
       },
 
       {
+        id: "project-22",
+        title: "Khmeli Suneli",
+        year: "2016",
+        img: "./images/HS/HS-logo.jpg",
+        categories: ["Branding"],
+        projectUrl: "./projects/khmeli-suneli.html",
+        gradientColors: ["#ffe066ff", "#4a2c5e"]
+      },
+
+
+      {
         id: "project-24",
         title: "SAYENKO&KHARENKO",
         year: "2017",
@@ -418,15 +419,7 @@ class DataManager {
         projectUrl: "./projects/SAYENKO&KHARENKO.html",
         gradientColors: ["#919191ff", "#232347"]
       },
-      {
-        id: "project-25",
-        title: "Accemedin",
-        year: "2017",
-        img: "./images/other/accemedin.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/accemedin.html",
-        gradientColors: ["rgb(220, 42, 6)", "#232347"]
-      },
+
       {
         id: "project-26",
         title: "E-commerce App",
@@ -437,15 +430,7 @@ class DataManager {
         gradientColors: ["rgb(219, 15, 165)", "#111112"]
       },
 
-      {
-        id: "project-27",
-        title: "Vognyar",
-        year: "2016",
-        img: "./images/VG/vognyar-souses-07.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/Vognyar.html",
-        gradientColors: ["#010101", "#ff0a0a"]
-      },
+
       {
         id: "project-28",
         title: "Jernov Jewellery",
@@ -454,6 +439,15 @@ class DataManager {
         categories: ["Graphic"],
         projectUrl: "./projects/jernov.html",
         gradientColors: ["#010101", "rgb(240, 235, 235)"]
+      },
+            {
+        id: "project-27",
+        title: "Vognyar",
+        year: "2016",
+        img: "./images/VG/vognyar-souses-07.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/Vognyar.html",
+        gradientColors: ["#010101", "#ff0a0a"]
       },
 
       {
@@ -464,6 +458,15 @@ class DataManager {
         categories: ["Graphic"],
         projectUrl: "./projects/50inventions.html",
         gradientColors: ["#d53939", "#6fcd26"]
+      },
+            {
+        id: "project-25",
+        title: "Accemedin",
+        year: "2017",
+        img: "./images/other/accemedin.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/accemedin.html",
+        gradientColors: ["rgb(220, 42, 6)", "#232347"]
       },
 
       {
