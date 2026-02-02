@@ -175,13 +175,65 @@ if (myhead) {
 }
 
 // ==========================
-// Project Image Viewer (PhotoSwipe)
+// PhotoSwipe Gallery (images + video, правильные пропорции)
 // ==========================
 let PhotoSwipeModule;
 
+function getImageDimensions(img) {
+  return new Promise(resolve => {
+    if (img.complete && img.naturalWidth) {
+      resolve({ w: img.naturalWidth, h: img.naturalHeight });
+    } else {
+      img.onload = () => resolve({ w: img.naturalWidth, h: img.naturalHeight });
+    }
+  });
+}
+
+function getVideoDimensions(video) {
+  return new Promise(resolve => {
+    if (video.videoWidth && video.videoHeight) {
+      resolve({ w: video.videoWidth, h: video.videoHeight });
+    } else {
+      video.onloadedmetadata = () => resolve({ w: video.videoWidth, h: video.videoHeight });
+    }
+  });
+}
+
+async function buildItems(nodes) {
+  const items = [];
+  for (const node of nodes) {
+    if (node.tagName === 'IMG') {
+      const { w, h } = await getImageDimensions(node);
+      items.push({ type: 'image', src: node.src, w, h, el: node });
+    } else if (node.tagName === 'VIDEO') {
+      const { w, h } = await getVideoDimensions(node);
+      const videoSrc = node.querySelector('source')?.src || node.src;
+      items.push({
+        type: 'html',
+        w,
+        h,
+        html: `
+          <div class="pswp-video-wrapper">
+            <video
+              src="${videoSrc}"
+              controls
+              autoplay
+              muted
+              playsinline
+              style="width:100%;height:100%;"
+            ></video>
+          </div>
+        `,
+        el: node
+      });
+    }
+  }
+  return items;
+}
+
 async function initProjectGallery() {
-  const images = document.querySelectorAll('.project-image img');
-  if (!images.length) return;
+  const nodes = document.querySelectorAll('.project-image img, .project-image video, .loop-video');
+  if (!nodes.length) return;
 
   if (!PhotoSwipeModule) {
     PhotoSwipeModule = (await import(
@@ -189,17 +241,11 @@ async function initProjectGallery() {
     )).default;
   }
 
-  const items = Array.from(images).map(img => ({
-    src: img.src,
-    w: img.naturalWidth || 1600,
-    h: img.naturalHeight || 1000,
-    el: img
-  }));
+  const items = await buildItems(nodes);
 
-  images.forEach((img, index) => {
-    img.style.cursor = 'zoom-in';
-
-    img.addEventListener('click', () => {
+  nodes.forEach((node, index) => {
+    node.style.cursor = 'zoom-in';
+    node.addEventListener('click', () => {
       const pswp = new PhotoSwipeModule({
         dataSource: items,
         index,
@@ -207,7 +253,6 @@ async function initProjectGallery() {
         showHideAnimationType: 'fade',
         wheelToZoom: true
       });
-
       pswp.init();
     });
   });
