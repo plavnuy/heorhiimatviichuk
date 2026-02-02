@@ -1,121 +1,174 @@
-class ComponentLoader {
-    constructor() {
-        this.components = new Map();
-    }
+// ==========================
+// Page Transition (shared)
+// ==========================
+function ensurePageTransition() {
+  let el = document.querySelector('.page-transition');
 
-    async loadComponent(id, filePath) {
-        if (this.components.has(id)) {
-            return this.components.get(id);
-        }
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'page-transition is-entering';
+    document.body.appendChild(el);
+  }
 
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-            
-            const html = await response.text();
-            this.components.set(id, html);
-            return html;
-        } catch (error) {
-            console.error(`Error loading ${filePath}:`, error);
-            return `<div class="component-error">Error loading component: ${id}</div>`;
-        }
-    }
-
-    async renderComponent(elementId, filePath) {
-        const html = await this.loadComponent(elementId, filePath);
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.innerHTML = html;
-            
-            // Restore event handlers for the back button
-            if (elementId === 'header-component') {
-                const backLink = element.querySelector('.back-link');
-                if (backLink) {
-                    backLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        history.back();
-                    });
-                }
-            }
-        }
-    }
+  return el;
 }
 
-// Initialize and load components on DOMContentLoaded
+const pageTransition = ensurePageTransition();
+
+function enterPage() {
+  // blur → clear
+  requestAnimationFrame(() => {
+    pageTransition.classList.remove('is-entering');
+    pageTransition.classList.add('is-entered');
+  });
+}
+
+function leavePage({ url = null, historyBack = false } = {}) {
+  pageTransition.classList.remove('is-entered');
+  pageTransition.classList.add('is-leaving');
+
+  setTimeout(() => {
+    if (historyBack) {
+      history.back();
+    } else if (url) {
+      window.location.href = url;
+    }
+  }, 550); // = CSS duration
+}
+
+// ==========================
+// Component Loader
+// ==========================
+class ComponentLoader {
+  constructor() {
+    this.components = new Map();
+  }
+
+  async loadComponent(id, filePath) {
+    if (this.components.has(id)) {
+      return this.components.get(id);
+    }
+
+    const response = await fetch(filePath);
+    if (!response.ok) {
+      throw new Error(`Failed to load ${filePath}`);
+    }
+
+    const html = await response.text();
+    this.components.set(id, html);
+    return html;
+  }
+
+  async renderComponent(elementId, filePath) {
+    const html = await this.loadComponent(elementId, filePath);
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    element.innerHTML = html;
+
+    if (elementId === 'header-component') {
+      initBackButton();
+    }
+  }
+}
+
+// ==========================
+// Init on load
+// ==========================
 document.addEventListener('DOMContentLoaded', async () => {
-    const loader = new ComponentLoader();
-    
-    // Load components in parallel
-    await Promise.all([
-        loader.renderComponent('header-component', '/components/header.html'),
-        loader.renderComponent('footer-component', '/components/footer.html'),
-        loader.renderComponent('project-nav-component', '/components/project-nav.html')
-    ]);
-    
-    // Show content after components load
-    document.body.style.opacity = 1;
+  const loader = new ComponentLoader();
+
+  await Promise.all([
+    loader.renderComponent('header-component', '/components/header.html'),
+    loader.renderComponent('footer-component', '/components/footer.html'),
+    loader.renderComponent('project-nav-component', '/components/project-nav.html')
+  ]);
+
+  document.body.style.opacity = 1;
+  enterPage();
 });
 
-// After header load
-fetch('../components/header.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('header-component').innerHTML = data;
-    initBackButton(); // Initialize back button
-  });
-
+// ==========================
+// Back Button (header)
+// ==========================
 function initBackButton() {
   const backLink = document.getElementById('back-link');
+
   if (!backLink) {
-    console.log('Back link not found, retrying...');
-    setTimeout(initBackButton, 100); // Retry after a short delay
+    setTimeout(initBackButton, 100);
     return;
   }
-  
-  backLink.addEventListener('click', function(event) {
-    event.preventDefault();
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const referrer = urlParams.get('referrer');
-    
+
+  backLink.addEventListener('click', e => {
+    e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const referrer = params.get('referrer');
+
     if (referrer) {
-      window.location.href = decodeURIComponent(referrer);
+      leavePage({ url: decodeURIComponent(referrer) });
       return;
     }
-    
-    if (window.history.length > 1) {
-      window.history.back();
+
+    if (history.length > 1) {
+      leavePage({ historyBack: true });
       return;
     }
-    
-    window.location.href = '../index.html';
+
+    leavePage({ url: '../index.html' });
   });
-  
-  console.log('Back button initialized');
 }
 
+// ==========================
+// Intercept internal links
+// ==========================
+document.addEventListener('click', e => {
+  const link = e.target.closest('a');
+  if (!link) return;
+
+  const href = link.getAttribute('href');
+
+  if (
+    !href ||
+    href.startsWith('#') ||
+    link.target === '_blank' ||
+    link.hasAttribute('data-no-transition')
+  ) return;
+
+  e.preventDefault();
+  leavePage({ url: href });
+});
+
+// ==========================
+// Typed.js (без изменений)
+// ==========================
 let typedInstance;
-const myhead = document.getElementById("myhead");
-const autoTypeEl = myhead.querySelector(".auto-type");
+const myhead = document.getElementById('myhead');
 
-myhead.addEventListener("mouseenter", () => {
-  if (typedInstance) typedInstance.destroy();
-  autoTypeEl.textContent = "";
-  
-  typedInstance = new Typed(".auto-type", {
-    strings: [  "Product Designer",
-  "Art Director",,
-  "Kyiv-based"],
-    typeSpeed: 70,
-    backSpeed: 30,
-    showCursor: true,
-    cursorChar: "|",
-    loop: true
+if (myhead) {
+  const autoTypeEl = myhead.querySelector('.auto-type');
+
+  myhead.addEventListener('mouseenter', () => {
+    if (typedInstance) typedInstance.destroy();
+    autoTypeEl.textContent = '';
+
+    typedInstance = new Typed('.auto-type', {
+      strings: [
+        'Product Designer',
+        'Art Director',
+        'Kyiv-based'
+      ],
+      typeSpeed: 70,
+      backSpeed: 30,
+      showCursor: true,
+      cursorChar: '|',
+      loop: true
+    });
   });
-});
 
-myhead.addEventListener("mouseleave", () => {
-  if (typedInstance) typedInstance.destroy();
-  typedInstance = null;
-  autoTypeEl.textContent = "";
-});
+  myhead.addEventListener('mouseleave', () => {
+    if (typedInstance) typedInstance.destroy();
+    typedInstance = null;
+    autoTypeEl.textContent = '';
+  });
+}
