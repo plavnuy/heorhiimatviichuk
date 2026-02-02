@@ -134,7 +134,17 @@ class DOMCache {
   document.body.appendChild(transition);
 }
 
-  
+showBackgroundBlur() {
+  if (!this.elements.bgA || !this.elements.bgB) return;
+
+  gsap.to([this.elements.bgA, this.elements.bgB], {
+    opacity: CONFIG.BG_OPACITY,
+    duration: 0.6,
+    ease: "power2.out"
+  });
+}
+
+
   updateLoaderProgress(percentage) {
     if (this.elements.loader) {
       const progress = this.elements.loader.querySelector('.loader-progress');
@@ -144,16 +154,28 @@ class DOMCache {
     }
   }
   
-  hideLoader() {
-    if (this.elements.loader) {
-      this.elements.loader.style.opacity = '0';
-      setTimeout(() => {
-        if (this.elements.loader.parentNode) {
-          this.elements.loader.parentNode.removeChild(this.elements.loader);
-        }
-      }, 300);
-    }
+hideLoader() {
+  if (this.elements.loader) {
+    this.elements.loader.style.opacity = '0';
+
+    setTimeout(() => {
+      if (this.elements.loader.parentNode) {
+        this.elements.loader.parentNode.removeChild(this.elements.loader);
+      }
+
+      // Ждём окончания page transition
+      const transition = this.elements.pageTransition;
+      if (transition) {
+        transition.addEventListener('transitionend', () => {
+          this.showBackgroundBlur();
+        }, { once: true });
+      } else {
+        // Если перехода нет — сразу включаем
+        this.showBackgroundBlur();
+      }
+    }, 300); // совпадает с твоим таймаутом на лоадер
   }
+}
 }
 
 // ==========================
