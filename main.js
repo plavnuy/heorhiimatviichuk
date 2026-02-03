@@ -82,7 +82,8 @@ class DOMCache {
       body: document.body,
       scrollContainer: document.querySelector('.scroll-container')
     };
-    
+    this.elements.glitchCursor = document.getElementById('glitch-cursor');
+
     this.initBackgroundLayers();
     this.initLoader();
     this.initPageTransition(); 
@@ -625,7 +626,38 @@ class ViewManager {
     this.checkMobileDevice();
   }
   
-  
+  initGlitchCursor() {
+  const cursor = this.dom.elements.glitchCursor;
+  if (!cursor) return;
+
+
+
+  window.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+}
+
+initCursorHoverTargets() {
+  const cursor = this.dom.elements.glitchCursor;
+  if (!cursor) return;
+
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
+      cursor.style.opacity = 1;
+        document.body.style.cursor = 'none';
+    }
+  });
+
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
+      cursor.style.opacity = 0;
+        document.body.style.cursor = 'auto';
+    }
+  });
+}
+
+
+
   checkMobileDevice() {
     const isMobile = window.innerWidth <= 768;
     if (isMobile && this.state.view !== 'gallery') {
@@ -1317,6 +1349,8 @@ document.dispatchEvent(
     this.initMouse();
     this.initResize();
     
+  this.initGlitchCursor();
+  this.initCursorHoverTargets();
     this.state.isLoading = true;
     
     const allImages = this.dataManager.allData.map(item => item.img);

@@ -249,6 +249,7 @@ async function initProjectGallery() {
       const pswp = new PhotoSwipeModule({
         dataSource: items,
         index,
+          zoom: false,
         bgOpacity: 0.96,
         showHideAnimationType: 'fade',
         wheelToZoom: true
