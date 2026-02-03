@@ -1398,7 +1398,9 @@ a {  cursor: none;}
   width: 100vw;
   height: 100vh;
   background: transparent;
-  mix-blend-mode: difference;
+  opacity: 0.2;
+filter: invert();
+  mix-blend-mode: color-burn;
   z-index: 0;
   cursor: none;
     pointer-events: none; /* 🔑 */
@@ -1406,6 +1408,7 @@ a {  cursor: none;}
 }
 #container canvas {
   width: 100%;
+
   height: 100%;
   pointer-events: none; /* 🔑🔑 */
 }

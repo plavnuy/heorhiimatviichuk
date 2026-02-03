@@ -6,12 +6,12 @@ canvas.height = canvas.clientHeight;
 
 let config = {
   TEXTURE_DOWNSAMPLE: 1,
-  DENSITY_DISSIPATION: 0.99,
-  VELOCITY_DISSIPATION: 0.99,
-  PRESSURE_DISSIPATION: 0.99,
-  PRESSURE_ITERATIONS: 40,
-  CURL: 20,
-  SPLAT_RADIUS: 0.02 };
+  DENSITY_DISSIPATION: 0.95,
+  VELOCITY_DISSIPATION: 0.95,
+  PRESSURE_DISSIPATION: 0.2,
+  PRESSURE_ITERATIONS: 20,
+  CURL: 0.000002,
+  SPLAT_RADIUS: 0.001 };
 
 
 let pointers = [];
@@ -640,8 +640,13 @@ window.addEventListener('mousemove', () => {
   const p = pointers[0];
   p.down = true;
 const neonColors = [
-  [1.0, 0.0, 1.0], // фиолет
-  [0.0, 1.0, 1.0], // циан
+  [1.0, 0.0, 0.0], // красный
+  [1.0, 0.5, 0.0], // оранжевый
+  [1.0, 1.0, 0.0], // желтый
+  [0.0, 1.0, 0.0], // зеленый
+  [0.0, 0.0, 1.0], // синий
+  [0.3, 0.0, 0.5], // индиго
+  [0.5, 0.0, 0.5]  // фиолетовый
 
 ];
 p.color = neonColors[Math.floor(Math.random() * neonColors.length)];
@@ -657,8 +662,8 @@ window.addEventListener('touchmove', e => {
     if (!p) continue;
 
     p.moved = p.down;
-    p.dx = (touches[i].pageX - p.x) * 10.0;
-    p.dy = (touches[i].pageY - p.y) * 10.0;
+    p.dx = (touches[i].pageX - p.x) * 20.0;
+    p.dy = (touches[i].pageY - p.y) * 20.0;
     p.x = touches[i].pageX;
     p.y = touches[i].pageY;
   }
