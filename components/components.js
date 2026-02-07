@@ -1,40 +1,4 @@
-// ==========================
-// Page Transition (shared)
-// ==========================
-function ensurePageTransition() {
-  let el = document.querySelector('.page-transition');
 
-  if (!el) {
-    el = document.createElement('div');
-    el.className = 'page-transition is-entering';
-    document.body.appendChild(el);
-  }
-
-  return el;
-}
-
-const pageTransition = ensurePageTransition();
-
-function enterPage() {
-  // blur → clear
-  requestAnimationFrame(() => {
-    pageTransition.classList.remove('is-entering');
-    pageTransition.classList.add('is-entered');
-  });
-}
-
-function leavePage({ url = null, historyBack = false } = {}) {
-  pageTransition.classList.remove('is-entered');
-  pageTransition.classList.add('is-leaving');
-
-  setTimeout(() => {
-    if (historyBack) {
-      history.back();
-    } else if (url) {
-      window.location.href = url;
-    }
-  }, 550); // = CSS duration
-}
 
 // ==========================
 // Component Loader
