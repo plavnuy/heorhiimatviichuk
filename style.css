@@ -1052,6 +1052,8 @@ div.pswp__img--placeholder,
   transform: translate(-50%, -50%);
 }
 
+
+
 .slide {
 
   position: absolute;
@@ -1974,7 +1976,7 @@ transition:
 
 .project-navigation {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   color: #3b3b3b;
 }

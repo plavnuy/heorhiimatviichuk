@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([
     loader.renderComponent('header-component', '/components/header.html'),
     loader.renderComponent('footer-component', '/components/footer.html'),
-   /* loader.renderComponent('project-nav-component', '/components/project-nav.html')*/
+   loader.renderComponent('project-nav-component', '/components/project-nav.html')
   ]);
   initProjectGallery(); // ← ВОТ ЗДЕСЬ
 
