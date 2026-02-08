@@ -4,14 +4,14 @@ class ControlsManager {
     constructor() {
         this.config = {
             TEXTURE_DOWNSAMPLE: 1,
-            DENSITY_DISSIPATION: 0.95,
-            VELOCITY_DISSIPATION: 0.95,
-            PRESSURE_DISSIPATION: 0.2,
+            DENSITY_DISSIPATION: 0.98,
+            VELOCITY_DISSIPATION: 0.89,
+            PRESSURE_DISSIPATION: 0.99,
             PRESSURE_ITERATIONS: 20,
-            CURL: 50,
-            SPLAT_RADIUS: 0.003,
+            CURL: 0.1,
+            SPLAT_RADIUS: 0.001,
             blendMode: 'difference',
-            opacity: 1,
+            opacity: 0.05,
             enabled: false // Изначально выключено
         };
 
@@ -58,7 +58,7 @@ class ControlsManager {
             position: absolute;
             left: 20px;
             bottom: 120px;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px;
             color: white;
@@ -131,7 +131,7 @@ class ControlsManager {
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="color: rgba(255,255,255,0.8);">Curl</span>
-                    <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(7)}</span>
+                    <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(4)}</span>
                 </div>
                 <input type="range" id="curlSlider" min="0.1" max="50" step="0.1" value="${this.config.CURL}" style="width: 100%; margin: 5px 0;">
             </div>
@@ -141,7 +141,7 @@ class ControlsManager {
                     <span style="color: rgba(255,255,255,0.8);">Splat Radius</span>
                     <span id="splatValue" style="font-family: monospace;">${this.config.SPLAT_RADIUS.toFixed(4)}</span>
                 </div>
-                <input type="range" id="splatSlider" min="0.001" max="0.1" step="0.001" value="${this.config.SPLAT_RADIUS}" style="width: 100%; margin: 5px 0;">
+                <input type="range" id="splatSlider" min="0.001" max="0.100" step="0.001" value="${this.config.SPLAT_RADIUS}" style="width: 100%; margin: 5px 0;">
             </div>
 
   
@@ -185,8 +185,8 @@ class ControlsManager {
             { id: 'densitySlider', key: 'DENSITY_DISSIPATION', valueId: 'densityValue', format: v => v.toFixed(2) },
             { id: 'velocitySlider', key: 'VELOCITY_DISSIPATION', valueId: 'velocityValue', format: v => v.toFixed(2) },
             { id: 'pressureSlider', key: 'PRESSURE_DISSIPATION', valueId: 'pressureValue', format: v => v.toFixed(2) },
-            { id: 'curlSlider', key: 'CURL', valueId: 'curlValue', format: v => v.toFixed(2) },
-            { id: 'splatSlider', key: 'SPLAT_RADIUS', valueId: 'splatValue', format: v => v.toFixed(2) }
+            { id: 'curlSlider', key: 'CURL', valueId: 'curlValue', format: v => v.toFixed(4) },
+            { id: 'splatSlider', key: 'SPLAT_RADIUS', valueId: 'splatValue', format: v => v.toFixed(4) }
         ];
 
         sliders.forEach(slidersq => {
@@ -308,7 +308,7 @@ class ControlsManager {
         document.getElementById('pressureValue').textContent = this.config.PRESSURE_DISSIPATION.toFixed(2);
         
         document.getElementById('curlSlider').value = this.config.CURL;
-        document.getElementById('curlValue').textContent = this.config.CURL.toFixed(7);
+        document.getElementById('curlValue').textContent = this.config.CURL.toFixed(4);
         
         document.getElementById('splatSlider').value = this.config.SPLAT_RADIUS;
         document.getElementById('splatValue').textContent = this.config.SPLAT_RADIUS.toFixed(4);

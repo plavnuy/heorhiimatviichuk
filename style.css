@@ -1050,6 +1050,7 @@ div.pswp__img--placeholder,
   mix-blend-mode: difference;
   z-index: 9999;
   transform: translate(-50%, -50%);
+  display: none;
 }
 
 
@@ -1144,7 +1145,7 @@ div.pswp__img--placeholder,
   z-index: 10;
   min-height: 100vh;
   padding: 100px 20px 120px;
-  background: var(--bg);
+
   opacity: 0;
   transition: opacity 0.4s ease;
   width: 100%;
@@ -1241,6 +1242,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
   display: block;
   transition: transform 0.6s ease;
   object-fit: contain;
+
   max-width: 100%;
   max-height: none;
 }
@@ -1266,7 +1268,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 
 .gallery-caption {
   padding: 16px;
-  background: rgba(0, 0, 0, 0.7);
+
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
 }
@@ -1477,13 +1479,7 @@ a {  cursor: none;}
                     border: none;
                 }
                 
-                button {
-                    transition: all 0.2s;
-                }
                 
-                button:hover {
-                    background: rgba(255,255,255,0.2) !important;
-                }
                 
                 .control-group.disabled {
                     opacity: 0.3;

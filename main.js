@@ -395,7 +395,7 @@ class DataManager {
         id: "project-23",
         title: "Dobro",
         year: "2018",
-        img: "./images/DB/DB-logo.png",
+        img: "./images/DO/DO-logo.png",
         categories: ["Branding"],
         projectUrl: "./projects/dobro.html",
         gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
@@ -645,6 +645,7 @@ initCursorHoverTargets() {
   document.addEventListener('mouseover', e => {
     if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
       cursor.style.opacity = 1;
+       cursor.style.display = 'block';
         document.body.style.cursor = 'none';
     }
   });
@@ -652,6 +653,9 @@ initCursorHoverTargets() {
   document.addEventListener('mouseout', e => {
     if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
       cursor.style.opacity = 0;
+
+        cursor.style.display = 'none'; // ← Затем скрываем
+
         document.body.style.cursor = 'auto';
     }
   });

@@ -6,12 +6,12 @@ canvas.height = canvas.clientHeight;
 
 let config = {
   TEXTURE_DOWNSAMPLE: 1,
-  DENSITY_DISSIPATION: 0.95,
-  VELOCITY_DISSIPATION: 0.95,
+  DENSITY_DISSIPATION: 0.98,
+  VELOCITY_DISSIPATION: 0.89,
   PRESSURE_DISSIPATION: 0.2,
   PRESSURE_ITERATIONS: 20,
   CURL: 0.1,
-  SPLAT_RADIUS: 0.003 };
+  SPLAT_RADIUS: 0.001 };
 
 
 let pointers = [];
@@ -491,7 +491,7 @@ const blit = (() => {
 })();
 
 let lastTime = Date.now();
-multipleSplats(parseInt(Math.random() * 20) + 5);
+
 update();
 
 function update() {
