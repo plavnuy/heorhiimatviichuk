@@ -28,8 +28,42 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../style.css">
+
+    <!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Collection",
+  "name": "Visual Works by Heorhii Matviichuk",
+  "creator": {
+    "@type": "Person",
+    "name": "Heorhii Matviichuk"
+  },
+  "description": "A collection of abstract paintings, cyberpunk digital art, and alchemical illustrations.",
+  "hasPart": [
+    {
+      "@type": "VisualArtwork",
+      "name": "Abstract Paintings Series",
+      "artform": "Painting"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Cyberpunk & Digital Visions",
+      "artform": "Digital Art"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Alchemical Illustrations",
+      "artform": "Illustration"
+    }
+  ]
+}
+</script>
 </head>
 
+  <section id="container">
+  <canvas></canvas>
+</section>
 <body class="no-long-body">
 
 <div id="header-component"></div>
@@ -184,37 +218,10 @@
 
 <div id="footer-component"></div>
 
-<!-- Schema.org -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Collection",
-  "name": "Visual Works by Heorhii Matviichuk",
-  "creator": {
-    "@type": "Person",
-    "name": "Heorhii Matviichuk"
-  },
-  "description": "A collection of abstract paintings, cyberpunk digital art, and alchemical illustrations.",
-  "hasPart": [
-    {
-      "@type": "VisualArtwork",
-      "name": "Abstract Paintings Series",
-      "artform": "Painting"
-    },
-    {
-      "@type": "VisualArtwork",
-      "name": "Cyberpunk & Digital Visions",
-      "artform": "Digital Art"
-    },
-    {
-      "@type": "VisualArtwork",
-      "name": "Alchemical Illustrations",
-      "artform": "Illustration"
-    }
-  ]
-}
-</script>
 
+
+<script src="/controls.js" defer></script>
 <script src="../components/components.js"></script>
+<script src="/cursor.js" defer></script>
 </body>
 </html>

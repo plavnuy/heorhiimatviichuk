@@ -816,10 +816,11 @@ initCursorHoverTargets() {
     img.src = data.img;
     img.alt = data.title || '';
     img.loading = "lazy";
-    img.onerror = () => {
-      img.src = './images/fallback.jpg';
-      img.alt = 'Image not loaded';
-    };
+img.onerror = () => {
+  img.remove();
+  slide.classList.add('image-error');
+};
+
     
     //   <span class="card-category">${data.categories.join(", ")}</span>
     slide.innerHTML = `
@@ -954,10 +955,11 @@ window.location.href = finalUrl;
           const img = entry.target.querySelector('.lazy-img');
           if (img && img.dataset.src) {
             img.src = img.dataset.src;
-            img.onerror = () => {
-              img.src = './images/fallback.jpg';
-              img.alt = 'Image not loaded';
-            };
+img.onerror = () => {
+  img.remove();
+  slide.classList.add('image-error');
+};
+
             img.removeAttribute('data-src');
             img.classList.remove('lazy-img');
           }

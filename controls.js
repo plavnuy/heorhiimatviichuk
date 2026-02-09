@@ -61,7 +61,7 @@ class ControlsManager {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px;
-            color: white;
+            hard-light: white;
             font-family: 'Science Gothic', sans-serif;
             font-size: 12px;
             backdrop-filter: blur(10px);
@@ -91,14 +91,14 @@ class ControlsManager {
                 <div class="blend-mode-tabs" style="display: flex; margin-bottom: 15px; gap: 4px;">
                     <button class="blend-tab ${this.config.blendMode === 'difference' ? 'active' : ''}" data-mode="difference">DIFF</button>
                     <button class="blend-tab ${this.config.blendMode === 'exclusion' ? 'active' : ''}" data-mode="exclusion">EXCL</button>
-                    <button class="blend-tab ${this.config.blendMode === 'color' ? 'active' : ''}" data-mode="color">COLR</button>
-                    <button class="blend-tab ${this.config.blendMode === 'overlay' ? 'active' : ''}" data-mode="overlay">OVER</button>
+                    <button class="blend-tab ${this.config.blendMode === 'hard-light' ? 'active' : ''}" data-mode="hard-light">HARD</button>
+                    <button class="blend-tab ${this.config.blendMode === 'luminosity' ? 'active' : ''}" data-mode="luminosity">LUMEN</button>
                 </div>
             </div>
 
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Opacity</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Opacity</span>
                     <span id="opacityValue" style="font-family: monospace;">${(this.config.opacity * 100).toFixed(0)}%</span>
                 </div>
                 <input type="range" id="opacitySlider" min="0" max="100" step="1" value="${this.config.opacity * 100}" style="width: 100%; margin: 5px 0;">
@@ -106,7 +106,7 @@ class ControlsManager {
 
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Density</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Density</span>
                     <span id="densityValue" style="font-family: monospace;">${this.config.DENSITY_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="densitySlider" min="0.90" max="0.99" step="0.01" value="${this.config.DENSITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -114,7 +114,7 @@ class ControlsManager {
 
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Velocity</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Velocity</span>
                     <span id="velocityValue" style="font-family: monospace;">${this.config.VELOCITY_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="velocitySlider" min="0.8" max="0.99" step="0.01" value="${this.config.VELOCITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -122,7 +122,7 @@ class ControlsManager {
 
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Pressure</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Pressure</span>
                     <span id="pressureValue" style="font-family: monospace;">${this.config.PRESSURE_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="pressureSlider" min="0.1" max="0.5" step="0.01" value="${this.config.PRESSURE_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -130,7 +130,7 @@ class ControlsManager {
 
             <div class="control-group" style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Curl</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Curl</span>
                     <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(4)}</span>
                 </div>
                 <input type="range" id="curlSlider" min="0.1" max="50" step="0.1" value="${this.config.CURL}" style="width: 100%; margin: 5px 0;">
@@ -138,7 +138,7 @@ class ControlsManager {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.8);">Splat Radius</span>
+                    <span style="hard-light: rgba(255,255,255,0.8);">Splat Radius</span>
                     <span id="splatValue" style="font-family: monospace;">${this.config.SPLAT_RADIUS.toFixed(4)}</span>
                 </div>
                 <input type="range" id="splatSlider" min="0.001" max="0.100" step="0.001" value="${this.config.SPLAT_RADIUS}" style="width: 100%; margin: 5px 0;">
@@ -229,7 +229,7 @@ class ControlsManager {
         // Применяем настройки к контейнеру
         const container = document.getElementById('container');
         if (container) {
-            container.style.mixBlendMode = this.config.enabled ? this.config.blendMode : 'normal';
+            container.style.mixBlendMode = this.config.enabled ? this.config.blendMode : 'hard-light';
             container.style.opacity = this.config.enabled ? this.config.opacity : '0';
         }
     }
@@ -274,7 +274,7 @@ class ControlsManager {
         this.config.SPLAT_RADIUS = 0.002 + Math.random() * 0.008;
         this.config.opacity = 0.2 + Math.random() * 0.6;
         
-        const blendModes = ['difference', 'exclusion', 'color', 'overlay'];
+        const blendModes = ['difference', 'exclusion', 'hard-light', 'luminosity'];
         this.config.blendMode = blendModes[Math.floor(Math.random() * blendModes.length)];
 
         this.updateUI();

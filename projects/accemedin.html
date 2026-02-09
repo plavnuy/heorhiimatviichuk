@@ -28,8 +28,36 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../style.css">
+
+    <!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Accemedin Educational Platform",
+  "description": "UX and UI design of an educational platform for Ukrainian medical professionals.",
+  "creator": {
+    "@type": "Person",
+    "name": "Heorhii Matviichuk"
+  },
+  "dateCreated": "2016",
+  "genre": "UX/UI Design",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Medical Professionals"
+  },
+  "image": [
+    "https://yourdomain.com/images/AC/AC-deskt-screens.jpg",
+    "https://yourdomain.com/images/AC/AC-desktop-1.jpg"
+  ]
+}
+</script>
+
 </head>
 
+  <section id="container">
+  <canvas></canvas>
+</section>
 <body class="no-long-body">
 
 <div id="header-component"></div>
@@ -148,40 +176,19 @@
                 </p>
             </div>
         </section>
-
-        <footer class="project-footer">
+        <div class="project-footer">
             <div id="project-nav-component"></div>
-        </footer>
+        </div>
 
     </article>
 </div>
 
 <div id="footer-component"></div>
 
-<!-- Schema.org -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "name": "Accemedin Educational Platform",
-  "description": "UX and UI design of an educational platform for Ukrainian medical professionals.",
-  "creator": {
-    "@type": "Person",
-    "name": "Heorhii Matviichuk"
-  },
-  "dateCreated": "2016",
-  "genre": "UX/UI Design",
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Medical Professionals"
-  },
-  "image": [
-    "https://yourdomain.com/images/AC/AC-deskt-screens.jpg",
-    "https://yourdomain.com/images/AC/AC-desktop-1.jpg"
-  ]
-}
-</script>
 
+
+<script src="/controls.js" defer></script>
 <script src="../components/components.js"></script>
+<script src="/cursor.js" defer></script>
 </body>
 </html>

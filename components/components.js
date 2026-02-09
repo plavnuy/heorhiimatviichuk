@@ -1,5 +1,3 @@
-
-
 // ==========================
 // Component Loader
 // ==========================
@@ -37,6 +35,65 @@ class ComponentLoader {
 }
 
 // ==========================
+// Global Variables
+// ==========================
+let pageTransition;
+
+// ==========================
+// Page Transition Functions
+// ==========================
+function enterPage() {
+  if (!pageTransition) {
+    pageTransition = document.getElementById('page-transition');
+  }
+  
+  if (pageTransition) {
+    // Убираем transition для моментального показа
+    pageTransition.style.transition = 'none';
+    pageTransition.classList.add('is-entering');
+    
+    // Даем браузеру время применить класс
+    requestAnimationFrame(() => {
+      // Возвращаем transition и запускаем анимацию
+      pageTransition.style.transition = '';
+      pageTransition.classList.remove('is-entering');
+      pageTransition.classList.add('is-entered');
+      
+      // Через время убираем transition
+      setTimeout(() => {
+        pageTransition.classList.remove('is-entered');
+      }, 550);
+    });
+  }
+}
+
+function leavePage({ url = null, historyBack = false } = {}) {
+  if (!pageTransition) {
+    pageTransition = document.getElementById('page-transition');
+  }
+  
+  if (pageTransition) {
+    pageTransition.classList.remove('is-entered');
+    pageTransition.classList.add('is-leaving');
+    
+    setTimeout(() => {
+      if (historyBack) {
+        history.back();
+      } else if (url) {
+        window.location.href = url;
+      }
+    }, 550);
+  } else {
+    // Fallback если transition не найден
+    if (historyBack) {
+      history.back();
+    } else if (url) {
+      window.location.href = url;
+    }
+  }
+}
+
+// ==========================
 // Init on load
 // ==========================
 document.addEventListener('DOMContentLoaded', async () => {
@@ -45,11 +102,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([
     loader.renderComponent('header-component', '/components/header.html'),
     loader.renderComponent('footer-component', '/components/footer.html'),
-   loader.renderComponent('project-nav-component', '/components/project-nav.html')
+    loader.renderComponent('project-nav-component', '/components/project-nav.html')
   ]);
-  initProjectGallery(); // ← ВОТ ЗДЕСЬ
-
+  
+  // Инициализируем page transition
+  pageTransition = document.getElementById('page-transition');
+  
+  // Инициализируем галерею
+  initProjectGallery();
+  
+  // Плавное появление контента
   document.body.style.opacity = 1;
+  
+  // Запускаем анимацию входа
   enterPage();
 });
 
@@ -105,41 +170,53 @@ document.addEventListener('click', e => {
 });
 
 // ==========================
-// Typed.js (без изменений)
+// Typed.js
 // ==========================
 let typedInstance;
-const myhead = document.getElementById('myhead');
 
-if (myhead) {
-  const autoTypeEl = myhead.querySelector('.auto-type');
+function initTypedJS() {
+  const myhead = document.getElementById('myhead');
+  
+  if (myhead && typeof Typed !== 'undefined') {
+    const autoTypeEl = myhead.querySelector('.auto-type');
 
-  myhead.addEventListener('mouseenter', () => {
-    if (typedInstance) typedInstance.destroy();
-    autoTypeEl.textContent = '';
+    myhead.addEventListener('mouseenter', () => {
+      if (typedInstance) typedInstance.destroy();
+      if (autoTypeEl) autoTypeEl.textContent = '';
 
-    typedInstance = new Typed('.auto-type', {
-      strings: [
-        'Product Designer',
-        'Art Director',
-        'Kyiv-based'
-      ],
-      typeSpeed: 70,
-      backSpeed: 30,
-      showCursor: true,
-      cursorChar: '|',
-      loop: true
+      typedInstance = new Typed('.auto-type', {
+        strings: [
+          'Product Designer',
+          'Art Director',
+          'Kyiv-based'
+        ],
+        typeSpeed: 70,
+        backSpeed: 30,
+        showCursor: true,
+        cursorChar: '|',
+        loop: true
+      });
     });
-  });
 
-  myhead.addEventListener('mouseleave', () => {
-    if (typedInstance) typedInstance.destroy();
-    typedInstance = null;
-    autoTypeEl.textContent = '';
-  });
+    myhead.addEventListener('mouseleave', () => {
+      if (typedInstance) typedInstance.destroy();
+      typedInstance = null;
+      if (autoTypeEl) autoTypeEl.textContent = '';
+    });
+  } else if (!myhead) {
+    // Если myhead ещё не загружен, пробуем позже
+    setTimeout(initTypedJS, 100);
+  }
 }
 
+// Инициализируем Typed.js после загрузки компонентов
+document.addEventListener('DOMContentLoaded', () => {
+  // Ждем немного для гарантии загрузки компонентов
+  setTimeout(initTypedJS, 500);
+});
+
 // ==========================
-// PhotoSwipe Gallery (images + video, правильные пропорции)
+// PhotoSwipe Gallery
 // ==========================
 let PhotoSwipeModule;
 
@@ -213,7 +290,7 @@ async function initProjectGallery() {
       const pswp = new PhotoSwipeModule({
         dataSource: items,
         index,
-          zoom: false,
+        zoom: false,
         bgOpacity: 0.96,
         showHideAnimationType: 'fade',
         wheelToZoom: true
@@ -222,3 +299,24 @@ async function initProjectGallery() {
     });
   });
 }
+
+// ==========================
+// Controls Manager инициализация
+// ==========================
+// Этот код нужно добавить в DOMContentLoaded после загрузки компонентов
+document.addEventListener('DOMContentLoaded', () => {
+  // Ждем загрузки Typed.js библиотеки если она подключена отдельно
+  const checkTyped = setInterval(() => {
+    if (typeof Typed !== 'undefined') {
+      clearInterval(checkTyped);
+      initTypedJS();
+    }
+  }, 100);
+  
+  // Инициализируем ControlsManager после загрузки всех компонентов
+  setTimeout(() => {
+    if (typeof ControlsManager !== 'undefined') {
+      window.controlsManager = new ControlsManager();
+    }
+  }, 600);
+});
