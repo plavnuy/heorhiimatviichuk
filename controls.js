@@ -8,7 +8,7 @@ class ControlsManager {
             VELOCITY_DISSIPATION: 0.89,
             PRESSURE_DISSIPATION: 0.99,
             PRESSURE_ITERATIONS: 20,
-            CURL: 0.1,
+            CURL: 0.01,
             SPLAT_RADIUS: 0.001,
             blendMode: 'difference',
             opacity: 0.05,
@@ -133,7 +133,7 @@ class ControlsManager {
                     <span style="hard-light: rgba(255,255,255,0.8);">Curl</span>
                     <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(4)}</span>
                 </div>
-                <input type="range" id="curlSlider" min="0.1" max="50" step="0.1" value="${this.config.CURL}" style="width: 100%; margin: 5px 0;">
+                <input type="range" id="curlSlider" min="0" max="50" step="0.01" value="${this.config.CURL}" style="width: 100%; margin: 5px 0;">
             </div>
 
             <div class="control-group" style="margin-bottom: 20px;">

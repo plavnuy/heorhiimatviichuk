@@ -1,363 +1,501 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
-    <!-- SEO -->
-    <meta name="description" content="Trademotions — professional trading platform for fund managers. UI/UX redesign, product design, widgets, and design system development.">
-    <meta property="og:title" content="Trademotions — Heorhii Matviichuk">
-    <meta property="og:description" content="Product design case study: UI/UX redesign of a closed trading platform for fund managers. Widgets, design system, and product strategy.">
-    <meta property="og:image" content="../images/trademotions/trademotions-preview.jpg">
-    <meta property="og:type" content="website">
+        <!-- SEO -->
+        <meta name="description" content="Trademotions — professional trading platform for fund managers. UI/UX redesign, product design, widgets, and design system development.">
+        <meta property="og:title" content="Trademotions — Heorhii Matviichuk">
+        <meta property="og:description" content="Product design case study: UI/UX redesign of a closed trading platform for fund managers. Widgets, design system, and product strategy.">
+        <meta property="og:image" content="../images/trademotions/trademotions-preview.jpg">
+        <meta property="og:type" content="website">
 
-    <!-- Favicon -->
-    <link rel="icon" href="../images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="../images/favicon/favicon-32x32.png" type="image/png" sizes="32x32">
-    <link rel="icon" href="../images/favicon/favicon-16x16.png" type="image/png" sizes="16x16">
-    <link rel="apple-touch-icon" href="../images/favicon/apple-touch-icon.png" sizes="180x180">
+        <!-- Favicon -->
+        <link rel="icon" href="../images/favicon/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../images/favicon/favicon-32x32.png" type="image/png" sizes="32x32">
+        <link rel="icon" href="../images/favicon/favicon-16x16.png" type="image/png" sizes="16x16">
+        <link rel="apple-touch-icon" href="../images/favicon/apple-touch-icon.png" sizes="180x180">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&display=swap" rel="stylesheet">
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../style.css">
+        <!-- CSS -->
+        <link rel="stylesheet" href="../style.css">
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Trademotions — Heorhii Matviichuk",
+    "url": "https://yourportfolio.com/trademotions",
+    "description": "Product design case study: UI/UX redesign of a closed trading platform for fund managers. Widgets, design system, and product strategy.",
+    "image": "https://yourdomain.com/images/trademotions/trademotions-preview.jpg",
+    "author": {
+        "@type": "Person",
+        "name": "Heorhii Matviichuk",
+        "url": "https://yourportfolio.com"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Heorhii Matviichuk Portfolio",
+        "logo": {
+        "@type": "ImageObject",
+        "url": "https://yourdomain.com/images/favicon/favicon-32x32.png"
+        }
+    },
+    "datePublished": "2024",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yourportfolio.com/trademotions"
+    },
+    "hasPart": [
+        {
+        "@type": "CreativeWork",
+        "name": "Overview",
+        "text": "Trademotions is a professional trading platform designed for fund managers, providing real-time market data, portfolio monitoring, and order management tools."
+        },
+        {
+        "@type": "CreativeWork",
+        "name": "Goal",
+        "text": "Enhance platform value and attract additional investments through UI/UX redesign and feature improvements."
+        },
+        {
+        "@type": "CreativeWork",
+        "name": "Main Tasks",
+        "text": "User research, defining tasks for developers, UI/UX proposals, branding updates, and design system creation."
+        },
+        {
+        "@type": "CreativeWork",
+        "name": "Discovery & Concept",
+        "text": "Research, mind maps, object models, and user stories defined to prioritize high-value features.",
+        "image": [
+            "https://yourdomain.com/images/TM/TM-business-model-canvass.png",
+            "https://yourdomain.com/images/TM/TM-objectmodel-1.jpg",
+            "https://yourdomain.com/images/TM/TM-objectmodel-2.jpg"
+        ]
+        },
+        {
+        "@type": "CreativeWork",
+        "name": "UI Redesign & Branding",
+        "text": "Implemented spacing/grid, color palette, typography, light theme, responsive components, and branding updates.",
+        "image": [
+            "https://yourdomain.com/images/TM/TM-distances.jpg",
+            "https://yourdomain.com/images/TM/TM-colors.png",
+            "https://yourdomain.com/images/TM/TM-font.png",
+            "https://yourdomain.com/images/TM/TM-light:dark-theme.png",
+            "https://yourdomain.com/images/TM/TM-interface-1.png",
+            "https://yourdomain.com/images/TM/TM-interface-2.png",
+            "https://yourdomain.com/images/TM/TM-interface-3.png",
+            "https://yourdomain.com/images/TM/TM-interface-4.png",
+            "https://yourdomain.com/images/TM/TM-interfaces-all.png",
+            "https://yourdomain.com/images/TM/TM-bigboard.png"
+        ]
+        },
+        {
+        "@type": "CreativeWork",
+        "name": "Outcome",
+        "text": "The redesign improved clarity, reduced cognitive load, and created a scalable foundation for future feature development."
+        }
+    ]
+    }
+    </script>
 
-    <title>Trademotions — Heorhii Matviichuk</title>
-</head>
+        <title>Trademotions — Heorhii Matviichuk</title>
+    </head>
 
-  <section id="container">
-  <canvas></canvas>
-</section>
-<body class="no-long-body">
 
-<div id="header-component"></div>
+    <body class="no-long-body">
+    <section id="container">
+    <canvas></canvas>
+    </section>
 
-<div class="content-container">
-    <article class="project-article">
+    <div id="header-component"></div>
 
-        <!-- Hero -->
-        <header class="project-hero">
-            <h1 class="project-title">Trademotions</h1>
+    <div class="content-container">
+        <article class="project-article">
 
-            <div class="project-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Product</span>
-                    <span class="meta-value">Trading Platform</span>
+            <!-- Hero -->
+            <header class="project-hero">
+                <h1 class="project-title">Trademotions</h1>
+
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Product</span>
+                        <span class="meta-value">Trading Platform</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="meta-label">Role</span>
+                        <span class="meta-value">Product Designer</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="meta-label">Duration</span>
+                        <span class="meta-value">13 months</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="meta-label">Access</span>
+                        <span class="meta-value">Closed platform</span>
+                    </div>
                 </div>
+            </header>
 
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <span class="meta-value">Product Designer</span>
+            <!-- Overview -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Overview</h2>
+
+                <div class="content-text">
+                    <p>
+                        Trademotions is a professional trading platform designed for fund managers and advanced traders.
+                        It provides real-time market data, pricing information, portfolio monitoring, and order management tools.
+                    </p>
+
+                    <p>
+                        The platform enables users to track open positions, analyze profit and loss, and adjust trades
+                        in fast-moving market conditions.
+                    </p>
+
+                    <p>
+                        I joined the project as a product designer and worked closely with the product manager and development team
+                        on improving usability, visual clarity, and overall product value.
+                    </p>
                 </div>
+            </section>
+    <div class="fullwidth">
+    <div class="video-frame  video-4x3">
+        <iframe
+        src="https://player.vimeo.com/video/979647457?background=1"
+        allow="autoplay; picture-in-picture"
+        frameborder="0">
+        </iframe>
+    </div>
+    </div>
 
-                <div class="meta-item">
-                    <span class="meta-label">Duration</span>
-                    <span class="meta-value">13 months</span>
+
+            <section class="content-section">
+                <h2 class="content-subtitle">Goal</h2>
+
+                <div class="content-text">
+                    <p>
+                        The primary goal was to attract additional investments for further product development
+                        and enhance the platform’s value for end users.
+                    </p>
+
+                    <p>
+                        This was achieved by improving the UI/UX of the interface and introducing new features
+                        aligned with real user needs.
+                    </p>
                 </div>
+            </section>
 
-                <div class="meta-item">
-                    <span class="meta-label">Access</span>
-                    <span class="meta-value">Closed platform</span>
+            <!-- Main Tasks -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Main Tasks</h2>
+
+                <div class="content-text">
+                    <ul>
+                        <li>Communication with users and stakeholders</li>
+                        <li>Providing structured tasks and requirements to developers</li>
+                        <li>Analyzing feature ideas and proposing UI/UX solutions</li>
+                        <li>Branding update and design system creation</li>
+                    </ul>
                 </div>
-            </div>
-        </header>
+            </section>
+            <div class="project-image scaled15">
+                        <img src="/images/TM/TM-business-model-canvass.png"        alt="Business Model Canvas defining Trademotions product strategy and value proposition">
+>
+                    </div> 
+            <!-- Discovery -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Discovery</h2>
 
-        <!-- Overview -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Overview</h2>
+                <div class="content-text">
+                    <p>
+                        To understand the trading industry and the daily workflow of fund managers,
+                        I conducted deep primary research into the domain and existing product functionality.
+                    </p>
 
-            <div class="content-text">
-                <p>
-                    Trademotions is a professional trading platform designed for fund managers and advanced traders.
-                    It provides real-time market data, pricing information, portfolio monitoring, and order management tools.
-                </p>
+                    <p>
+                        The result was a set of mind maps and canvases that helped structure insights,
+                        identify pain points, and define opportunities for improvement.
+                    </p>
+                </div>
+    <div class="project-image scaled15">
+                        <img src="/images/TM/TM-objectmodel-1.png"  alt="Object model diagram showing platform structure and user interactions">
+                        <img src="/images/TM/TM-objectmodel-2.png" alt="Extended object model mapping trading workflows">
 
-                <p>
-                    The platform enables users to track open positions, analyze profit and loss, and adjust trades
-                    in fast-moving market conditions.
-                </p>
+                    </div> 
 
-                <p>
-                    I joined the project as a product designer and worked closely with the product manager and development team
-                    on improving usability, visual clarity, and overall product value.
-                </p>
-            </div>
-        </section>
-<div class="fullwidth">
-  <div class="video-frame  video-4x3">
-    <iframe
-      src="https://player.vimeo.com/video/979647457?background=1"
-      allow="autoplay; picture-in-picture"
-      frameborder="0">
-    </iframe>
-  </div>
+
+
+
+
+            </section>
+
+            <section class="content-section">
+                <h2 class="content-subtitle">Conceptualisation</h2>
+
+                <div class="content-text">
+                    <p>
+                        User stories were systematized, and both new features and updates to existing functionality were ideated.
+                    </p>
+
+                    <p>
+                        This process allowed the team to prioritize features that delivered the highest value
+                        by solving real, validated user problems.
+                    </p>
+                </div>
+            </section>
+
+
+<div class="project-image scaled15">
+
+  <figure>
+    <img src="/images/TM/TM-empathy-map.png"
+         alt="Empathy map for professional traders">
+  </figure>
+
+  <figure>
+    <img src="/images/TM/TM-gainsnpains.png"
+         alt="User gains and pains analysis">
+  </figure>
+
+  <figure>
+    <img src="/images/TM/TM-hypothesis.png"
+         alt="Product hypotheses validation framework">
+  </figure>
+
+  <figure>
+    <img src="/images/TM/TM-jobstories.png"
+         alt="Job stories for trading platform use cases">
+ 
+  </figure>
+
 </div>
 
+            <!-- Global Task List -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Global Task List</h2>
 
-        <section class="content-section">
-            <h2 class="content-subtitle">Goal</h2>
+                <div class="content-text">
+                    <ul>
+                        <li>Branding update and UI redesign</li>
+                        <li>Header and side menu updates</li>
+                        <li>Market View widget creation</li>
+                        <li>Order Pad interface redesign</li>
+                        <li>Portfolio widget creation</li>
+                        <li>Conditional orders implementation</li>
+                    </ul>
+                </div>
+            </section>
 
-            <div class="content-text">
-                <p>
-                    The primary goal was to attract additional investments for further product development
-                    and enhance the platform’s value for end users.
-                </p>
+            <!-- Additional Responsibilities -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Additional Responsibilities</h2>
 
-                <p>
-                    This was achieved by improving the UI/UX of the interface and introducing new features
-                    aligned with real user needs.
-                </p>
-            </div>
-        </section>
+                <div class="content-text">
+                    <p>
+                        One of my responsibilities was creating Jira tickets for the development team,
+                        including detailed user stories and acceptance criteria.
+                    </p>
 
-        <!-- Main Tasks -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Main Tasks</h2>
+                    <p>
+                        This ensured a smooth transition from design to development and minimized
+                        miscommunication during implementation.
+                    </p>
+                </div>
+            </section>
 
-            <div class="content-text">
-                <ul>
-                    <li>Communication with users and stakeholders</li>
-                    <li>Providing structured tasks and requirements to developers</li>
-                    <li>Analyzing feature ideas and proposing UI/UX solutions</li>
-                    <li>Branding update and design system creation</li>
-                </ul>
-            </div>
-        </section>
-        <div class="project-image scaled15">
-                    <img src="/images/TM/TM-business-model-canvass.png" alt="Alt">
-                </div> 
-        <!-- Discovery -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Discovery</h2>
-
-            <div class="content-text">
-                <p>
-                    To understand the trading industry and the daily workflow of fund managers,
-                    I conducted deep primary research into the domain and existing product functionality.
-                </p>
-
-                <p>
-                    The result was a set of mind maps and canvases that helped structure insights,
-                    identify pain points, and define opportunities for improvement.
-                </p>
-            </div>
-<div class="project-image scaled15">
-                    <img src="/images/TM/TM-objectmodel-1.jpg" alt="Alt">
-                    <img src="/images/TM/TM-objectmodel-2.jpg" alt="Alt">
-
-                </div> 
+                                <div class="fullwidth">
+    <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/977665155?background=1" width="100%" height="500px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+            <!-- Conceptualisation --></div></div>
 
 
+            <section class="content-section">
+                <h2 class="content-subtitle">UI Redesign</h2>
+
+                <div class="content-text">
+    <div class="project-image">
+                                        <img src="/images/TM/TM-distances.png"       alt="4px grid spacing system applied across trading dashboard interface">
+                    </div> 
+                    <h3>Spacing & Grid</h3>
+                    <p>
+                        The main challenge was fitting extensive functionality into limited screen space.
+                        A 4px grid system was introduced to ensure precise alignment, consistency,
+                        and clear separation between widgets.
+                    </p>
+    <div class="project-image">
+                                        <img src="/images/TM/TM-colors.png"  alt="Trademotions color palette with accent and neutral tones">
+                    </div> 
+                    <h3>Colors</h3>
+                    <p>
+                        Color was used to establish hierarchy and guide attention.
+                        The palette consists of multiple shades of gray supported by accent colors.
+                        Red, as the brand’s primary color, was also used for errors and warnings
+                        to keep the system cohesive.
+                    </p>
 
 
+                    <div class="project-grid images-2">
+    <div class="project-image">
+                                        <img src="/images/TM/TM-font.png"              alt="DIN Next Pro typography system optimized for financial interfaces">
 
-        </section>
+                    </div> 
 
-        <section class="content-section">
-            <h2 class="content-subtitle">Conceptualisation</h2>
-
-            <div class="content-text">
-                <p>
-                    User stories were systematized, and both new features and updates to existing functionality were ideated.
-                </p>
-
-                <p>
-                    This process allowed the team to prioritize features that delivered the highest value
-                    by solving real, validated user problems.
-                </p>
-            </div>
-        </section>
-
-
-
-                <div class="project-image scaled15">
-                    <img src="/images/TM/TM-empathy-map.png" alt="Alt">
-                    <img src="/images/TM/TM-gainsnpains.png" alt="Alt">
-                              <img src="/images/TM/TM-hypothesis.png" alt="Alt">
-                    <img src="/images/TM/TM-jobstories.jpg" alt="Alt">
-                </div> 
-        <!-- Global Task List -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Global Task List</h2>
-
-            <div class="content-text">
-                <ul>
-                    <li>Branding update and UI redesign</li>
-                    <li>Header and side menu updates</li>
-                    <li>Market View widget creation</li>
-                    <li>Order Pad interface redesign</li>
-                    <li>Portfolio widget creation</li>
-                    <li>Conditional orders implementation</li>
-                </ul>
-            </div>
-        </section>
-<div class="project-image">
-                                    <img src="/images/TM/TM-tasks.png" alt="Alt">
-                </div> 
-        <!-- Additional Responsibilities -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Additional Responsibilities</h2>
-
-            <div class="content-text">
-                <p>
-                    One of my responsibilities was creating Jira tickets for the development team,
-                    including detailed user stories and acceptance criteria.
-                </p>
-
-                <p>
-                    This ensured a smooth transition from design to development and minimized
-                    miscommunication during implementation.
-                </p>
-            </div>
-        </section>
-
-                            <div class="fullwidth">
-  <div class="video-frame">
-<iframe src="https://player.vimeo.com/video/977665155?background=1" width="100%" height="500px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-        <!-- Conceptualisation --></div></div>
-
-
-        <section class="content-section">
-            <h2 class="content-subtitle">UI Redesign</h2>
-
-            <div class="content-text">
-<div class="project-image">
-                                    <img src="/images/TM/TM-distances.jpg" alt="Alt">
-                </div> 
-                <h3>Spacing & Grid</h3>
-                <p>
-                    The main challenge was fitting extensive functionality into limited screen space.
-                    A 4px grid system was introduced to ensure precise alignment, consistency,
-                    and clear separation between widgets.
-                </p>
-<div class="project-image">
-                                    <img src="/images/TM/TM-colors.png" alt="Alt">
-                </div> 
-                <h3>Colors</h3>
-                <p>
-                    Color was used to establish hierarchy and guide attention.
-                    The palette consists of multiple shades of gray supported by accent colors.
-                    Red, as the brand’s primary color, was also used for errors and warnings
-                    to keep the system cohesive.
-                </p>
-
-                            <div class="fullwidth">
-  <div class="video-frame">
-            <iframe src="https://player.vimeo.com/video/1022471573?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-</div>                    </div>
-                <div class="project-grid images-2">
-<div class="project-image">
-                                    <img src="/images/TM/TM-font.png" alt="Alt">
-                </div> 
+                    
+                    <div>
 
                 
-                <div>
-
-            
-                <h3>Typography — DIN Next Pro</h3>
-                <ul>
-                    <li>High legibility at very small font sizes</li>
-                    <li>Narrow letterforms optimized for dense interfaces</li>
-                    <li>Monospaced numerals for financial data</li>
-                    <li>Improved scanability in tables and columns</li>
-                </ul></div>
-                </div>
-<div class="project-image scaled15">
-                                    <img src="/images/TM/TM-light:dark-theme.png" alt="Alt">
-                </div> 
-                <h3>Light Theme, Responsiveness, Components</h3>
-                <p>
-                    The light theme improves usability in bright environments while maintaining functional contrast.
-                    The platform is fully responsive, with modular and reusable components
-                    designed to adapt fluidly across screen sizes.
-                </p>
-            </div>
-
-        </section>
-
-                        <div class="project-image scaled15">
-                    <img src="/images/TM/TM-interface-1.png" alt="Alt">
-                                        <img src="/images/TM/TM-interface-2.png" alt="Alt">
-                                                            <img src="/images/TM/TM-interface-3.png" alt="Alt">
-                                                                                <img src="/images/TM/TM-interface-4.png" alt="Alt">
-                                                                                                    
-                </div> 
-                <div class="project-image scaled15">
-<img src="/images/TM/TM-interfaces-all.png" alt="Alt">
-  </div> 
-        <!-- Branding -->
-        <section class="content-section">
-            <h2 class="content-subtitle">Branding</h2>
-
-            <div class="content-text">
-                <p>
-                    The Trademotions sign is a combination of the <strong>T</strong> and <strong>M</strong> glyphs,
-                    symbolizing speed, dynamics, and continuous growth —
-                    core attributes of the platform and its users.
-                </p>
-            </div>
-        </section>
-        <div class="fullwidth">
-  <div class="video-frame">
-
-<iframe src="https://player.vimeo.com/video/977929503?background=1" width="100%" height="600" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-
-</div></div>
-<div class="fullwidth">
-  <div class="video-frame">
-<iframe src="https://player.vimeo.com/video/1014538156?background=1" width="100%" height="600" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>        
-</div></div>
-
-  <div class="fullwidth">
-      <div class="video-frame">
-<iframe src="https://player.vimeo.com/video/1014953343?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-        <!-- UI Redesign --></div></div>
-
-                    <div class="project-image scaled20">
-                    <img src="/images/TM/TM-bigboard.png" alt="Alt">
+                    <h3>Typography — DIN Next Pro</h3>
+                    <ul>
+                        <li>High legibility at very small font sizes</li>
+                        <li>Narrow letterforms optimized for dense interfaces</li>
+                        <li>Monospaced numerals for financial data</li>
+                        <li>Improved scanability in tables and columns</li>
+                    </ul></div>
                     </div>
-        <section class="content-section">
-            <h2 class="content-subtitle">Outcome</h2>
+    <div class="project-image scaled15">
+                                        <img src="/images/TM/TM-light:dark-theme.png" alt="Light and dark theme comparison of trading dashboard UI">
+                    </div> 
+                    <h3>Light Theme, Responsiveness, Components</h3>
+                    <p>
+                        The light theme improves usability in bright environments while maintaining functional contrast.
+                        The platform is fully responsive, with modular and reusable components
+                        designed to adapt fluidly across screen sizes.
+                    </p>
+                </div>
 
-            <div class="content-text">
-                <p>
-                    The redesign improved clarity, reduced cognitive load,
-                    and created a scalable foundation for future feature development.
-                </p>
+            </section>
+            <section class="content-section">
 
-                <p>
-                    For me, this project was a deep dive into complex, data-dense product design,
-                    where precision, hierarchy, and restraint were as important as aesthetics.
-                </p>
+                <div class="content-text">
+
+                                    <div class="fullwidth">
+    <div class="video-frame">
+                <iframe src="https://player.vimeo.com/video/1022471573?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>                    </div>
+
+    <div style="padding: 40px;"
+></div>                                <h3>Orderpad updates</h3>
+<p>
+  The Orderpad was redesigned to improve clarity, speed, and error prevention during trade execution.
+  Input fields were reorganized to follow a logical trading flow, reducing friction and minimizing
+  the risk of incorrect orders.
+</p>
+                            <div class="project-image scaled15">
+                        <img src="/images/TM/TM-interface-1.png" alt="MarketView widget displaying real-time trading data">   </div> 
+                            <h3>Clarity in Data Presentation</h3>
+                    <p>
+                        The "MarketView" widget embodies a design approach that emphasizes clarity, transforming complex market data into visually accessible insights. By using simplified layouts and strategically placed visuals, the platform minimizes cognitive load, allowing users to quickly grasp essential information. Every data point is presented with purpose, helping trade managers stay focused and confident in their interpretations.
+                    </p>
+
+                    
+                    <div class="project-image scaled15">
+                        
+                                            <img src="/images/TM/TM-interface-2.png"  alt="Portfolio monitoring interface with profit and loss visualization"> </div>
+                                                <h3>Efficient Decision Support</h3>
+                                               
+                    <p>
+Designed to support rapid, strategic decision-making, MarketView integrates real-time data and profitability indicators in an organized, digestible format. The use of intuitive navigation and segmented information enables users to monitor key trends and act swiftly on market changes. Each component serves a clear function, giving users a reliable foundation for making informed choices without unnecessary steps.                    </p>
+                    <div class="project-image scaled15">
+                        
+                                                                <img src="/images/TM/TM-interface-3.png" alt="Advanced trading widget with segmented data panels">
+                                                                </div>
+                                                                    <h3>Cohesive User Experience</h3>
+                    <p>
+                        Throughout the platform, the MarketView widget maintains a consistent visual language that aligns with user-centered design principles. Color gradations, modular layouts, and clear typographic hierarchy create a seamless user journey from overview to detailed analysis. This cohesion ensures that users can navigate the platform effortlessly, accessing relevant insights and tools to make confident, well-supported trading decisions.
+                    </p>
+                    <div class="project-image scaled15">
+                                                                                    <img src="/images/TM/TM-interface-4.png" alt="Advanced trading widget with segmented data panels">
+                                                                                    </div>
+<h3>Market View</h3>
+<p>
+  The Market View widget provides traders with a structured overview of real-time market data.
+  Information is segmented into clear panels, allowing quick comparison of instruments,
+  price movements, and performance indicators without cognitive overload.
+</p>
+                                                                                                        
+                    </div> 
+
+     </section>
+            <!-- Branding -->
+            <section class="content-section">
+                <h2 class="content-subtitle">Branding</h2>
+
+                <div class="content-text">
+                    <p>
+                        The Trademotions sign is a combination of the <strong>T</strong> and <strong>M</strong> glyphs,
+                        symbolizing speed, dynamics, and continuous growth —
+                        core attributes of the platform and its users.
+                    </p>
+                </div>
+            </section>
+            <div class="fullwidth">
+    <div class="video-frame">
+
+    <iframe src="https://player.vimeo.com/video/977929503?background=1" width="100%" height="600" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+
+    </div></div>
+
+                        <div class="project-image scaled20">
+                        <img src="/images/TM/TM-bigboard.png"  alt="Trademotions branding billboard mockup showing logo in large format">
+                        </div>
+
+    <div class="fullwidth">
+    <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1014538156?background=1" width="100%" height="600" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>        
+    </div></div>
+
+    <div class="fullwidth">
+        <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1014953343?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+            <!-- UI Redesign --></div></div>
+
+
+            <section class="content-section">
+                <h2 class="content-subtitle">Outcome</h2>
+
+                <div class="content-text">
+                    <p>
+                        The redesign improved clarity, reduced cognitive load,
+                        and created a scalable foundation for future feature development.
+                    </p>
+
+                    <p>
+                        For me, this project was a deep dive into complex, data-dense product design,
+                        where precision, hierarchy, and restraint were as important as aesthetics.
+                    </p>
+                </div>
+
+
+
+                                <div class="fullwidth">
+    <div class="video-frame"><iframe src="https://player.vimeo.com/video/973870143?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+            <!-- UI Redesign --></div></div>
+
+
+            </section>
+
+                                        <div class="project-image scaled15">
+    <img src="/images/TM/TM-interfaces-all copy.png" alt="Advanced trading widget with segmented data panels">
+    </div> 
+    
+
+            <div class="project-footer">
+                <div id="project-nav-component"></div>
             </div>
 
+        </article>
 
+    </div>
+    <div id="footer-component"></div>
 
-                            <div class="fullwidth">
-  <div class="video-frame"><iframe src="https://player.vimeo.com/video/973870143?background=1" width="100%" height="600px" frameborder="0" allow="autoplay; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-        <!-- UI Redesign --></div></div>
-
-
-        </section>
-
-                    <iframe src="https://www.behance.net/embed/project/201256117?ilo0=1" height="500px" width="100%" allowfullscreen lazyload frameborder="0" allow="clipboard-write" refererpolicy="strict-origin-when-cross-origin"></iframe>
-
- 
-
-        <div class="project-footer">
-            <div id="project-nav-component"></div>
-        </div>
-
-    </article>
-
-</div>
-<div id="footer-component"></div>
-
-<script src="/controls.js" defer></script>
-<script src="../components/components.js"></script>
-<script src="/cursor.js" defer></script>
-</body>
-</html>
+    <script src="/controls.js" defer></script>
+    <script src="../components/components.js"></script>
+    <script src="/cursor.js" defer></script>
+    </body>
+    </html>
