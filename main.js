@@ -235,306 +235,276 @@ class LRUCache {
 class DataManager {
   constructor() {
     this.allData = [
-{
-  id: "project-1",
-  title: "SCHMALGAUZEN",
-  year: "2025",
-  img: "/images/SC/SCHM-cover.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#schmalgauzen",
-  actualFile: "./projects/SCHMALGAUZEN.html",
-  gradientColors: ["#ff2200ff", "#232347"]
-},
-{
-  id: "project-3",
-  title: "K19",
-  year: "2025",
-  img: "./images/k19/k19-sign-transparent.png",
-  categories: ["Branding"],
-  projectUrl: "/#k19",
-  actualFile: "./projects/k19.html",
-  gradientColors: ["#1a1a2e", "#ffa600ff"]
-},
-{
-  id: "project-4",
-  title: "oO_series",
-  year: "2024",
-  img: "./images/OO/OO-logo-animation.webp",
-  categories: ["Interfaces", "Branding", "Graphic"],
-  projectUrl: "/#oo-series",
-  actualFile: "./projects/o0series.html",
-  gradientColors: ["#777777ff", "#33af61ff"]
-},
-{
-  id: "project-21",
-  title: "easymeets",
-  year: "2023",
-  img: "./images/SD/SD-03.png",
-  categories: ["Interfaces"],
-  projectUrl: "/#easymeets",
-  actualFile: "./projects/easymeets.html",
-  gradientColors: ["rgb(193, 246, 70)", "#e08448"]
-},
-{
-  id: "project-9",
-  title: "Located",
-  year: "2023",
-  img: "./images/LC/LC-logo-anim.gif",
-  categories: ["Graphic"],
-  projectUrl: "/#located",
-  actualFile: "./projects/LOCATED.html",
-  gradientColors: ["#f51212ff", "#000000ff"]
-},
-{
-  id: "project-18",
-  title: "TRADEMOTIONS",
-  year: "2022",
-  img: "./images/TM/trademotions.webp",
-  categories: ["Interfaces", "Branding"],
-  projectUrl: "/#trademotions",
-  actualFile: "./projects/trademotions.html",
-  gradientColors: ["#c72626ff", "#f55f08ff"]
-},
-{
-  id: "project-5",
-  title: "X4 CLUB",
-  year: "2024",
-  img: "./images/x4/x4-present.webp",
-  categories: ["Branding"],
-  projectUrl: "/#x4-club",
-  actualFile: "./projects/x4.html",
-  gradientColors: ["#1a1a2e", "#2d2d4d"]
-},
-{
-  id: "project-20",
-  title: "INPUT SOFT",
-  year: "2023",
-  img: "./images/IS/IS-main.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#input-soft",
-  actualFile: "./projects/input-soft.html",
-  gradientColors: ["#ffe066ff", "#4a2c5e"]
-},
-{
-  id: "project-2",
-  title: "Mitus",
-  year: "2024",
-  img: "./images/MI/MI-logo.png",
-  categories: ["Interfaces", "Branding"],
-  projectUrl: "/#mitus",
-  actualFile: "./projects/mitus.html",
-  gradientColors: ["rgb(186, 188, 188)", "#9595f2"]
-},
-{
-  id: "project-6",
-  title: "Lettering",
-  year: "2024",
-  img: "./images/LT/LT-kyiv.gif",
-  categories: ["Graphic"],
-  projectUrl: "/#lettering",
-  actualFile: "./projects/Lettering.html",
-  gradientColors: ["rgb(220, 42, 6)", "#232347"]
-},
-{
-  id: "project-8",
-  title: "iii3",
-  year: "2024",
-  img: "./images/iii3/iii3-cover.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#iii3",
-  actualFile: "./projects/iii3.html",
-  gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-},
-{
-  id: "project-15",
-  title: "Tripple We",
-  year: "2023",
-  img: "./images/TW/TW-sign.png",
-  categories: ["Branding"],
-  projectUrl: "/#tripple-we",
-  actualFile: "./projects/tripple-we.html",
-  gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"]
-},
-{
-  id: "project-16",
-  title: "X-plane",
-  year: "2023",
-  img: "./images/XP/XP-cover.jpg",
-  categories: ["Interfaces", "Branding"],
-  projectUrl: "/#x-plane",
-  actualFile: "./projects/x-plane.html",
-  gradientColors: ["rgb(255, 111, 28)", "#9595f2"]
-},
-{
-  id: "project-10",
-  title: "Binary Cases",
-  year: "2022",
-  img: "./images/BN/BN-case-01.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#binary-cases",
-  actualFile: "./projects/Binary.html",
-  gradientColors: ["#010101", "#ffa21f"]
-},
-{
-  id: "project-14",
-  title: "Dr. Gavrylin",
-  year: "2023",
-  img: "./images/DG/DG-cover.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#dr-gavrylin",
-  actualFile: "./projects/Dr-Gavrylin.html",
-  gradientColors: ["#e9d1a6ff", "#524c40ff"]
-},
-{
-  id: "project-12",
-  title: "The I-Ching",
-  year: "2023",
-  img: "./images/Vibe-Coding-5.webp",
-  categories: ["Interfaces"],
-  projectUrl: "/#the-i-ching",
-  actualFile: "./projects/The-I-Ching.html",
-  gradientColors: ["#badc5bff", "#232347"]
-},
-{
-  id: "project-13",
-  title: "Snedeker Yoga",
-  year: "2023",
-  img: "./images/Vibe-Coding-2.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#snedeker-yoga",
-  actualFile: "./projects/Snedeker-Yoga.html",
-  gradientColors: ["#e9d1a6ff", "#524c40ff"]
-},
-{
-  id: "project-7",
-  title: "Art",
-  year: "2024",
-  img: "./images/art/Art-02.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#art",
-  actualFile: "./projects/art.html",
-  gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-},
-{
-  id: "project-11",
-  title: "RACONTEUR",
-  year: "2022",
-  img: "./images/Vibe-Coding-4.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#raconteur",
-  actualFile: "./projects/Raconteur.html",
-  gradientColors: ["#0f0f23", "#232347"]
-},
-{
-  id: "project-17",
-  title: "Fundraising",
-  year: "2022",
-  img: "./images/FD/FD-zbir.gif",
-  categories: ["Graphic"],
-  projectUrl: "/#fundraising",
-  actualFile: "./projects/Fundraising.html",
-  gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-},
-{
-  id: "project-19",
-  title: "My Startup",
-  year: "2023",
-  img: "./images/other/gogo-bot.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#my-startup",
-  actualFile: "./projects/gogo-bot.html",
-  gradientColors: ["#010101", "#ff890a"]
-},
-{
-  id: "project-23",
-  title: "Dobro",
-  year: "2018",
-  img: "./images/DO/DO-logo.png",
-  categories: ["Branding"],
-  projectUrl: "/#dobro",
-  actualFile: "./projects/dobro.html",
-  gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-},
-{
-  id: "project-22",
-  title: "Khmeli Suneli",
-  year: "2016",
-  img: "./images/HS/HS-logo.jpg",
-  categories: ["Branding"],
-  projectUrl: "/#khmeli-suneli",
-  actualFile: "./projects/khmeli-suneli.html",
-  gradientColors: ["#ffe066ff", "#4a2c5e"]
-},
-{
-  id: "project-24",
-  title: "SAYENKO&KHARENKO",
-  year: "2017",
-  img: "./images/SK/SK-mock.jpg",
-  categories: ["Branding"],
-  projectUrl: "/#sayenko-kharenko",
-  actualFile: "./projects/SAYENKO&KHARENKO.html",
-  gradientColors: ["#919191ff", "#232347"]
-},
-{
-  id: "project-26",
-  title: "E-commerce App",
-  year: "2017",
-  img: "./images/other/E-commerce-App.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#e-commerce-app",
-  actualFile: "./projects/e-commerce-app.html",
-  gradientColors: ["rgb(219, 15, 165)", "#111112"]
-},
-{
-  id: "project-28",
-  title: "Jernov Jewellery",
-  year: "2016",
-  img: "./images/JE/JE-broushure-cover.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#jernov-jewellery",
-  actualFile: "./projects/jernov.html",
-  gradientColors: ["#010101", "rgb(240, 235, 235)"]
-},
-{
-  id: "project-27",
-  title: "Vognyar",
-  year: "2016",
-  img: "./images/VG/vognyar-souses-07.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#vognyar",
-  actualFile: "./projects/Vognyar.html",
-  gradientColors: ["#010101", "#ff0a0a"]
-},
-{
-  id: "project-29",
-  title: "50 inventions",
-  year: "2015",
-  img: "./images/50/50-cover.jpg",
-  categories: ["Graphic"],
-  projectUrl: "/#50-inventions",
-  actualFile: "./projects/50inventions.html",
-  gradientColors: ["#d53939", "#6fcd26"]
-},
-{
-  id: "project-25",
-  title: "Accemedin",
-  year: "2017",
-  img: "./images/other/accemedin.jpg",
-  categories: ["Interfaces"],
-  projectUrl: "/#accemedin",
-  actualFile: "./projects/accemedin.html",
-  gradientColors: ["rgb(220, 42, 6)", "#232347"]
-},
-{
-  id: "project-30",
-  title: "Symerio",
-  year: "2014",
-  img: "./images/SM/SM-logo-visitcard.jpg",
-  categories: ["Branding"],
-  projectUrl: "/#symerio",
-  actualFile: "./projects/symerio.html",
-  gradientColors: ["rgb(231, 146, 28)", "#232347"]
-}
+      {
+        id: "project-1",
+        title: "SCHMALGAUZEN",
+        year: "2025",
+        img: "/images/SC/SCHM-cover.jpg",
+        categories: ["Graphic"],
+        projectUrl: "/projects/SCHMALGAUZEN.html",
+        gradientColors: ["#ff2200ff", "#232347"]
+      },
+      {
+        id: "project-3",
+        title: "K19",
+        year: "2025",
+        img: "./images/k19/k19-sign-transparent.png",
+        categories: ["Branding"],
+        projectUrl: "./projects/k19.html",
+        gradientColors: ["#1a1a2e", "#ffa600ff"]
+      },
+      {
+        id: "project-4",
+        title: "oO_series",
+        year: "2024",
+        img: "./images/OO/OO-logo-animation.webp",
+        categories: ["Interfaces", "Branding", "Graphic"],
+        projectUrl: "/projects/o0series.html",
+        gradientColors: ["#777777ff", "#33af61ff"]
+      },
+      {
+        id: "project-21",
+        title: "easymeets",
+        year: "2023",
+        img: "./images/SD/SD-03.png",
+        categories: ["Interfaces"],
+        projectUrl: "/projects/easymeets.html",
+        gradientColors: ["rgb(193, 246, 70)", "#e08448"]
+      },
+      {
+        id: "project-9",
+        title: "Located",
+        year: "2023",
+        img: "./images/LC/LC-logo-anim.gif",
+        categories: ["Graphic"],
+        projectUrl: "./projects/LOCATED.html",
+        gradientColors: ["#f51212ff", "#000000ff"]
+      },
+      {
+        id: "project-18",
+        title: "TRADEMOTIONS",
+        year: "2022",
+        img: "./images/TM/trademotions.webp",
+        categories: ["Interfaces", "Branding"],
+        projectUrl: "/projects/trademotions.html",
+        gradientColors: ["#c72626ff", "#f55f08ff"]
+      },
+      {
+        id: "project-5",
+        title: "X4 CLUB",
+        year: "2024",
+        img: "./images/x4/x4-present.webp",
+        categories: ["Branding"],
+        projectUrl: "./projects/x4.html",
+        gradientColors: ["#1a1a2e", "#2d2d4d"]
+      },
+      {
+        id: "project-20",
+        title: "INPUT SOFT",
+        year: "2023",
+        img: "./images/IS/IS-main.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "/projects/input-soft.html",
+        gradientColors: ["#ffe066ff", "#4a2c5e"]
+      },
+      {
+        id: "project-2",
+        title: "Mitus",
+        year: "2024",
+        img: "./images/MI/MI-logo.png",
+        categories: ["Interfaces", "Branding"],
+        projectUrl: "./projects/mitus.html",
+        gradientColors: ["rgb(186, 188, 188)", "#9595f2"]
+      },
+      {
+        id: "project-6",
+        title: "Lettering",
+        year: "2024",
+        img: "./images/LT/LT-kyiv.gif",
+        categories: ["Graphic"],
+        projectUrl: "./projects/Lettering.html",
+        gradientColors: ["rgb(220, 42, 6)", "#232347"]
+      },
+      {
+        id: "project-8",
+        title: "iii3",
+        year: "2024",
+        img: "./images/iii3/iii3-cover.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/iii3.html",
+        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
+      },
+      {
+        id: "project-15",
+        title: "Tripple We",
+        year: "2023",
+        img: "./images/TW/TW-sign.png",
+        categories: ["Branding"],
+        projectUrl: "./projects/tripple-we.html",
+        gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"]
+      },
+      {
+        id: "project-16",
+        title: "X-plane",
+        year: "2023",
+        img: "./images/XP/XP-cover.jpg",
+        categories: ["Interfaces", "Branding"],
+        projectUrl: "./projects/x-plane.html",
+        gradientColors: ["rgb(255, 111, 28)", "#9595f2"]
+      },
+      {
+        id: "project-10",
+        title: "Binary Cases",
+        year: "2022",
+        img: "./images/BN/BN-case-01.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/Binary.html",
+        gradientColors: ["#010101", "#ffa21f"]
+      },
+      {
+        id: "project-14",
+        title: "Dr. Gavrylin",
+        year: "2023",
+        img: "./images/DG/DG-cover.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/Dr-Gavrylin.html",
+        gradientColors: ["#e9d1a6ff", "#524c40ff"]
+      },
+      {
+        id: "project-12",
+        title: "The I-Ching",
+        year: "2023",
+        img: "./images/Vibe-Coding-5.webp",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/The-I-Ching.html",
+        gradientColors: ["#badc5bff", "#232347"]
+      },
+      {
+        id: "project-13",
+        title: "Snedeker Yoga",
+        year: "2023",
+        img: "./images/Vibe-Coding-2.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/Snedeker-Yoga.html",
+        gradientColors: ["#e9d1a6ff", "#524c40ff"]
+      },
+      {
+        id: "project-7",
+        title: "Art",
+        year: "2024",
+        img: "./images/art/Art-02.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/art.html",
+        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
+      },
+      {
+        id: "project-11",
+        title: "RACONTEUR",
+        year: "2022",
+        img: "./images/Vibe-Coding-4.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/Raconteur.html",
+        gradientColors: ["#0f0f23", "#232347"]
+      },
+      {
+        id: "project-17",
+        title: "Fundraising",
+        year: "2022",
+        img: "./images/FD/FD-zbir.gif",
+        categories: ["Graphic"],
+        projectUrl: "./projects/Fundraising.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
+      },
+      {
+        id: "project-19",
+        title: "My Startup",
+        year: "2023",
+        img: "./images/other/gogo-bot.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/gogo-bot.html",
+        gradientColors: ["#010101", "#ff890a"]
+      },
+      {
+        id: "project-23",
+        title: "Dobro",
+        year: "2018",
+        img: "./images/DO/DO-logo.png",
+        categories: ["Branding"],
+        projectUrl: "./projects/dobro.html",
+        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
+      },
+      {
+        id: "project-22",
+        title: "Khmeli Suneli",
+        year: "2016",
+        img: "./images/HS/HS-logo.jpg",
+        categories: ["Branding"],
+        projectUrl: "./projects/khmeli-suneli.html",
+        gradientColors: ["#ffe066ff", "#4a2c5e"]
+      },
+      {
+        id: "project-24",
+        title: "SAYENKO&KHARENKO",
+        year: "2017",
+        img: "./images/SK/SK-mock.jpg",
+        categories: ["Branding"],
+        projectUrl: "./projects/SAYENKO&KHARENKO.html",
+        gradientColors: ["#919191ff", "#232347"]
+      },
+      {
+        id: "project-26",
+        title: "E-commerce App",
+        year: "2017",
+        img: "./images/other/E-commerce-App.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "/projects/e-commerce-app.html",
+        gradientColors: ["rgb(219, 15, 165)", "#111112"]
+      },
+      {
+        id: "project-28",
+        title: "Jernov Jewellery",
+        year: "2016",
+        img: "./images/JE/JE-broushure-cover.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/jernov.html",
+        gradientColors: ["#010101", "rgb(240, 235, 235)"]
+      },
+      {
+        id: "project-27",
+        title: "Vognyar",
+        year: "2016",
+        img: "./images/VG/vognyar-souses-07.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/Vognyar.html",
+        gradientColors: ["#010101", "#ff0a0a"]
+      },
+      {
+        id: "project-29",
+        title: "50 inventions",
+        year: "2015",
+        img: "./images/50/50-cover.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/50inventions.html",
+        gradientColors: ["#d53939", "#6fcd26"]
+      },
+      {
+        id: "project-25",
+        title: "Accemedin",
+        year: "2017",
+        img: "./images/other/accemedin.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/accemedin.html",
+        gradientColors: ["rgb(220, 42, 6)", "#232347"]
+      },
+      {
+        id: "project-30",
+        title: "Symerio",
+        year: "2014",
+        img: "./images/SM/SM-logo-visitcard.jpg",
+        categories: ["Branding"],
+        projectUrl: "./projects/symerio.html",
+        gradientColors: ["rgb(231, 146, 28)", "#232347"]
+      }
     ];
     
     this.imageCache = new LRUCache(CONFIG.PERFORMANCE.CACHE_SIZE);

@@ -117,66 +117,7 @@
 </footer>
 
 <div class="page-transition"></div>
-<script>
-(function() {
-  // Проверяем hash при загрузке
-  if (window.location.hash) {
-    const projectId = window.location.hash.slice(1); // убираем #
-    redirectToProject(projectId);
-  }
 
-  function redirectToProject(id) {
-    // Маппинг красивых URL к реальным файлам
-    const projectMap = {
-      'schmalgauzen': './projects/SCHMALGAUZEN.html',
-      'k19': './projects/k19.html',
-      'oo-series': './projects/o0series.html',
-      'easymeets': './projects/easymeets.html',
-      'located': './projects/LOCATED.html',
-      'trademotions': './projects/trademotions.html',
-      'x4-club': './projects/x4.html',
-      'input-soft': './projects/input-soft.html',
-      'mitus': './projects/mitus.html',
-      'lettering': './projects/Lettering.html',
-      'iii3': './projects/iii3.html',
-      'tripple-we': './projects/tripple-we.html',
-      'x-plane': './projects/x-plane.html',
-      'binary-cases': './projects/Binary.html',
-      'dr-gavrylin': './projects/Dr-Gavrylin.html',
-      'the-i-ching': './projects/The-I-Ching.html',
-      'snedeker-yoga': './projects/Snedeker-Yoga.html',
-      'art': './projects/art.html',
-      'raconteur': './projects/Raconteur.html',
-      'fundraising': './projects/Fundraising.html',
-      'my-startup': './projects/gogo-bot.html',
-      'dobro': './projects/dobro.html',
-      'khmeli-suneli': './projects/khmeli-suneli.html',
-      'sayenko-kharenko': './projects/SAYENKO&KHARENKO.html',
-      'e-commerce-app': './projects/e-commerce-app.html',
-      'jernov-jewellery': './projects/jernov.html',
-      'vognyar': './projects/Vognyar.html',
-      '50-inventions': './projects/50inventions.html',
-      'accemedin': './projects/accemedin.html',
-      'symerio': './projects/symerio.html'
-    };
-    
-    if (projectMap[id]) {
-      window.location.href = projectMap[id];
-    } else {
-      // Если проект не найден, просто убираем hash
-      window.location.hash = '';
-    }
-  }
-
-  // Также обрабатываем изменение hash (если кто-то меняет вручную)
-  window.addEventListener('hashchange', function() {
-    if (window.location.hash) {
-      const projectId = window.location.hash.slice(1);
-      redirectToProject(projectId);
-    }
-  });
-})();
-</script>
 <script src="/controls.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
