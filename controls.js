@@ -1,7 +1,6 @@
-// controls.js
 const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-if (isMobile) return; // просто прекращаем выполнение скрипта
 
+if (!isMobile) {
 class ControlsManager {
     constructor() {
         this.config = {
@@ -378,3 +377,5 @@ class ControlsManager {
 document.addEventListener('DOMContentLoaded', () => {
     window.controlsManager = new ControlsManager();
 });
+
+}
