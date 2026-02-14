@@ -1,3 +1,7 @@
+const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+if (!isMobile) {
+
 'use strict';
 
 const canvas = document.getElementsByTagName('canvas')[0];
@@ -710,3 +714,5 @@ window.addEventListener('touchend', e => {
 window.addEventListener('mouseleave', () => {
   pointers[0].down = false;
 });
+
+}
