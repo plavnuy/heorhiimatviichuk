@@ -27,7 +27,6 @@
     </div>
 
 </header>
-
 <script>
     document.getElementById('back-link')?.addEventListener('click', function(e) {
         e.preventDefault();
@@ -35,19 +34,18 @@
         const shouldReturn = sessionStorage.getItem('gallery_return');
         
         if (shouldReturn === 'true') {
-            const path = sessionStorage.getItem('gallery_path') || '../index.html';
+            const path = sessionStorage.getItem('gallery_path') || '/';
             const hash = sessionStorage.getItem('gallery_hash') || '';
             
-            // Очищаем
             sessionStorage.removeItem('gallery_return');
             sessionStorage.removeItem('gallery_path');
             sessionStorage.removeItem('gallery_hash');
             
             window.location.href = path + hash;
-        } else if (document.referrer) {
-            window.location.href = document.referrer;
         } else {
-            window.location.href = '../index.html';
+            // Если нет sessionStorage - все равно идем на главную
+            // (не важно, referrer или прямая ссылка)
+            window.location.href = '/';
         }
     });
 </script>
