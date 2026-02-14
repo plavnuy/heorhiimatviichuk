@@ -1056,7 +1056,7 @@ div.pswp__img--placeholder,
 
 
 .slide {
-
+  touch-action: manipulation;
   position: absolute;
   isolation: isolate;
   min-width: var(--slide-w);
@@ -1075,6 +1075,8 @@ div.pswp__img--placeholder,
   will-change: transform, opacity;
   pointer-events: auto;
   transition: outline 0.25s ease, outline-offset 0.25s ease, box-shadow 0.25s ease;
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .slide:hover {
@@ -2484,6 +2486,10 @@ display:flex; align-items:center; gap: 12px;
     left: 50%;
     transform: translateX(-50%);
   }
+
+  #glitch-cursor
+  {display: none;}
+
 
     .scaled20 {
     width: 100%;
