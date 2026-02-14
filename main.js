@@ -628,6 +628,7 @@ class ViewManager {
   }
   
   initGlitchCursor() {
+      if (this.isTouchDevice) return;
   const cursor = this.dom.elements.glitchCursor;
   if (!cursor) return;
 
@@ -663,35 +664,47 @@ initCursorHoverTargets() {
 
 
 
-  checkMobileDevice() {
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile && this.state.view !== 'gallery') {
-      
-      this.setView('gallery', true);
-    }
+checkMobileDevice() {
+  this.isTouchDevice = (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0
+  );
+
+  this.isSmallScreen = window.innerWidth <= 768;
+
+  // Если маленький экран — переключаем view
+  if (this.isSmallScreen && this.state.view !== 'gallery') {
+    this.setView('gallery', true);
   }
-  
+}
   // ==========================
   // 5.1 Mouse Move
-  // ==========================
-  initMouse() {
-    window.addEventListener("mousemove", (e) => {
-      if (this.state.view === "gallery") return;
+initMouse() {
+  this.isTouchDevice =
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0;
+
+  if (this.isTouchDevice) return;
+
+  window.addEventListener("mousemove", (e) => {
+    if (this.state.view === "gallery") return;
       
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
       
-      this.state.mouse.nx = (e.clientX - cx) / cx;
-      this.state.mouse.ny = (e.clientY - cy) / cy;
-      this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
-      this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
-      this.state.mouse.angle = (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
+    this.state.mouse.nx = (e.clientX - cx) / cx;
+    this.state.mouse.ny = (e.clientY - cy) / cy;
+    this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
+    this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
+    this.state.mouse.angle =
+      (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
       
-      this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
-      this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
-      this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
-    });
-    
+    this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
+    this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
+    this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
+  });
+
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (this.lenisManager.lenis) {
