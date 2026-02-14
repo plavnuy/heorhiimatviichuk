@@ -652,6 +652,7 @@ const neonColors = [
 p.color = neonColors[Math.floor(Math.random() * neonColors.length)];
 });
 
+/*
 // TOUCH MOVE
 window.addEventListener('touchmove', e => {
   e.preventDefault();
@@ -703,6 +704,7 @@ window.addEventListener('touchend', e => {
     }
   }
 });
+*/
 
 // LEAVE WINDOW
 window.addEventListener('mouseleave', () => {
