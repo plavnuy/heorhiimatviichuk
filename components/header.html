@@ -1,30 +1,38 @@
 <!-- header.html -->
 <header class="header">
     <div class="header-content">
+
+   <!--  <div class="logo"> <a href="https://www.heorhiimatviichuk.design/"><img src="/images/hm-logo.svg" alt="Heorhii Matviichuk Logo" ></a></div> -->
         <nav class="nav-case">
             <a style="margin-left: 0px; margin-top: 20px;" 
                href="#" 
                class="back-link" 
                id="back-link">← back</a>
         </nav>
-        <nav class="contact-icons">
-            <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
-                <img src="/images/icons/telegram.svg" alt="Telegram">
-            </a>
-            <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
-                <img src="/images/icons/instagram.svg" alt="Instagram">
-            </a>
-            <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
-                <img src="/images/icons/linkedin.svg" alt="LinkedIn">
-            </a>
+                    <nav class="contact-icons">
+  <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
+    <img src="/images/icons/telegram.svg" alt="Telegram">
+  </a>
+
+  <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
+    <img src="/images/icons/instagram.svg" alt="Instagram">
+  </a>
+  <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
+    <img src="/images/icons/linkedin.svg" alt="LinkedIn">
+  </a>
+
+
+        
         </nav>
     </div>
+
 </header>
 
 <script>
     document.getElementById('back-link')?.addEventListener('click', function(e) {
         e.preventDefault();
         
+        // Проверяем, пришли ли мы из галереи (через sessionStorage)
         const shouldReturn = sessionStorage.getItem('gallery_return');
         
         if (shouldReturn === 'true') {
@@ -36,14 +44,29 @@
             sessionStorage.removeItem('gallery_path');
             sessionStorage.removeItem('gallery_hash');
             
-            // Добавляем параметр returning=true для реинициализации
-            const separator = path.includes('?') ? '&' : '?';
-            const returnUrl = path + hash + separator + 'returning=true';
-            
-            window.location.href = returnUrl;
-        } else {
-            // Если нет sessionStorage - идем на главную
+            // Возвращаемся в галерею с сохраненным фильтром
+            window.location.href = path + hash;
+        } 
+        // Проверяем, есть ли referrer с нашего сайта
+        else if (document.referrer && document.referrer.includes(window.location.hostname)) {
+            window.location.href = document.referrer;
+        } 
+        // Если нет ни того, ни другого - значит пришли по прямой ссылке
+        else {
+            // Просто переходим на главную
             window.location.href = '/';
         }
     });
+
+    // Дополнительно: при загрузке страницы проверяем, 
+    // если нет gallery_return, значит пришли по прямой ссылке
+    (function() {
+        const shouldReturn = sessionStorage.getItem('gallery_return');
+        
+        if (!shouldReturn) {
+            console.log('Direct access to project page');
+            // Можно добавить аналитику или другие действия
+            // Например, показать уведомление или изменить стиль кнопки
+        }
+    })();
 </script>
