@@ -484,7 +484,7 @@ class DataManager {
 
 
     
-  
+      this.imageCache = new Map();
     this.addDuplicatePreviews();
   }
   
@@ -506,32 +506,37 @@ class DataManager {
     return this.allData.filter(item => item.categories.includes(filter));
   }
   
-  preloadImages(images, onProgress) {
-    return new Promise((resolve) => {
-      let loaded = 0;
-      const total = images.length;
-      
-      if (total === 0) {
-        resolve();
+preloadImages(images, onProgress) {
+  return new Promise((resolve) => {
+    let loaded = 0;
+    const total = images.length;
+
+    if (total === 0) {
+      resolve();
+      return;
+    }
+
+    images.forEach((src) => {
+      // если уже загружено, сразу считаем
+      if (this.imageCache.has(src)) {
+        loaded++;
+        if (onProgress) onProgress(loaded / total);
+        if (loaded === total) setTimeout(resolve, 500);
         return;
       }
-      
-      images.forEach((src, index) => {
-        const img = new Image();
-        img.onload = img.onerror = () => {
-          loaded++;
-          if (onProgress) {
-            onProgress(loaded / total);
-          }
-          
-          if (loaded === total) {
-            setTimeout(resolve, 500);
-          }
-        };
-        img.src = src;
-      });
+
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        this.imageCache.set(src, img); // сохраняем в кэш
+        loaded++;
+        if (onProgress) onProgress(loaded / total);
+        if (loaded === total) setTimeout(resolve, 500);
+      };
+      img.src = src;
     });
-  }
+  });
+}
+
 }
 
 // ==========================
@@ -818,68 +823,77 @@ initMouse() {
     this.lenisManager.start();
   }
   
-  createSlideElement(data, index) {
-    const slide = document.createElement("div");
-    slide.className = "slide";
-    slide.dataset.index = index;
-    slide.dataset.baseZ = index * CONFIG.Z_GAP;
-    slide.dataset.projectId = data.id;
-    
-    const img = new Image();
+createSlideElement(data, index) {
+  const slide = document.createElement("div");
+  slide.className = "slide";
+  slide.dataset.index = index;
+  slide.dataset.baseZ = index * CONFIG.Z_GAP;
+  slide.dataset.projectId = data.id;
+
+  // Создаём картинку
+  const img = new Image();
+  img.alt = data.title || '';
+  img.loading = "lazy";
+
+  // Инициализируем кэш, если его ещё нет
+  if (!this.imageCache) this.imageCache = new Map();
+
+  if (this.imageCache.has(data.img)) {
+    img.src = this.imageCache.get(data.img).src;
+  } else {
     img.src = data.img;
-    img.alt = data.title || '';
-    img.loading = "lazy";
-img.onerror = () => {
-  img.remove();
-  slide.classList.add('image-error');
-};
-
-    
-    //   <span class="card-category">${data.categories.join(", ")}</span>
-    slide.innerHTML = `
-      <div class="slide-img">
-        <!-- Image will be inserted -->
-      </div>
-      <div class="slide-copy">
-        <p class="card-title">
-          <span>${data.title || ''}</span>
-        </p>
-    
-        <p class="card-subtitle">
-        <span class="card-category">${data.categories.join(", ")}</span>
-          
-        <span class="card-year">${data.year || '2024'}</span>
-
-        </p>
-      </div>
-    `;
-    
-    slide.querySelector('.slide-img').appendChild(img);
-    
-
-const transition = this.dom.elements.pageTransition;
-
-slide.addEventListener('click', e => {
-  if (e.target.closest('a')) return;
-
-  e.preventDefault();
-
-  const currentUrl = window.location.href;
-  const projectUrl = data.projectUrl;
-  const separator = projectUrl.includes('?') ? '&' : '?';
-  const finalUrl =
-    projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
-
-  transition.classList.add('is-leaving');
-
-  setTimeout(() => {
-    window.location.assign(finalUrl);
-  }, 450); // совпадает с CSS
-});
-    
-    return slide;
+    img.onload = () => {
+      this.imageCache.set(data.img, img);
+    };
   }
-  
+
+  img.onerror = () => {
+    img.remove();
+    slide.classList.add('image-error');
+  };
+
+  // Вставляем базовую структуру
+  slide.innerHTML = `
+    <div class="slide-img">
+      <!-- Image will be inserted -->
+    </div>
+    <div class="slide-copy">
+      <p class="card-title">
+        <span>${data.title || ''}</span>
+      </p>
+      <p class="card-subtitle">
+        <span class="card-category">${data.categories.join(", ")}</span>
+        <span class="card-year">${data.year || '2024'}</span>
+      </p>
+    </div>
+  `;
+
+  // Вставляем картинку в контейнер
+  slide.querySelector('.slide-img').appendChild(img);
+
+  // Обработка перехода по клику
+  const transition = this.dom.elements.pageTransition;
+  slide.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+
+    e.preventDefault();
+
+    const currentUrl = window.location.href;
+    const projectUrl = data.projectUrl;
+    const separator = projectUrl.includes('?') ? '&' : '?';
+    const finalUrl =
+      projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
+
+    transition.classList.add('is-leaving');
+
+    setTimeout(() => {
+      window.location.assign(finalUrl);
+    }, 450); // совпадает с CSS
+  });
+
+  return slide;
+}
+
   // ==========================
   // 5.4 Gallery
   // ==========================
