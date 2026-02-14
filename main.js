@@ -394,7 +394,7 @@ class DataManager {
         year: "2024",
         img: "./images/art/Art-02.jpg",
         categories: ["Graphic"],
-        projectUrl: "./projects/art.html",
+        projectUrl: "./projects/Art.html",
         gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
       },
       {
