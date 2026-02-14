@@ -1665,6 +1665,24 @@ window.App = {
   setFilter: (filter) => viewManager?.setFilter(filter)
 };
 
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && viewManager) {
+    console.log("Restored from bfcache");
+
+    // Если lenis был уничтожен — пересоздаём
+    if (!viewManager.lenisManager.lenis) {
+      viewManager.lenisManager.init(
+        appState.view,
+        appState.filteredData.length
+      );
+    } else {
+      viewManager.lenisManager.start();
+    }
+
+    requestAnimationFrame(viewManager.mainLoop);
+  }
+});
+
 // ==========================
 // 8. Mobile Filter Dropdown
 // ==========================
