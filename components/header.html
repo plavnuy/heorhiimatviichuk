@@ -1,32 +1,26 @@
 <!-- header.html -->
 <header class="header">
     <div class="header-content">
-
-   <!--  <div class="logo"> <a href="https://www.heorhiimatviichuk.design/"><img src="/images/hm-logo.svg" alt="Heorhii Matviichuk Logo" ></a></div> -->
         <nav class="nav-case">
             <a style="margin-left: 0px; margin-top: 20px;" 
                href="#" 
                class="back-link" 
                id="back-link">← back</a>
         </nav>
-                    <nav class="contact-icons">
-  <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
-    <img src="/images/icons/telegram.svg" alt="Telegram">
-  </a>
-
-  <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
-    <img src="/images/icons/instagram.svg" alt="Instagram">
-  </a>
-  <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
-    <img src="/images/icons/linkedin.svg" alt="LinkedIn">
-  </a>
-
-
-        
+        <nav class="contact-icons">
+            <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
+                <img src="/images/icons/telegram.svg" alt="Telegram">
+            </a>
+            <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
+                <img src="/images/icons/instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
+                <img src="/images/icons/linkedin.svg" alt="LinkedIn">
+            </a>
         </nav>
     </div>
-
 </header>
+
 <script>
     document.getElementById('back-link')?.addEventListener('click', function(e) {
         e.preventDefault();
@@ -37,14 +31,18 @@
             const path = sessionStorage.getItem('gallery_path') || '/';
             const hash = sessionStorage.getItem('gallery_hash') || '';
             
+            // Очищаем sessionStorage
             sessionStorage.removeItem('gallery_return');
             sessionStorage.removeItem('gallery_path');
             sessionStorage.removeItem('gallery_hash');
             
-            window.location.href = path + hash;
+            // Добавляем параметр returning=true для реинициализации
+            const separator = path.includes('?') ? '&' : '?';
+            const returnUrl = path + hash + separator + 'returning=true';
+            
+            window.location.href = returnUrl;
         } else {
-            // Если нет sessionStorage - все равно идем на главную
-            // (не важно, referrer или прямая ссылка)
+            // Если нет sessionStorage - идем на главную
             window.location.href = '/';
         }
     });

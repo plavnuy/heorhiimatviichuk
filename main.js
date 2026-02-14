@@ -26,12 +26,12 @@ const CONFIG = {
     }
   },
   PERFORMANCE: {
-    GRID_UPDATE_INTERVAL: 2, // Update grid every 2 frames
+    GRID_UPDATE_INTERVAL: 2,
     SLIDE_UPDATE_INTERVAL: 1,
-    LAZY_LOAD_OFFSET: 300, // px
-    MAX_CANVAS_SIZE: 1920, // Max canvas dimension
-    LOW_FPS_MODE: 30, // Enter low FPS mode below this
-    CACHE_SIZE: 50 // Max cached images
+    LAZY_LOAD_OFFSET: 300,
+    MAX_CANVAS_SIZE: 1920,
+    LOW_FPS_MODE: 30,
+    CACHE_SIZE: 50
   }
 };
 
@@ -49,6 +49,7 @@ class AppState {
     this.fps = 60;
     this.frameCount = 0;
     this.lastFrameTime = performance.now();
+    this.isInitialized = false;
     
     this.filteredData = [];
     this.slides = { elements: [], state: [] };
@@ -82,7 +83,7 @@ class AppState {
 }
 
 // ==========================
-// 2. DOM Cache with cleanup
+// 2. DOM Cache
 // ==========================
 class DOMCache {
   constructor() {
@@ -195,7 +196,6 @@ class DOMCache {
     }
   }
 
-  // Clean up observers to prevent memory leaks
   cleanup() {
     this.observers.forEach(observer => observer.disconnect());
     this.observers = [];
@@ -508,7 +508,7 @@ class DataManager {
     ];
     
     this.imageCache = new LRUCache(CONFIG.PERFORMANCE.CACHE_SIZE);
-    this.loadingPromises = new Map(); // Prevent duplicate loading
+    this.loadingPromises = new Map();
   }
   
   filterData(filter) {
@@ -524,23 +524,28 @@ class DataManager {
     
     if (total === 0) return;
     
-    const loadPromises = images.map(src => this.loadImage(src));
+    if (onProgress) onProgress(0);
     
-    // Track progress
-    for (const promise of loadPromises) {
-      await promise;
-      loaded++;
-      if (onProgress) onProgress(loaded / total);
-    }
+    const loadPromises = images.map(src => 
+      this.loadImage(src).then(() => {
+        loaded++;
+        if (onProgress) onProgress(loaded / total);
+      }).catch(() => {
+        loaded++;
+        if (onProgress) onProgress(loaded / total);
+      })
+    );
+    
+    await Promise.all(loadPromises);
+    
+    if (onProgress) onProgress(1);
   }
   
   async loadImage(src) {
-    // Check if already loading
     if (this.loadingPromises.has(src)) {
       return this.loadingPromises.get(src);
     }
     
-    // Check cache
     if (this.imageCache.has(src)) {
       return Promise.resolve();
     }
@@ -557,7 +562,7 @@ class DataManager {
       img.onerror = () => {
         console.warn(`Failed to load image: ${src}`);
         this.loadingPromises.delete(src);
-        resolve(); // Resolve anyway to not block
+        resolve();
       };
       
       img.src = src;
@@ -575,7 +580,6 @@ class DataManager {
       return newImg;
     }
     
-    // Fallback - should not happen with proper preloading
     const img = new Image();
     img.src = src;
     return img;
@@ -584,9 +588,8 @@ class DataManager {
   getImageElement(src) {
     const cached = this.imageCache.get(src);
     if (cached) {
-      // Clone the image to avoid moving it between DOM elements
       const clone = cached.cloneNode(false);
-      clone.src = cached.src; // Ensure src is set
+      clone.src = cached.src;
       return clone;
     }
     return null;
@@ -600,7 +603,6 @@ class LenisManager {
   constructor() {
     this.lenis = null;
     this.currentView = null;
-    this.rafId = null;
   }
   
   init(viewType, itemCount) {
@@ -657,15 +659,11 @@ class LenisManager {
       this.lenis.destroy();
       this.lenis = null;
     }
-    if (this.rafId) {
-      cancelAnimationFrame(this.rafId);
-      this.rafId = null;
-    }
   }
 }
 
 // ==========================
-// 5. View Manager (Optimized)
+// 5. View Manager
 // ==========================
 class ViewManager {
   constructor(state, dom, dataManager) {
@@ -677,13 +675,8 @@ class ViewManager {
     this.resizeTimeout = null;
     this.bgChangeTimeout = null;
     this.isAnimating = false;
-    this.lastGridUpdate = 0;
-    this.lastSlideUpdate = 0;
     
-    // Bind methods for RAF
     this.mainLoop = this.mainLoop.bind(this);
-    this.updateSlides = this.updateSlides.bind(this);
-    this.drawGrid = this.drawGrid.bind(this);
     
     this.checkMobileDevice();
   }
@@ -742,7 +735,6 @@ class ViewManager {
     this.isSmallScreen = window.innerWidth <= 768;
 
     if (this.isSmallScreen) {
-      // Optimize for mobile
       CONFIG.GRID.LINE_OPACITY = 0.08;
       CONFIG.GRID.VERTICAL_COUNT = 2;
       if (this.state.view !== 'gallery') {
@@ -769,7 +761,6 @@ class ViewManager {
       this.state.mouse.angle =
         (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
       
-      // Throttle CSS variable updates
       if (!rafId) {
         rafId = requestAnimationFrame(() => {
           this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
@@ -831,7 +822,7 @@ class ViewManager {
             });
           });
         }
-      }, 150); // Reduced timeout
+      }, 150);
     };
     
     window.addEventListener("resize", optimizedResize);
@@ -841,7 +832,6 @@ class ViewManager {
   resizeCanvas() {
     if (!this.dom.elements.canvas) return;
     
-    // Limit canvas size for performance
     const maxSize = CONFIG.PERFORMANCE.MAX_CANVAS_SIZE;
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -853,6 +843,28 @@ class ViewManager {
     
     this.dom.elements.canvas.width = width;
     this.dom.elements.canvas.height = height;
+  }
+  
+  reinitializeAfterReturn() {
+    console.log('Reinitializing after return');
+    
+    this.state.scroll.pos = 0;
+    this.state.scroll.z = 0;
+    
+    if (this.lenisManager.lenis) {
+      this.lenisManager.destroy();
+    }
+    
+    setTimeout(() => {
+      this.rebuildCurrentView();
+      
+      this.lenisManager.init(this.state.view, this.state.filteredData.length);
+      this.lenisManager.start();
+      
+      if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
+        this.setBackgroundImage(0, true);
+      }
+    }, 50);
   }
   
   buildSlides() {
@@ -871,7 +883,6 @@ class ViewManager {
       return;
     }
     
-    // Use document fragment for better performance
     const fragment = document.createDocumentFragment();
     
     this.state.filteredData.forEach((data, i) => {
@@ -889,7 +900,6 @@ class ViewManager {
     
     this.dom.elements.slider.appendChild(fragment);
     
-    // Batch GSAP operations
     const updates = this.state.slides.elements.map((slide, i) => ({
       element: slide,
       left: (i % 2 === 0 ? 35 : 50) + "%"
@@ -921,7 +931,6 @@ class ViewManager {
     slide.dataset.baseZ = index * CONFIG.Z_GAP;
     slide.dataset.projectId = data.id;
     
-    // Use cached image if available
     const img = this.dataManager.getImageElement(data.img) || new Image();
     if (!img.src) img.src = data.img;
     
@@ -949,16 +958,15 @@ class ViewManager {
     
     const transition = this.dom.elements.pageTransition;
 
-slide.addEventListener('click', e => {
-  e.preventDefault();
-  
- 
-  sessionStorage.setItem('gallery_return', 'true');
-  sessionStorage.setItem('gallery_path', window.location.pathname);
-  sessionStorage.setItem('gallery_hash', window.location.hash);
-  
-  window.location.href = data.projectUrl;
-});
+    slide.addEventListener('click', e => {
+      e.preventDefault();
+      
+      sessionStorage.setItem('gallery_return', 'true');
+      sessionStorage.setItem('gallery_path', window.location.pathname);
+      sessionStorage.setItem('gallery_hash', window.location.hash);
+      
+      window.location.href = data.projectUrl;
+    });
     
     return slide;
   }
@@ -983,7 +991,6 @@ slide.addEventListener('click', e => {
     const grid = document.createElement("div");
     grid.className = "gallery-grid";
     
-    // Use fragment for better performance
     const fragment = document.createDocumentFragment();
     
     this.state.filteredData.forEach((data, i) => {
@@ -1020,16 +1027,13 @@ slide.addEventListener('click', e => {
     `;
     
     item.addEventListener('click', (e) => {
-  
+      e.preventDefault();
       
-  e.preventDefault();
-  
- 
-  sessionStorage.setItem('gallery_return', 'true');
-  sessionStorage.setItem('gallery_path', window.location.pathname);
-  sessionStorage.setItem('gallery_hash', window.location.hash);
-  
-  window.location.href = data.projectUrl;
+      sessionStorage.setItem('gallery_return', 'true');
+      sessionStorage.setItem('gallery_path', window.location.pathname);
+      sessionStorage.setItem('gallery_hash', window.location.hash);
+      
+      window.location.href = data.projectUrl;
     });
     
     return item;
@@ -1045,7 +1049,6 @@ slide.addEventListener('click', e => {
         if (entry.isIntersecting) {
           const img = entry.target.querySelector('.lazy-img');
           if (img && img.dataset.src) {
-            // Use cached image if available
             const cachedImg = this.dataManager.getImageElement(img.dataset.src);
             if (cachedImg) {
               img.src = cachedImg.src;
@@ -1120,7 +1123,6 @@ slide.addEventListener('click', e => {
       }
     });
     
-    // Preload adjacent images
     this.preloadAdjacentImages(index);
   }
   
@@ -1178,7 +1180,6 @@ slide.addEventListener('click', e => {
       this.state.slides.state[idx].parallaxX = mouseNX * CONFIG.MOUSE_SENSITIVITY.X;
       this.state.slides.state[idx].parallaxY = mouseNY * CONFIG.MOUSE_SENSITIVITY.Y;
       
-      // Use transform for better performance
       const transform = `translate3d(${this.state.slides.state[idx].parallaxX}vw, ${this.state.slides.state[idx].parallaxY}vh, ${-relativeZ}px) rotateY(${mouseNX * CONFIG.MOUSE_SENSITIVITY.ROTATION}deg) rotateX(${mouseNY * -3}deg) scale(${this.state.slides.state[idx].scale})`;
       
       if (slide.style.transform !== transform) {
@@ -1219,112 +1220,107 @@ slide.addEventListener('click', e => {
     return Math.min(1, Math.max(0, snappedIdxFloat / total));
   }
   
- drawGrid() {
-  if (!this.dom.elements.context || !this.dom.elements.canvas) return;
-  
-  const ctx = this.dom.elements.context;
-  const canvas = this.dom.elements.canvas;
-  
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
-  this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
-  
-  const mx = this.state.mouse.targetX;
-  const my = this.state.mouse.targetY;
-  
-
-  this.state.gridLines.forEach(z => {
-    let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
-    const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
+  drawGrid() {
+    if (!this.dom.elements.context || !this.dom.elements.canvas) return;
     
-
-    const p1t = this.project3D(-1500, -800, zOffset, mx, my);
-    const p2t = this.project3D(1500, -800, zOffset, mx, my);
+    const ctx = this.dom.elements.context;
+    const canvas = this.dom.elements.canvas;
     
-    const gradTop = ctx.createLinearGradient(p1t.x, 0, p2t.x, 0);
-    gradTop.addColorStop(0, `rgba(255,255,255,0)`);
-    gradTop.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-    gradTop.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
+    this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
+    
+    const mx = this.state.mouse.targetX;
+    const my = this.state.mouse.targetY;
+    
+    this.state.gridLines.forEach(z => {
+      let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
+      const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
+      
+      const p1t = this.project3D(-1500, -800, zOffset, mx, my);
+      const p2t = this.project3D(1500, -800, zOffset, mx, my);
+      
+      const gradTop = ctx.createLinearGradient(p1t.x, 0, p2t.x, 0);
+      gradTop.addColorStop(0, `rgba(255,255,255,0)`);
+      gradTop.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradTop.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradTop.addColorStop(1, `rgba(255,255,255,0)`);
+      
+      ctx.strokeStyle = gradTop;
+      ctx.lineWidth = 1;
+      
+      ctx.beginPath();
+      ctx.moveTo(p1t.x, p1t.y);
+      ctx.lineTo(p2t.x, p2t.y);
+      ctx.stroke();
+      
+      const p1b = this.project3D(-1500, 800, zOffset, mx, my);
+      const p2b = this.project3D(1500, 800, zOffset, mx, my);
+      
+      const gradBottom = ctx.createLinearGradient(p1b.x, 0, p2b.x, 0);
+      gradBottom.addColorStop(0, `rgba(255,255,255,0)`);
+      gradBottom.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradBottom.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+      gradBottom.addColorStop(1, `rgba(255,255,255,0)`);
+      
+      ctx.strokeStyle = gradBottom;
+      ctx.lineWidth = 1;
+      
+      ctx.beginPath();
+      ctx.moveTo(p1b.x, p1b.y);
+      ctx.lineTo(p2b.x, p2b.y);
+      ctx.stroke();
+    });
+    
+    for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
+      const x = i * CONFIG.GRID.VERTICAL_SIZE;
+      this.drawVerticalLine(ctx, x, mx, my);
+    }
+  }
+
+  project3D(x, y, z, mx, my) {
+    const fov = 950;
+    const scale = fov / (fov + z);
+    return { 
+      x: x * scale + this.dom.elements.canvas.width / 2 + mx, 
+      y: y * scale + this.dom.elements.canvas.height / 2 + my, 
+      scale 
+    };
+  }
+
+  drawVerticalLine(ctx, x, mx, my) {
+    const zNear = 50;
+    const zFar = CONFIG.DEPTH;
+
+    const pNearTop = this.project3D(x, -800, zNear, mx, my);
+    const pFarTop = this.project3D(x, -800, zFar, mx, my);
+    
+    const gradTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
+    gradTop.addColorStop(0, `rgba(255,255,255,0.18)`);
+    gradTop.addColorStop(0.6, `rgba(255,255,255,0.08)`);
     gradTop.addColorStop(1, `rgba(255,255,255,0)`);
     
     ctx.strokeStyle = gradTop;
-    ctx.lineWidth = 1;
-    
     ctx.beginPath();
-    ctx.moveTo(p1t.x, p1t.y);
-    ctx.lineTo(p2t.x, p2t.y);
+    ctx.moveTo(pNearTop.x, pNearTop.y);
+    ctx.lineTo(pFarTop.x, pFarTop.y);
     ctx.stroke();
     
-
-    const p1b = this.project3D(-1500, 800, zOffset, mx, my);
-    const p2b = this.project3D(1500, 800, zOffset, mx, my);
+    const pNearBot = this.project3D(x, 800, zNear, mx, my);
+    const pFarBot = this.project3D(x, 800, zFar, mx, my);
     
-    const gradBottom = ctx.createLinearGradient(p1b.x, 0, p2b.x, 0);
-    gradBottom.addColorStop(0, `rgba(255,255,255,0)`);
-    gradBottom.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-    gradBottom.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-    gradBottom.addColorStop(1, `rgba(255,255,255,0)`);
+    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); 
+    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); 
+    gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
+    gradBot.addColorStop(1, `rgba(255,255,255,0)`); 
     
-    ctx.strokeStyle = gradBottom;
-    ctx.lineWidth = 1;
-    
+    ctx.strokeStyle = gradBot;
     ctx.beginPath();
-    ctx.moveTo(p1b.x, p1b.y);
-    ctx.lineTo(p2b.x, p2b.y);
+    ctx.moveTo(pNearBot.x, pNearBot.y);
+    ctx.lineTo(pFarBot.x, pFarBot.y);
     ctx.stroke();
-  });
-  
-
-  for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
-    const x = i * CONFIG.GRID.VERTICAL_SIZE;
-    this.drawVerticalLine(ctx, x, mx, my);
   }
-}
-
-project3D(x, y, z, mx, my) {
-  const fov = 950;
-  const scale = fov / (fov + z);
-  return { 
-    x: x * scale + this.dom.elements.canvas.width / 2 + mx, 
-    y: y * scale + this.dom.elements.canvas.height / 2 + my, 
-    scale 
-  };
-}
-
-drawVerticalLine(ctx, x, mx, my) {
-  const zNear = 50;
-  const zFar = CONFIG.DEPTH;
-
-  const pNearTop = this.project3D(x, -800, zNear, mx, my);
-  const pFarTop = this.project3D(x, -800, zFar, mx, my);
-  
-  const gradTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
-  gradTop.addColorStop(0, `rgba(255,255,255,0.18)`);
-  gradTop.addColorStop(0.6, `rgba(255,255,255,0.08)`);
-  gradTop.addColorStop(1, `rgba(255,255,255,0)`);
-  
-  ctx.strokeStyle = gradTop;
-  ctx.beginPath();
-  ctx.moveTo(pNearTop.x, pNearTop.y);
-  ctx.lineTo(pFarTop.x, pFarTop.y);
-  ctx.stroke();
-  
-
-  const pNearBot = this.project3D(x, 800, zNear, mx, my);
-  const pFarBot = this.project3D(x, 800, zFar, mx, my);
-  
-  const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); 
-  gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); 
-  gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
-  gradBot.addColorStop(1, `rgba(255,255,255,0)`); 
-  
-  ctx.strokeStyle = gradBot;
-  ctx.beginPath();
-  ctx.moveTo(pNearBot.x, pNearBot.y);
-  ctx.lineTo(pFarBot.x, pFarBot.y);
-  ctx.stroke();
-}
   
   setFilter(filter) {
     if (this.state.filter === filter) return;
@@ -1439,6 +1435,16 @@ drawVerticalLine(ctx, x, mx, my) {
   }
   
   async init() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isReturning = urlParams.get('returning') === 'true';
+    
+    if (isReturning) {
+      console.log('Returning from project');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('returning');
+      history.replaceState({}, '', url);
+    }
+    
     this.initMouse();
     this.initResize();
     
@@ -1446,12 +1452,10 @@ drawVerticalLine(ctx, x, mx, my) {
     this.initCursorHoverTargets();
     this.state.isLoading = true;
     
-    // Make state globally accessible
     window.appState = this.state;
     
     const allImages = this.dataManager.allData.map(item => item.img);
     
-    // Preload images with progress
     await this.dataManager.preloadImagesWithCache(allImages, (progress) => {
       this.dom.updateLoaderProgress(progress * 100);
     });
@@ -1479,54 +1483,66 @@ drawVerticalLine(ctx, x, mx, my) {
         this.setBackgroundImage(0, true);
       });
     }
+    
+    this.state.isInitialized = true;
+    
+    if (isReturning) {
+      setTimeout(() => {
+        this.reinitializeAfterReturn();
+      }, 100);
+    }
+    
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && this.state.view === 'slides' && this.lenisManager.lenis) {
+        this.lenisManager.lenis.resize();
+      }
+    });
   }
   
-parseInitialState() {
-  const hash = window.location.hash.replace('#', '');
-  
-  let filter = 'allworks';
-  let view = 'slides';
-  
-  if (!hash) {
+  parseInitialState() {
+    const hash = window.location.hash.replace('#', '');
+    
+    let filter = 'allworks';
+    let view = 'slides';
+    
+    if (!hash) {
+      this.state.filter = filter;
+      this.state.view = view;
+      this.state.filteredData = this.dataManager.filterData(filter);
+      
+      setTimeout(() => {
+        document.dispatchEvent(
+          new CustomEvent('filterchange', { detail: filter })
+        );
+      }, 0);
+      return;
+    }
+    
+    const parts = hash.split('-');
+    
+    if (parts.includes('gallery')) {
+      view = 'gallery';
+    }
+    
+    if (parts.includes('slides')) {
+      view = 'slides';
+    }
+    
+    const possibleFilter = parts[0];
+    if (possibleFilter && possibleFilter !== 'gallery' && possibleFilter !== 'slides') {
+      filter = possibleFilter;
+    }
+    
     this.state.filter = filter;
     this.state.view = view;
     this.state.filteredData = this.dataManager.filterData(filter);
     
-    // Dispatch event after setting initial state
     setTimeout(() => {
       document.dispatchEvent(
         new CustomEvent('filterchange', { detail: filter })
       );
     }, 0);
-    return;
   }
-  
-  const parts = hash.split('-');
-  
-  if (parts.includes('gallery')) {
-    view = 'gallery';
-  }
-  
-  if (parts.includes('slides')) {
-    view = 'slides';
-  }
-  
-  const possibleFilter = parts[0];
-  if (possibleFilter && possibleFilter !== 'gallery' && possibleFilter !== 'slides') {
-    filter = possibleFilter;
-  }
-  
-  this.state.filter = filter;
-  this.state.view = view;
-  this.state.filteredData = this.dataManager.filterData(filter);
-  
-  // Dispatch event after parsing URL
-  setTimeout(() => {
-    document.dispatchEvent(
-      new CustomEvent('filterchange', { detail: filter })
-    );
-  }, 0);
-}
   
   initEventListeners() {
     this.dom.elements.navLinks.forEach(link => {
@@ -1589,7 +1605,7 @@ parseInitialState() {
       return;
     }
     
-    if (this.lenisManager.lenis) {
+    if (this.lenisManager && this.lenisManager.lenis) {
       this.lenisManager.lenis.raf(time);
     }
     
@@ -1605,7 +1621,6 @@ parseInitialState() {
     requestAnimationFrame(this.mainLoop);
   }
 
-  // Clean up resources
   destroy() {
     this.lenisManager.destroy();
     this.dom.cleanup();
@@ -1636,16 +1651,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Clean up on page unload
 window.addEventListener('beforeunload', () => {
   if (viewManager) {
     viewManager.destroy();
   }
 });
 
-// ==========================
-// 7. Global helpers
-// ==========================
 window.App = {
   getState: () => appState,
   getViewManager: () => viewManager,
@@ -1700,12 +1711,10 @@ function initMobileDropdown() {
     dropdown.classList.remove('open');
   });
 
-  // Listen for filter changes
   document.addEventListener('filterchange', e => {
     syncUI(e.detail);
   });
 
-  // Initial sync - wait for App to be ready
   function checkApp() {
     if (window.App && window.App.getState) {
       const state = window.App.getState();
@@ -1720,7 +1729,6 @@ function initMobileDropdown() {
   checkApp();
 }
 
-// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initMobileDropdown);
 } else {
