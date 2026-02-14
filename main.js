@@ -24,9 +24,16 @@ const CONFIG = {
       MAX: 0.8,
       BASE: 0.2
     }
+  },
+  PERFORMANCE: {
+    GRID_UPDATE_INTERVAL: 2, // Update grid every 2 frames
+    SLIDE_UPDATE_INTERVAL: 1,
+    LAZY_LOAD_OFFSET: 300, // px
+    MAX_CANVAS_SIZE: 1920, // Max canvas dimension
+    LOW_FPS_MODE: 30, // Enter low FPS mode below this
+    CACHE_SIZE: 50 // Max cached images
   }
 };
-
 
 // ==========================
 // 1. Global Application State
@@ -39,14 +46,14 @@ class AppState {
     this.filter = 'allworks';
     this.bg = { active: 0, currentIndex: -1 };
     this.isLoading = true;
+    this.fps = 60;
+    this.frameCount = 0;
+    this.lastFrameTime = performance.now();
     
     this.filteredData = [];
     this.slides = { elements: [], state: [] };
     this.gridLines = this.generateGridLines();
-    this.imagesLoaded = 0;
-    this.totalImages = 0;
     
-    // Add mobile device state
     this.isMobile = window.innerWidth <= 768;
   }
   
@@ -57,15 +64,30 @@ class AppState {
     }
     return lines;
   }
+
+  updateFPS() {
+    const now = performance.now();
+    const delta = now - this.lastFrameTime;
+    this.fps = Math.round(1000 / delta);
+    this.lastFrameTime = now;
+    this.frameCount++;
+  }
+
+  shouldUpdateGrid() {
+    if (this.fps < CONFIG.PERFORMANCE.LOW_FPS_MODE) {
+      return this.frameCount % 3 === 0;
+    }
+    return this.frameCount % CONFIG.PERFORMANCE.GRID_UPDATE_INTERVAL === 0;
+  }
 }
 
 // ==========================
-// ==========================
-// 2. DOM Cache
+// 2. DOM Cache with cleanup
 // ==========================
 class DOMCache {
   constructor() {
     this.elements = {};
+    this.observers = [];
   }
   
   init() {
@@ -90,8 +112,6 @@ class DOMCache {
     this.initPageTransition(); 
     return this;
   }
-
-
   
   initBackgroundLayers() {
     const bgWrap = document.createElement('div');
@@ -108,7 +128,6 @@ class DOMCache {
     
     this.elements.bgA.style.opacity = '0';
     this.elements.bgB.style.opacity = '0';
-    // Set base color for gradients before applying gradient backgrounds
     this.elements.bgA.style.backgroundColor = '#0b0b0b';
     this.elements.bgB.style.backgroundColor = '#0b0b0b';
     this.elements.bgA.style.background = 'radial-gradient(circle at center, #0b0b0b 0%, #1a1a1a 100%)';
@@ -130,22 +149,21 @@ class DOMCache {
   }
 
   initPageTransition() {
-  const transition = document.createElement('div');
-  transition.className = 'page-transition is-entering';
-  this.elements.pageTransition = transition;
-  document.body.appendChild(transition);
-}
+    const transition = document.createElement('div');
+    transition.className = 'page-transition is-entering';
+    this.elements.pageTransition = transition;
+    document.body.appendChild(transition);
+  }
 
-showBackgroundBlur() {
-  if (!this.elements.bgA || !this.elements.bgB) return;
+  showBackgroundBlur() {
+    if (!this.elements.bgA || !this.elements.bgB) return;
 
-  gsap.to([this.elements.bgA, this.elements.bgB], {
-    opacity: CONFIG.BG_OPACITY,
-    duration: 0.6,
-    ease: "power2.out"
-  });
-}
-
+    gsap.to([this.elements.bgA, this.elements.bgB], {
+      opacity: CONFIG.BG_OPACITY,
+      duration: 0.6,
+      ease: "power2.out"
+    });
+  }
 
   updateLoaderProgress(percentage) {
     if (this.elements.loader) {
@@ -156,347 +174,371 @@ showBackgroundBlur() {
     }
   }
   
-hideLoader() {
-  if (this.elements.loader) {
-    this.elements.loader.style.opacity = '0';
+  hideLoader() {
+    if (this.elements.loader) {
+      this.elements.loader.style.opacity = '0';
 
-    setTimeout(() => {
-      if (this.elements.loader.parentNode) {
-        this.elements.loader.parentNode.removeChild(this.elements.loader);
-      }
+      setTimeout(() => {
+        if (this.elements.loader.parentNode) {
+          this.elements.loader.parentNode.removeChild(this.elements.loader);
+        }
 
-      // Ждём окончания page transition
-      const transition = this.elements.pageTransition;
-      if (transition) {
-        transition.addEventListener('transitionend', () => {
+        const transition = this.elements.pageTransition;
+        if (transition) {
+          transition.addEventListener('transitionend', () => {
+            this.showBackgroundBlur();
+          }, { once: true });
+        } else {
           this.showBackgroundBlur();
-        }, { once: true });
-      } else {
-        // Если перехода нет — сразу включаем
-        this.showBackgroundBlur();
-      }
-    }, 300); // совпадает с твоим таймаутом на лоадер
+        }
+      }, 300);
+    }
+  }
+
+  // Clean up observers to prevent memory leaks
+  cleanup() {
+    this.observers.forEach(observer => observer.disconnect());
+    this.observers = [];
   }
 }
-}
 
 // ==========================
+// 3. Data Manager with LRU Cache
 // ==========================
-// 3. Data Manager (UPDATED - gradients added)
-// ==========================
+class LRUCache {
+  constructor(maxSize = 50) {
+    this.maxSize = maxSize;
+    this.cache = new Map();
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) return null;
+    const value = this.cache.get(key);
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  set(key, value) {
+    if (this.cache.size >= this.maxSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    this.cache.set(key, value);
+  }
+
+  has(key) {
+    return this.cache.has(key);
+  }
+}
+
 class DataManager {
   constructor() {
     this.allData = [
-      {
-        id: "project-1",
-        title: "SCHMALGAUZEN",
-        year: "2025",
-        img: "/images/SC/SCHM-cover.jpg",
-        categories: ["Graphic"],
-        projectUrl: "/projects/SCHMALGAUZEN.html",
-        gradientColors: ["#ff2200ff", "#232347"]
-      },
-
-      {
-        id: "project-3",
-        title: "K19",
-        year: "2025",
-        img: "./images/k19/k19-sign-transparent.png",
-        categories: ["Branding"],
-        projectUrl: "./projects/k19.html",
-        gradientColors: ["#1a1a2e", "#ffa600ff"]
-      },
-
-      {
-        id: "project-4",
-        title: "oO_series",
-        year: "2024",
-        img: "./images/OO/OO-logo-animation.webp",
-        categories: ["Interfaces", "Branding", "Graphic"],
-        projectUrl: "/projects/o0series.html",
-        gradientColors: ["#777777ff", "#33af61ff"]
-      },
-                  {
-        id: "project-21",
-        title: "easymeets",
-        year: "2023",
-        img: "./images/SD/SD-03.png",
-        categories: ["Interfaces"],
-        projectUrl: "/projects/easymeets.html",
-        gradientColors: ["rgb(193, 246, 70)", "#e08448"]
-      },
-
-      {
-        id: "project-9",
-        title: "Located",
-        year: "2023",
-        img: "./images/LC/LC-logo-anim.gif",
-        categories: ["Graphic"],
-        projectUrl: "./projects/LOCATED.html",
-        gradientColors: ["#f51212ff", "#000000ff"]
-      },
-                  {
-        id: "project-18",
-        title: "TRADEMOTIONS",
-        year: "2022",
-        img: "./images/TM/trademotions.webp",
-        categories: ["Interfaces", "Branding"],
-        projectUrl: "/projects/trademotions.html",
-        gradientColors: ["#c72626ff", "#f55f08ff"]
-      },
-      {
-        id: "project-5",
-        title: "X4 CLUB",
-        year: "2024",
-        img: "./images/x4/x4-present.webp",
-        categories: ["Branding"],
-        projectUrl: "./projects/x4.html",
-        gradientColors: ["#1a1a2e", "#2d2d4d"]
-      },
-
-            {
-        id: "project-20",
-        title: "INPUT SOFT",
-        year: "2023",
-        img: "./images/IS/IS-main.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "/projects/input-soft.html",
-        gradientColors: ["#ffe066ff", "#4a2c5e"]
-      },
-            {
-        id: "project-2",
-        title: "Mitus",
-        year: "2024",
-        img: "./images/MI/MI-logo.png",
-        categories: ["Interfaces", "Branding"],
-        projectUrl: "./projects/mitus.html",
-        gradientColors: ["rgb(186, 188, 188)", "#9595f2"]
-      },
-
-      {
-        id: "project-6",
-        title: "Lettering",
-        year: "2024",
-        img: "./images/LT/LT-kyiv.gif",
-        categories: ["Graphic"],
-        projectUrl: "./projects/Lettering.html",
-        gradientColors: ["rgb(220, 42, 6)", "#232347"]
-      },
-
-      {
-        id: "project-8",
-        title: "iii3",
-        year: "2024",
-        img: "./images/iii3/iii3-cover.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/iii3.html",
-        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-      },
-
-      {
-        id: "project-15",
-        title: "Tripple We",
-        year: "2023",
-        img: "./images/TW/TW-sign.png",
-        categories: ["Branding"],
-        projectUrl: "./projects/tripple-we.html",
-        gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"]
-      },
-      {
-        id: "project-16",
-        title: "X-plane",
-        year: "2023",
-        img: "./images/XP/XP-cover.jpg",
-        categories: ["Interfaces", "Branding"],
-        projectUrl: "./projects/x-plane.html",
-        gradientColors: ["rgb(255, 111, 28)", "#9595f2"]
-      },
-
-      {
-        id: "project-10",
-        title: "Binary Cases",
-        year: "2022",
-        img: "./images/BN/BN-case-01.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/Binary.html",
-        gradientColors: ["#010101", "#ffa21f"]
-      },
-                  {
-        id: "project-14",
-        title: "Dr. Gavrylin",
-        year: "2023",
-        img: "./images/DG/DG-cover.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/Dr-Gavrylin.html",
-        gradientColors: ["#e9d1a6ff", "#524c40ff"]
-      },
-
-
-      {
-        id: "project-12",
-        title: "The I-Ching",
-        year: "2023",
-        img: "./images/Vibe-Coding-5.webp",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/The-I-Ching.html",
-        gradientColors: ["#badc5bff", "#232347"]
-      },
-      {
-        id: "project-13",
-        title: "Snedeker Yoga",
-        year: "2023",
-        img: "./images/Vibe-Coding-2.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/Snedeker-Yoga.html",
-        gradientColors: ["#e9d1a6ff", "#524c40ff"]
-      },
-            {
-        id: "project-7",
-        title: "Art",
-        year: "2024",
-        img: "./images/art/Art-02.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/art.html",
-        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-      },
-
-      {
-        id: "project-11",
-        title: "RACONTEUR",
-        year: "2022",
-        img: "./images/Vibe-Coding-4.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/Raconteur.html",
-        gradientColors: ["#0f0f23", "#232347"]
-      },
-      {
-        id: "project-17",
-        title: "Fundraising",
-        year: "2022",
-        img: "./images/FD/FD-zbir.gif",
-        categories: ["Graphic"],
-        projectUrl: "./projects/Fundraising.html",
-        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-      },
-
-
-      {
-        id: "project-19",
-        title: "My Startup",
-        year: "2023",
-        img: "./images/other/gogo-bot.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/gogo-bot.html",
-        gradientColors: ["#010101", "#ff890a"]
-      },
-
-
-      {
-        id: "project-23",
-        title: "Dobro",
-        year: "2018",
-        img: "./images/DO/DO-logo.png",
-        categories: ["Branding"],
-        projectUrl: "./projects/dobro.html",
-        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-      },
-
-      {
-        id: "project-22",
-        title: "Khmeli Suneli",
-        year: "2016",
-        img: "./images/HS/HS-logo.jpg",
-        categories: ["Branding"],
-        projectUrl: "./projects/khmeli-suneli.html",
-        gradientColors: ["#ffe066ff", "#4a2c5e"]
-      },
-
-
-      {
-        id: "project-24",
-        title: "SAYENKO&KHARENKO",
-        year: "2017",
-        img: "./images/SK/SK-mock.jpg",
-        categories: ["Branding"],
-        projectUrl: "./projects/SAYENKO&KHARENKO.html",
-        gradientColors: ["#919191ff", "#232347"]
-      },
-
-      {
-        id: "project-26",
-        title: "E-commerce App",
-        year: "2017",
-        img: "./images/other/E-commerce-App.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "/projects/e-commerce-app.html",
-        gradientColors: ["rgb(219, 15, 165)", "#111112"]
-      },
-
-
-      {
-        id: "project-28",
-        title: "Jernov Jewellery",
-        year: "2016",
-        img: "./images/JE/JE-broushure-cover.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/jernov.html",
-        gradientColors: ["#010101", "rgb(240, 235, 235)"]
-      },
-            {
-        id: "project-27",
-        title: "Vognyar",
-        year: "2016",
-        img: "./images/VG/vognyar-souses-07.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/Vognyar.html",
-        gradientColors: ["#010101", "#ff0a0a"]
-      },
-
-      {
-        id: "project-29",
-        title: "50 inventions",
-        year: "2015",
-        img: "./images/50/50-cover.jpg",
-        categories: ["Graphic"],
-        projectUrl: "./projects/50inventions.html",
-        gradientColors: ["#d53939", "#6fcd26"]
-      },
-            {
-        id: "project-25",
-        title: "Accemedin",
-        year: "2017",
-        img: "./images/other/accemedin.jpg",
-        categories: ["Interfaces"],
-        projectUrl: "./projects/accemedin.html",
-        gradientColors: ["rgb(220, 42, 6)", "#232347"]
-      },
-
-      {
-        id: "project-30",
-        title: "Symerio",
-        year: "2014",
-        img: "./images/SM/SM-logo-visitcard.jpg",
-        categories: ["Branding"],
-        projectUrl: "./projects/symerio.html",
-        gradientColors: ["rgb(231, 146, 28)", "#232347"]
-      }
-    ];
-
-
-    
-      this.imageCache = new Map();
-    this.addDuplicatePreviews();
-  }
-  
-  addDuplicatePreviews() {
-
-    const additionalPreviews = [
-
-
-
+{
+  id: "project-1",
+  title: "SCHMALGAUZEN",
+  year: "2025",
+  img: "/images/SC/SCHM-cover.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#schmalgauzen",
+  actualFile: "./projects/SCHMALGAUZEN.html",
+  gradientColors: ["#ff2200ff", "#232347"]
+},
+{
+  id: "project-3",
+  title: "K19",
+  year: "2025",
+  img: "./images/k19/k19-sign-transparent.png",
+  categories: ["Branding"],
+  projectUrl: "/#k19",
+  actualFile: "./projects/k19.html",
+  gradientColors: ["#1a1a2e", "#ffa600ff"]
+},
+{
+  id: "project-4",
+  title: "oO_series",
+  year: "2024",
+  img: "./images/OO/OO-logo-animation.webp",
+  categories: ["Interfaces", "Branding", "Graphic"],
+  projectUrl: "/#oo-series",
+  actualFile: "./projects/o0series.html",
+  gradientColors: ["#777777ff", "#33af61ff"]
+},
+{
+  id: "project-21",
+  title: "easymeets",
+  year: "2023",
+  img: "./images/SD/SD-03.png",
+  categories: ["Interfaces"],
+  projectUrl: "/#easymeets",
+  actualFile: "./projects/easymeets.html",
+  gradientColors: ["rgb(193, 246, 70)", "#e08448"]
+},
+{
+  id: "project-9",
+  title: "Located",
+  year: "2023",
+  img: "./images/LC/LC-logo-anim.gif",
+  categories: ["Graphic"],
+  projectUrl: "/#located",
+  actualFile: "./projects/LOCATED.html",
+  gradientColors: ["#f51212ff", "#000000ff"]
+},
+{
+  id: "project-18",
+  title: "TRADEMOTIONS",
+  year: "2022",
+  img: "./images/TM/trademotions.webp",
+  categories: ["Interfaces", "Branding"],
+  projectUrl: "/#trademotions",
+  actualFile: "./projects/trademotions.html",
+  gradientColors: ["#c72626ff", "#f55f08ff"]
+},
+{
+  id: "project-5",
+  title: "X4 CLUB",
+  year: "2024",
+  img: "./images/x4/x4-present.webp",
+  categories: ["Branding"],
+  projectUrl: "/#x4-club",
+  actualFile: "./projects/x4.html",
+  gradientColors: ["#1a1a2e", "#2d2d4d"]
+},
+{
+  id: "project-20",
+  title: "INPUT SOFT",
+  year: "2023",
+  img: "./images/IS/IS-main.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#input-soft",
+  actualFile: "./projects/input-soft.html",
+  gradientColors: ["#ffe066ff", "#4a2c5e"]
+},
+{
+  id: "project-2",
+  title: "Mitus",
+  year: "2024",
+  img: "./images/MI/MI-logo.png",
+  categories: ["Interfaces", "Branding"],
+  projectUrl: "/#mitus",
+  actualFile: "./projects/mitus.html",
+  gradientColors: ["rgb(186, 188, 188)", "#9595f2"]
+},
+{
+  id: "project-6",
+  title: "Lettering",
+  year: "2024",
+  img: "./images/LT/LT-kyiv.gif",
+  categories: ["Graphic"],
+  projectUrl: "/#lettering",
+  actualFile: "./projects/Lettering.html",
+  gradientColors: ["rgb(220, 42, 6)", "#232347"]
+},
+{
+  id: "project-8",
+  title: "iii3",
+  year: "2024",
+  img: "./images/iii3/iii3-cover.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#iii3",
+  actualFile: "./projects/iii3.html",
+  gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
+},
+{
+  id: "project-15",
+  title: "Tripple We",
+  year: "2023",
+  img: "./images/TW/TW-sign.png",
+  categories: ["Branding"],
+  projectUrl: "/#tripple-we",
+  actualFile: "./projects/tripple-we.html",
+  gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"]
+},
+{
+  id: "project-16",
+  title: "X-plane",
+  year: "2023",
+  img: "./images/XP/XP-cover.jpg",
+  categories: ["Interfaces", "Branding"],
+  projectUrl: "/#x-plane",
+  actualFile: "./projects/x-plane.html",
+  gradientColors: ["rgb(255, 111, 28)", "#9595f2"]
+},
+{
+  id: "project-10",
+  title: "Binary Cases",
+  year: "2022",
+  img: "./images/BN/BN-case-01.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#binary-cases",
+  actualFile: "./projects/Binary.html",
+  gradientColors: ["#010101", "#ffa21f"]
+},
+{
+  id: "project-14",
+  title: "Dr. Gavrylin",
+  year: "2023",
+  img: "./images/DG/DG-cover.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#dr-gavrylin",
+  actualFile: "./projects/Dr-Gavrylin.html",
+  gradientColors: ["#e9d1a6ff", "#524c40ff"]
+},
+{
+  id: "project-12",
+  title: "The I-Ching",
+  year: "2023",
+  img: "./images/Vibe-Coding-5.webp",
+  categories: ["Interfaces"],
+  projectUrl: "/#the-i-ching",
+  actualFile: "./projects/The-I-Ching.html",
+  gradientColors: ["#badc5bff", "#232347"]
+},
+{
+  id: "project-13",
+  title: "Snedeker Yoga",
+  year: "2023",
+  img: "./images/Vibe-Coding-2.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#snedeker-yoga",
+  actualFile: "./projects/Snedeker-Yoga.html",
+  gradientColors: ["#e9d1a6ff", "#524c40ff"]
+},
+{
+  id: "project-7",
+  title: "Art",
+  year: "2024",
+  img: "./images/art/Art-02.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#art",
+  actualFile: "./projects/art.html",
+  gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
+},
+{
+  id: "project-11",
+  title: "RACONTEUR",
+  year: "2022",
+  img: "./images/Vibe-Coding-4.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#raconteur",
+  actualFile: "./projects/Raconteur.html",
+  gradientColors: ["#0f0f23", "#232347"]
+},
+{
+  id: "project-17",
+  title: "Fundraising",
+  year: "2022",
+  img: "./images/FD/FD-zbir.gif",
+  categories: ["Graphic"],
+  projectUrl: "/#fundraising",
+  actualFile: "./projects/Fundraising.html",
+  gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
+},
+{
+  id: "project-19",
+  title: "My Startup",
+  year: "2023",
+  img: "./images/other/gogo-bot.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#my-startup",
+  actualFile: "./projects/gogo-bot.html",
+  gradientColors: ["#010101", "#ff890a"]
+},
+{
+  id: "project-23",
+  title: "Dobro",
+  year: "2018",
+  img: "./images/DO/DO-logo.png",
+  categories: ["Branding"],
+  projectUrl: "/#dobro",
+  actualFile: "./projects/dobro.html",
+  gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
+},
+{
+  id: "project-22",
+  title: "Khmeli Suneli",
+  year: "2016",
+  img: "./images/HS/HS-logo.jpg",
+  categories: ["Branding"],
+  projectUrl: "/#khmeli-suneli",
+  actualFile: "./projects/khmeli-suneli.html",
+  gradientColors: ["#ffe066ff", "#4a2c5e"]
+},
+{
+  id: "project-24",
+  title: "SAYENKO&KHARENKO",
+  year: "2017",
+  img: "./images/SK/SK-mock.jpg",
+  categories: ["Branding"],
+  projectUrl: "/#sayenko-kharenko",
+  actualFile: "./projects/SAYENKO&KHARENKO.html",
+  gradientColors: ["#919191ff", "#232347"]
+},
+{
+  id: "project-26",
+  title: "E-commerce App",
+  year: "2017",
+  img: "./images/other/E-commerce-App.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#e-commerce-app",
+  actualFile: "./projects/e-commerce-app.html",
+  gradientColors: ["rgb(219, 15, 165)", "#111112"]
+},
+{
+  id: "project-28",
+  title: "Jernov Jewellery",
+  year: "2016",
+  img: "./images/JE/JE-broushure-cover.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#jernov-jewellery",
+  actualFile: "./projects/jernov.html",
+  gradientColors: ["#010101", "rgb(240, 235, 235)"]
+},
+{
+  id: "project-27",
+  title: "Vognyar",
+  year: "2016",
+  img: "./images/VG/vognyar-souses-07.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#vognyar",
+  actualFile: "./projects/Vognyar.html",
+  gradientColors: ["#010101", "#ff0a0a"]
+},
+{
+  id: "project-29",
+  title: "50 inventions",
+  year: "2015",
+  img: "./images/50/50-cover.jpg",
+  categories: ["Graphic"],
+  projectUrl: "/#50-inventions",
+  actualFile: "./projects/50inventions.html",
+  gradientColors: ["#d53939", "#6fcd26"]
+},
+{
+  id: "project-25",
+  title: "Accemedin",
+  year: "2017",
+  img: "./images/other/accemedin.jpg",
+  categories: ["Interfaces"],
+  projectUrl: "/#accemedin",
+  actualFile: "./projects/accemedin.html",
+  gradientColors: ["rgb(220, 42, 6)", "#232347"]
+},
+{
+  id: "project-30",
+  title: "Symerio",
+  year: "2014",
+  img: "./images/SM/SM-logo-visitcard.jpg",
+  categories: ["Branding"],
+  projectUrl: "/#symerio",
+  actualFile: "./projects/symerio.html",
+  gradientColors: ["rgb(231, 146, 28)", "#232347"]
+}
     ];
     
-    this.allData = [...this.allData, ...additionalPreviews];
+    this.imageCache = new LRUCache(CONFIG.PERFORMANCE.CACHE_SIZE);
+    this.loadingPromises = new Map(); // Prevent duplicate loading
   }
   
   filterData(filter) {
@@ -506,54 +548,93 @@ class DataManager {
     return this.allData.filter(item => item.categories.includes(filter));
   }
   
-preloadImages(images, onProgress) {
-  return new Promise((resolve) => {
-    let loaded = 0;
+  async preloadImagesWithCache(images, onProgress) {
     const total = images.length;
-
-    if (total === 0) {
-      resolve();
-      return;
+    let loaded = 0;
+    
+    if (total === 0) return;
+    
+    const loadPromises = images.map(src => this.loadImage(src));
+    
+    // Track progress
+    for (const promise of loadPromises) {
+      await promise;
+      loaded++;
+      if (onProgress) onProgress(loaded / total);
     }
-
-    images.forEach((src) => {
-      // если уже загружено, сразу считаем
-      if (this.imageCache.has(src)) {
-        loaded++;
-        if (onProgress) onProgress(loaded / total);
-        if (loaded === total) setTimeout(resolve, 500);
-        return;
-      }
-
+  }
+  
+  async loadImage(src) {
+    // Check if already loading
+    if (this.loadingPromises.has(src)) {
+      return this.loadingPromises.get(src);
+    }
+    
+    // Check cache
+    if (this.imageCache.has(src)) {
+      return Promise.resolve();
+    }
+    
+    const loadPromise = new Promise((resolve) => {
       const img = new Image();
-      img.onload = img.onerror = () => {
-        this.imageCache.set(src, img); // сохраняем в кэш
-        loaded++;
-        if (onProgress) onProgress(loaded / total);
-        if (loaded === total) setTimeout(resolve, 500);
+      
+      img.onload = () => {
+        this.imageCache.set(src, img);
+        this.loadingPromises.delete(src);
+        resolve();
       };
+      
+      img.onerror = () => {
+        console.warn(`Failed to load image: ${src}`);
+        this.loadingPromises.delete(src);
+        resolve(); // Resolve anyway to not block
+      };
+      
       img.src = src;
     });
-  });
-}
+    
+    this.loadingPromises.set(src, loadPromise);
+    return loadPromise;
+  }
+  
+  getCachedImage(src) {
+    const cached = this.imageCache.get(src);
+    if (cached) {
+      const newImg = new Image();
+      newImg.src = cached.src;
+      return newImg;
+    }
+    
+    // Fallback - should not happen with proper preloading
+    const img = new Image();
+    img.src = src;
+    return img;
+  }
 
+  getImageElement(src) {
+    const cached = this.imageCache.get(src);
+    if (cached) {
+      // Clone the image to avoid moving it between DOM elements
+      const clone = cached.cloneNode(false);
+      clone.src = cached.src; // Ensure src is set
+      return clone;
+    }
+    return null;
+  }
 }
 
 // ==========================
-// 4. Lnis Manager (UPDATED - dynamic wheelMultiplier)
+// 4. Lenis Manager
 // ==========================
 class LenisManager {
   constructor() {
     this.lenis = null;
     this.currentView = null;
+    this.rafId = null;
   }
   
   init(viewType, itemCount) {
-    
-    if (this.lenis) {
-      this.lenis.destroy();
-      this.lenis = null;
-    }
+    this.destroy();
     
     const config = {
       lerp: CONFIG.LENIS.LERP,
@@ -561,7 +642,6 @@ class LenisManager {
       touchMultiplier: CONFIG.LENIS.TOUCH_MULTIPLIER
     };
     
-    //wheelMultiplier adjustment based on view type and item count
     if (viewType === 'slides') {
       let wheelMultiplier;
       if (itemCount <= 5) {
@@ -575,7 +655,6 @@ class LenisManager {
       }
       config.wheelMultiplier = wheelMultiplier;
     } else {
-      //
       config.wheelMultiplier = CONFIG.LENIS.WHEEL_MULTIPLIER.BASE;
     }
     
@@ -584,9 +663,11 @@ class LenisManager {
     
     if (viewType === 'slides') {
       this.lenis.on("scroll", (e) => {
-        appState.scroll.pos = e.scroll;
-        appState.scroll.max = e.limit;
-        appState.scroll.z = (appState.scroll.pos / appState.scroll.max) * 4000 * 2;
+        if (window.appState) {
+          window.appState.scroll.pos = e.scroll;
+          window.appState.scroll.max = e.limit;
+          window.appState.scroll.z = (e.scroll / e.limit) * 4000 * 2;
+        }
       });
     }
     
@@ -594,15 +675,11 @@ class LenisManager {
   }
   
   start() {
-    if (this.lenis) {
-      this.lenis.start();
-    }
+    if (this.lenis) this.lenis.start();
   }
   
   stop() {
-    if (this.lenis) {
-      this.lenis.stop();
-    }
+    if (this.lenis) this.lenis.stop();
   }
   
   destroy() {
@@ -610,11 +687,15 @@ class LenisManager {
       this.lenis.destroy();
       this.lenis = null;
     }
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
   }
 }
 
 // ==========================
-// 5. Manager View (UPDATED - mobile check, gradient backgrounds, project links)
+// 5. View Manager (Optimized)
 // ==========================
 class ViewManager {
   constructor(state, dom, dataManager) {
@@ -625,92 +706,110 @@ class ViewManager {
     this.lazyObserver = null;
     this.resizeTimeout = null;
     this.bgChangeTimeout = null;
-    this.rafId = null;
     this.isAnimating = false;
+    this.lastGridUpdate = 0;
+    this.lastSlideUpdate = 0;
     
+    // Bind methods for RAF
+    this.mainLoop = this.mainLoop.bind(this);
+    this.updateSlides = this.updateSlides.bind(this);
+    this.drawGrid = this.drawGrid.bind(this);
     
     this.checkMobileDevice();
   }
   
   initGlitchCursor() {
-      if (this.isTouchDevice) return;
-  const cursor = this.dom.elements.glitchCursor;
-  if (!cursor) return;
+    if (this.isTouchDevice) return;
+    const cursor = this.dom.elements.glitchCursor;
+    if (!cursor) return;
 
+    let rafId = null;
+    let mouseX = 0, mouseY = 0;
+    
+    const updateCursor = () => {
+      cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      rafId = null;
+    };
 
-
-  window.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  });
-}
-
-initCursorHoverTargets() {
-  const cursor = this.dom.elements.glitchCursor;
-  if (!cursor) return;
-
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
-      cursor.style.opacity = 1;
-       cursor.style.display = 'block';
-        document.body.style.cursor = 'none';
-    }
-  });
-
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest('.slide, .gallery-item, .myhead, .view-btn, a')) {
-      cursor.style.opacity = 0;
-
-        cursor.style.display = 'none'; // ← Затем скрываем
-
-        document.body.style.cursor = 'auto';
-    }
-  });
-}
-
-
-
-checkMobileDevice() {
-  this.isTouchDevice = (
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0
-  );
-
-  this.isSmallScreen = window.innerWidth <= 768;
-
-  // Если маленький экран — переключаем view
-  if (this.isSmallScreen && this.state.view !== 'gallery') {
-    this.setView('gallery', true);
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateCursor);
+      }
+    });
   }
-}
-  // ==========================
-  // 5.1 Mouse Move
-initMouse() {
-  this.isTouchDevice =
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0;
 
-  if (this.isTouchDevice) return;
+  initCursorHoverTargets() {
+    const cursor = this.dom.elements.glitchCursor;
+    if (!cursor) return;
 
-  window.addEventListener("mousemove", (e) => {
-    if (this.state.view === "gallery") return;
+    const targets = '.slide, .gallery-item, .myhead, .view-btn, a';
+    
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(targets)) {
+        cursor.style.opacity = 1;
+        cursor.style.display = 'block';
+        document.body.style.cursor = 'none';
+      }
+    });
+
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(targets)) {
+        cursor.style.opacity = 0;
+        cursor.style.display = 'none';
+        document.body.style.cursor = 'auto';
+      }
+    });
+  }
+
+  checkMobileDevice() {
+    this.isTouchDevice = (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0
+    );
+
+    this.isSmallScreen = window.innerWidth <= 768;
+
+    if (this.isSmallScreen) {
+      // Optimize for mobile
+      CONFIG.GRID.LINE_OPACITY = 0.08;
+      CONFIG.GRID.VERTICAL_COUNT = 2;
+      if (this.state.view !== 'gallery') {
+        this.setView('gallery', true);
+      }
+    }
+  }
+
+  initMouse() {
+    if (this.isTouchDevice) return;
+
+    let rafId = null;
+    
+    window.addEventListener("mousemove", (e) => {
+      if (this.state.view === "gallery") return;
       
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
       
-    this.state.mouse.nx = (e.clientX - cx) / cx;
-    this.state.mouse.ny = (e.clientY - cy) / cy;
-    this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
-    this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
-    this.state.mouse.angle =
-      (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
+      this.state.mouse.nx = (e.clientX - cx) / cx;
+      this.state.mouse.ny = (e.clientY - cy) / cy;
+      this.state.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 200;
+      this.state.mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 200;
+      this.state.mouse.angle =
+        (Math.atan2(this.state.mouse.ny, this.state.mouse.nx) * 180 / Math.PI + 360) % 360;
       
-    this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
-    this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
-    this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
-  });
+      // Throttle CSS variable updates
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          this.dom.elements.root.style.setProperty("--mx", this.state.mouse.nx.toFixed(3));
+          this.dom.elements.root.style.setProperty("--my", this.state.mouse.ny.toFixed(3));
+          this.dom.elements.root.style.setProperty("--angle", this.state.mouse.angle.toFixed(1) + "deg");
+          rafId = null;
+        });
+      }
+    });
 
-
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (this.lenisManager.lenis) {
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -726,9 +825,6 @@ initMouse() {
     });
   }
   
-  // ==========================
-  // 5.2 Resize
-  // ==========================
   initResize() {
     this.resizeCanvas();
     
@@ -740,17 +836,21 @@ initMouse() {
           this.lenisManager.lenis.resize();
         }
         
-        
         const wasMobile = this.state.isMobile;
         this.state.isMobile = window.innerWidth <= 768;
         
-       
+        if (this.state.isMobile && !wasMobile) {
+          CONFIG.GRID.LINE_OPACITY = 0.08;
+          CONFIG.GRID.VERTICAL_COUNT = 2;
+        } else if (!this.state.isMobile && wasMobile) {
+          CONFIG.GRID.LINE_OPACITY = 0.15;
+          CONFIG.GRID.VERTICAL_COUNT = 4;
+        }
+        
         if (this.state.isMobile && !wasMobile && this.state.view !== 'gallery') {
           this.setView('gallery', true);
         }
-      
         else if (!this.state.isMobile && wasMobile && this.state.view === 'gallery') {
-          
           this.setView('slides', true);
         }
         
@@ -761,7 +861,7 @@ initMouse() {
             });
           });
         }
-      }, 250);
+      }, 150); // Reduced timeout
     };
     
     window.addEventListener("resize", optimizedResize);
@@ -770,13 +870,21 @@ initMouse() {
   
   resizeCanvas() {
     if (!this.dom.elements.canvas) return;
-    this.dom.elements.canvas.width = window.innerWidth;
-    this.dom.elements.canvas.height = window.innerHeight;
+    
+    // Limit canvas size for performance
+    const maxSize = CONFIG.PERFORMANCE.MAX_CANVAS_SIZE;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    
+    if (width > maxSize) {
+      height = Math.round(height * (maxSize / width));
+      width = maxSize;
+    }
+    
+    this.dom.elements.canvas.width = width;
+    this.dom.elements.canvas.height = height;
   }
   
-  // ==========================
-  // 5.3 Slides 
-  // ==========================
   buildSlides() {
     if (this.state.view !== "slides") return;
     if (!this.dom.elements.slider) return;
@@ -793,9 +901,12 @@ initMouse() {
       return;
     }
     
+    // Use document fragment for better performance
+    const fragment = document.createDocumentFragment();
+    
     this.state.filteredData.forEach((data, i) => {
       const slide = this.createSlideElement(data, i);
-      this.dom.elements.slider.appendChild(slide);
+      fragment.appendChild(slide);
       this.state.slides.elements.push(slide);
       this.state.slides.state.push({
         baseZ: i * CONFIG.Z_GAP,
@@ -804,99 +915,85 @@ initMouse() {
         parallaxX: 0,
         parallaxY: 0
       });
-      
-      gsap.set(slide, {
-        position: "absolute",
-        top: "30%",
-        left: (i % 2 === 0 ? 35 : 50) + "%",
-        xPercent: 20,
-        yPercent: -50,
-        transformStyle: "preserve-3d",
-        willChange: "transform, opacity, filter"
-      });
+    });
+    
+    this.dom.elements.slider.appendChild(fragment);
+    
+    // Batch GSAP operations
+    const updates = this.state.slides.elements.map((slide, i) => ({
+      element: slide,
+      left: (i % 2 === 0 ? 35 : 50) + "%"
+    }));
+    
+    gsap.set(updates.map(u => u.element), {
+      position: "absolute",
+      top: "30%",
+      xPercent: 20,
+      yPercent: -50,
+      transformStyle: "preserve-3d",
+      willChange: "transform, opacity, filter"
+    });
+    
+    updates.forEach(u => {
+      u.element.style.left = u.left;
     });
     
     this.state.scroll.max = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
     
-
     this.lenisManager.init('slides', this.state.filteredData.length);
     this.lenisManager.start();
   }
   
-createSlideElement(data, index) {
-  const slide = document.createElement("div");
-  slide.className = "slide";
-  slide.dataset.index = index;
-  slide.dataset.baseZ = index * CONFIG.Z_GAP;
-  slide.dataset.projectId = data.id;
-
-  // Создаём картинку
-  const img = new Image();
-  img.alt = data.title || '';
-  img.loading = "lazy";
-
-  // Инициализируем кэш, если его ещё нет
-  if (!this.imageCache) this.imageCache = new Map();
-
-  if (this.imageCache.has(data.img)) {
-    img.src = this.imageCache.get(data.img).src;
-  } else {
-    img.src = data.img;
-    img.onload = () => {
-      this.imageCache.set(data.img, img);
+  createSlideElement(data, index) {
+    const slide = document.createElement("div");
+    slide.className = "slide";
+    slide.dataset.index = index;
+    slide.dataset.baseZ = index * CONFIG.Z_GAP;
+    slide.dataset.projectId = data.id;
+    
+    // Use cached image if available
+    const img = this.dataManager.getImageElement(data.img) || new Image();
+    if (!img.src) img.src = data.img;
+    
+    img.alt = data.title || '';
+    img.loading = "eager";
+    img.onerror = () => {
+      img.remove();
+      slide.classList.add('image-error');
     };
+    
+    slide.innerHTML = `
+      <div class="slide-img"></div>
+      <div class="slide-copy">
+        <p class="card-title">
+          <span>${data.title || ''}</span>
+        </p>
+        <p class="card-subtitle">
+          <span class="card-category">${data.categories.join(", ")}</span>
+          <span class="card-year">${data.year || '2024'}</span>
+        </p>
+      </div>
+    `;
+    
+    slide.querySelector('.slide-img').appendChild(img);
+    
+    const transition = this.dom.elements.pageTransition;
+
+// При клике на проект
+slide.addEventListener('click', e => {
+  e.preventDefault();
+  
+  // Просто добавляем referrer в sessionStorage
+  sessionStorage.setItem('gallery_return', 'true');
+  sessionStorage.setItem('gallery_path', window.location.pathname);
+  sessionStorage.setItem('gallery_hash', window.location.hash);
+  
+  window.location.href = data.projectUrl;
+});
+    
+    return slide;
   }
-
-  img.onerror = () => {
-    img.remove();
-    slide.classList.add('image-error');
-  };
-
-  // Вставляем базовую структуру
-  slide.innerHTML = `
-    <div class="slide-img">
-      <!-- Image will be inserted -->
-    </div>
-    <div class="slide-copy">
-      <p class="card-title">
-        <span>${data.title || ''}</span>
-      </p>
-      <p class="card-subtitle">
-        <span class="card-category">${data.categories.join(", ")}</span>
-        <span class="card-year">${data.year || '2024'}</span>
-      </p>
-    </div>
-  `;
-
-  // Вставляем картинку в контейнер
-  slide.querySelector('.slide-img').appendChild(img);
-
-  // Обработка перехода по клику
-  const transition = this.dom.elements.pageTransition;
-  slide.addEventListener('click', e => {
-    if (e.target.closest('a')) return;
-
-    e.preventDefault();
-
-    const currentUrl = window.location.href;
-    const projectUrl = data.projectUrl;
-    const separator = projectUrl.includes('?') ? '&' : '?';
-    const finalUrl =
-      projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
-
-    transition.classList.add('is-leaving');
-
-    setTimeout(() => {
-      window.location.assign(finalUrl);
-    }, 450); // совпадает с CSS
-  });
-
-  return slide;
-}
-
-  // ==========================
-  // 5.4 Gallery
-  // ==========================
+  
   buildGallery() {
     if (this.state.view !== "gallery") return;
     if (!this.dom.elements.gallery) return;
@@ -908,7 +1005,7 @@ createSlideElement(data, index) {
       emptyMessage.className = "gallery-empty";
       emptyMessage.innerHTML = `
         <h3>No works found</h3>
-        <p>Try selecting a different category or switch to "all works"</p>
+        <p>Try selecting a different category</p>
       `;
       this.dom.elements.gallery.appendChild(emptyMessage);
       return;
@@ -917,15 +1014,18 @@ createSlideElement(data, index) {
     const grid = document.createElement("div");
     grid.className = "gallery-grid";
     
+    // Use fragment for better performance
+    const fragment = document.createDocumentFragment();
+    
     this.state.filteredData.forEach((data, i) => {
       const item = this.createGalleryItem(data, i);
-      grid.appendChild(item);
+      fragment.appendChild(item);
     });
     
+    grid.appendChild(fragment);
     this.dom.elements.gallery.appendChild(grid);
     this.initLazyLoading();
     
-
     this.lenisManager.init('gallery', this.state.filteredData.length);
     this.lenisManager.start();
   }
@@ -937,36 +1037,29 @@ createSlideElement(data, index) {
     item.dataset.index = index;
     item.dataset.projectId = data.id;
     
-
     item.innerHTML = `
       <div class="gallery-thumb">
-        <img data-src="${data.img}" alt="${data.title}" class="lazy-img">
+        <img data-src="${data.img}" alt="${data.title}" class="lazy-img" loading="lazy">
       </div>
       <div class="gallery-caption">
         <div class="g-title">${data.title}</div>
         <div class="g-meta">
-
           <span class="g-category">${data.categories.join(", ")}</span>
-                    <span class="g-year">${data.year || '2024'}</span>
+          <span class="g-year">${data.year || '2024'}</span>
         </div>
       </div>
     `;
     
-
-item.addEventListener('click', (e) => {
-  e.preventDefault();
-  
-
-  const currentUrl = window.location.href;
-  const projectUrl = data.projectUrl;
-  
-
-  const separator = projectUrl.includes('?') ? '&' : '?';
-  const finalUrl = projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
-  
-  console.log('Opening project with referrer:', finalUrl);
-window.location.href = finalUrl;
-});
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const currentUrl = window.location.href;
+      const projectUrl = data.projectUrl;
+      const separator = projectUrl.includes('?') ? '&' : '?';
+      const finalUrl = projectUrl + separator + 'referrer=' + encodeURIComponent(currentUrl);
+      
+      window.location.href = finalUrl;
+    });
     
     return item;
   }
@@ -981,12 +1074,13 @@ window.location.href = finalUrl;
         if (entry.isIntersecting) {
           const img = entry.target.querySelector('.lazy-img');
           if (img && img.dataset.src) {
-            img.src = img.dataset.src;
-img.onerror = () => {
-  img.remove();
-  slide.classList.add('image-error');
-};
-
+            // Use cached image if available
+            const cachedImg = this.dataManager.getImageElement(img.dataset.src);
+            if (cachedImg) {
+              img.src = cachedImg.src;
+            } else {
+              img.src = img.dataset.src;
+            }
             img.removeAttribute('data-src');
             img.classList.remove('lazy-img');
           }
@@ -994,46 +1088,39 @@ img.onerror = () => {
         }
       });
     }, { 
-      rootMargin: '50px',
-      threshold: 0.1 
+      rootMargin: `${CONFIG.PERFORMANCE.LAZY_LOAD_OFFSET}px`,
+      threshold: 0.01 
     });
     
     document.querySelectorAll('.gallery-item').forEach(item => {
       this.lazyObserver.observe(item);
     });
+    
+    this.dom.observers.push(this.lazyObserver);
   }
   
-  // ==========================
-  // 5.5 BG Image Management
-  // ==========================
   setBackgroundImage(index, immediate = false) {
-
     if (this.state.view === "gallery") return;
     if (index < 0 || index >= this.state.filteredData.length) return;
     if (index === this.state.bg.currentIndex && !immediate) return;
     
-
     if (this.bgChangeTimeout) {
       clearTimeout(this.bgChangeTimeout);
       this.bgChangeTimeout = null;
     }
     
-
     this.state.bg.currentIndex = index;
     const data = this.state.filteredData[index];
     
-
     const activeIdx = this.state.bg.active;
     const nextIdx = 1 - activeIdx;
     const activeEl = activeIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
     const nextEl = nextIdx === 0 ? this.dom.elements.bgA : this.dom.elements.bgB;
     
- 
     gsap.killTweensOf([this.dom.elements.bgA, this.dom.elements.bgB]);
 
     const gradient = this.createGradient(data.gradientColors);
     
-
     if (immediate) {
       nextEl.style.backgroundImage = gradient;
       nextEl.style.opacity = CONFIG.BG_OPACITY.toString();
@@ -1042,47 +1129,52 @@ img.onerror = () => {
       return;
     }
     
+    nextEl.style.backgroundImage = gradient;
 
-    const applyTransition = () => {
-
-      nextEl.style.backgroundImage = gradient;
-
-      gsap.to(activeEl, {
-        opacity: 0,
-        duration: CONFIG.BG_FADE_DURATION * 0.7,
-        ease: "power2.in",
-        overwrite: true
-      });
-      
-      gsap.to(nextEl, {
-        opacity: CONFIG.BG_OPACITY,
-        duration: CONFIG.BG_FADE_DURATION,
-        ease: "power2.out",
-        delay: 0.05,
-        overwrite: true,
-        onComplete: () => {
-
-          this.state.bg.active = nextIdx;
-        }
-      });
-    };
+    gsap.to(activeEl, {
+      opacity: 0,
+      duration: CONFIG.BG_FADE_DURATION * 0.7,
+      ease: "power2.in",
+      overwrite: true
+    });
     
-
-    applyTransition();
+    gsap.to(nextEl, {
+      opacity: CONFIG.BG_OPACITY,
+      duration: CONFIG.BG_FADE_DURATION,
+      ease: "power2.out",
+      delay: 0.05,
+      overwrite: true,
+      onComplete: () => {
+        this.state.bg.active = nextIdx;
+      }
+    });
+    
+    // Preload adjacent images
+    this.preloadAdjacentImages(index);
+  }
+  
+  preloadAdjacentImages(currentIdx) {
+    const indices = [
+      currentIdx - 1,
+      currentIdx + 1
+    ].filter(idx => idx >= 0 && idx < this.state.filteredData.length);
+    
+    indices.forEach(idx => {
+      const data = this.state.filteredData[idx];
+      this.dataManager.loadImage(data.img);
+    });
   }
   
   createGradient(colors) {
-
     const [color1, color2] = colors;
     return `radial-gradient(circle at center, ${color1} 0%, ${color2} 100%)`;
   }
   
-  // ==========================
-  // 5.6 Update Slides
-  // ==========================
   updateSlides() {
     if (this.state.view !== "slides") return;
     if (this.state.slides.elements.length === 0) return;
+    
+    this.state.updateFPS();
     
     const progress = this.snappedProgress(this.state.scroll.pos / this.state.scroll.max, 0.1);
     const totalDepth = (this.state.filteredData.length - 1) * CONFIG.Z_GAP;
@@ -1090,6 +1182,9 @@ img.onerror = () => {
     
     let bestIdx = -1;
     let bestDist = Infinity;
+    
+    const mouseNX = this.state.mouse.nx;
+    const mouseNY = this.state.mouse.ny;
     
     this.state.slides.elements.forEach((slide, idx) => {
       const baseZ = this.state.slides.state[idx].baseZ;
@@ -1102,23 +1197,28 @@ img.onerror = () => {
       }
       
       if (relativeZ < -110 || relativeZ > 300) { 
-        slide.style.opacity = 0; 
+        slide.style.opacity = '0'; 
         slide.style.pointerEvents = "none"; 
         return; 
       }
       
       this.state.slides.state[idx].opacity = Math.max(0, Math.min(1, 1 - dist / 380));
       this.state.slides.state[idx].scale = Math.max(0.4, Math.min(1.2, 1.2 - (dist / 400) * 0.8));
-      this.state.slides.state[idx].parallaxX = this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.X;
-      this.state.slides.state[idx].parallaxY = this.state.mouse.ny * CONFIG.MOUSE_SENSITIVITY.Y;
+      this.state.slides.state[idx].parallaxX = mouseNX * CONFIG.MOUSE_SENSITIVITY.X;
+      this.state.slides.state[idx].parallaxY = mouseNY * CONFIG.MOUSE_SENSITIVITY.Y;
       
-      slide.style.transform = `
-        translate3d(${this.state.slides.state[idx].parallaxX}vw, ${this.state.slides.state[idx].parallaxY}vh, ${-relativeZ}px)
-        rotateY(${this.state.mouse.nx * CONFIG.MOUSE_SENSITIVITY.ROTATION}deg)
-        rotateX(${this.state.mouse.ny * -3}deg)
-        scale(${this.state.slides.state[idx].scale})
-      `;
-      slide.style.opacity = this.state.slides.state[idx].opacity;
+      // Use transform for better performance
+      const transform = `translate3d(${this.state.slides.state[idx].parallaxX}vw, ${this.state.slides.state[idx].parallaxY}vh, ${-relativeZ}px) rotateY(${mouseNX * CONFIG.MOUSE_SENSITIVITY.ROTATION}deg) rotateX(${mouseNY * -3}deg) scale(${this.state.slides.state[idx].scale})`;
+      
+      if (slide.style.transform !== transform) {
+        slide.style.transform = transform;
+      }
+      
+      const opacity = this.state.slides.state[idx].opacity;
+      if (slide.style.opacity !== String(opacity)) {
+        slide.style.opacity = opacity;
+      }
+      
       slide.style.pointerEvents = 'auto';
     });
     
@@ -1148,123 +1248,116 @@ img.onerror = () => {
     return Math.min(1, Math.max(0, snappedIdxFloat / total));
   }
   
-  // ==========================
-  // 5.7 Grid Drawing
-  // ==========================
-  drawGrid() {
-    if (!this.dom.elements.context || !this.dom.elements.canvas) return;
-    
-    const ctx = this.dom.elements.context;
-    const canvas = this.dom.elements.canvas;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
-    this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
-    
-    const mx = this.state.mouse.targetX;
-    const my = this.state.mouse.targetY;
-    
+ drawGrid() {
+  if (!this.dom.elements.context || !this.dom.elements.canvas) return;
   
-    this.state.gridLines.forEach(z => {
-      let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
-      const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
-      
+  const ctx = this.dom.elements.context;
+  const canvas = this.dom.elements.canvas;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const p1t = this.project3D(-1500, -800, zOffset, mx, my);
-      const p2t = this.project3D(1500, -800, zOffset, mx, my);
-      
-      const gradTop = ctx.createLinearGradient(p1t.x, 0, p2t.x, 0);
-      gradTop.addColorStop(0, `rgba(255,255,255,0)`);
-      gradTop.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-      gradTop.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-      gradTop.addColorStop(1, `rgba(255,255,255,0)`);
-      
-      ctx.strokeStyle = gradTop;
-      ctx.lineWidth = 1;
-      
-      ctx.beginPath();
-      ctx.moveTo(p1t.x, p1t.y);
-      ctx.lineTo(p2t.x, p2t.y);
-      ctx.stroke();
-      
- 
-      const p1b = this.project3D(-1500, 800, zOffset, mx, my);
-      const p2b = this.project3D(1500, 800, zOffset, mx, my);
-      
-      const gradBottom = ctx.createLinearGradient(p1b.x, 0, p2b.x, 0);
-      gradBottom.addColorStop(0, `rgba(255,255,255,0)`);
-      gradBottom.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-      gradBottom.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
-      gradBottom.addColorStop(1, `rgba(255,255,255,0)`);
-      
-      ctx.strokeStyle = gradBottom;
-      ctx.lineWidth = 1;
-      
-      ctx.beginPath();
-      ctx.moveTo(p1b.x, p1b.y);
-      ctx.lineTo(p2b.x, p2b.y);
-      ctx.stroke();
-    });
+  this.state.mouse.targetX += (this.state.mouse.nx * 100 - this.state.mouse.targetX) * 0.2;
+  this.state.mouse.targetY += (this.state.mouse.ny * 100 - this.state.mouse.targetY) * 0.2;
+  
+  const mx = this.state.mouse.targetX;
+  const my = this.state.mouse.targetY;
+  
+
+  this.state.gridLines.forEach(z => {
+    let zOffset = (z - this.state.scroll.z % CONFIG.DEPTH + CONFIG.DEPTH) % CONFIG.DEPTH + 50;
+    const fade = 1 - zOffset / CONFIG.GRID.FADE_RANGE;
     
 
-    for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
-      const x = i * CONFIG.GRID.VERTICAL_SIZE;
-      this.drawVerticalLine(ctx, x, mx, my);
-    }
-  }
-  
-  project3D(x, y, z, mx, my) {
-    const fov = 950;
-    const scale = fov / (fov + z);
-    return { 
-      x: x * scale + this.dom.elements.canvas.width / 2 + mx, 
-      y: y * scale + this.dom.elements.canvas.height / 2 + my, 
-      scale 
-    };
-  }
-  
-  drawVerticalLine(ctx, x, mx, my) {
-    const zNear = 50;
-    const zFar = CONFIG.DEPTH;
-
-    const pNearTop = this.project3D(x, -800, zNear, mx, my);
-    const pFarTop = this.project3D(x, -800, zFar, mx, my);
+    const p1t = this.project3D(-1500, -800, zOffset, mx, my);
+    const p2t = this.project3D(1500, -800, zOffset, mx, my);
     
-    const gradTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
-    gradTop.addColorStop(0, `rgba(255,255,255,0.18)`);
-    gradTop.addColorStop(0.6, `rgba(255,255,255,0.08)`);
+    const gradTop = ctx.createLinearGradient(p1t.x, 0, p2t.x, 0);
+    gradTop.addColorStop(0, `rgba(255,255,255,0)`);
+    gradTop.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+    gradTop.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
     gradTop.addColorStop(1, `rgba(255,255,255,0)`);
     
     ctx.strokeStyle = gradTop;
+    ctx.lineWidth = 1;
+    
     ctx.beginPath();
-    ctx.moveTo(pNearTop.x, pNearTop.y);
-    ctx.lineTo(pFarTop.x, pFarTop.y);
+    ctx.moveTo(p1t.x, p1t.y);
+    ctx.lineTo(p2t.x, p2t.y);
     ctx.stroke();
     
 
-    const pNearBot = this.project3D(x, 800, zNear, mx, my);
-    const pFarBot = this.project3D(x, 800, zFar, mx, my);
+    const p1b = this.project3D(-1500, 800, zOffset, mx, my);
+    const p2b = this.project3D(1500, 800, zOffset, mx, my);
     
-    const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); 
-    gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); 
-    gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
-    gradBot.addColorStop(1, `rgba(255,255,255,0)`); 
+    const gradBottom = ctx.createLinearGradient(p1b.x, 0, p2b.x, 0);
+    gradBottom.addColorStop(0, `rgba(255,255,255,0)`);
+    gradBottom.addColorStop(0.05, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+    gradBottom.addColorStop(0.95, `rgba(255,255,255,${CONFIG.GRID.LINE_OPACITY * fade})`);
+    gradBottom.addColorStop(1, `rgba(255,255,255,0)`);
     
-    ctx.strokeStyle = gradBot;
+    ctx.strokeStyle = gradBottom;
+    ctx.lineWidth = 1;
+    
     ctx.beginPath();
-    ctx.moveTo(pNearBot.x, pNearBot.y);
-    ctx.lineTo(pFarBot.x, pFarBot.y);
+    ctx.moveTo(p1b.x, p1b.y);
+    ctx.lineTo(p2b.x, p2b.y);
     ctx.stroke();
-  }
+  });
   
-  // ==========================
-  // 5.8  Set Filter & View
-  // ==========================
+
+  for (let i = -CONFIG.GRID.VERTICAL_COUNT; i <= CONFIG.GRID.VERTICAL_COUNT; i++) {
+    const x = i * CONFIG.GRID.VERTICAL_SIZE;
+    this.drawVerticalLine(ctx, x, mx, my);
+  }
+}
+
+project3D(x, y, z, mx, my) {
+  const fov = 950;
+  const scale = fov / (fov + z);
+  return { 
+    x: x * scale + this.dom.elements.canvas.width / 2 + mx, 
+    y: y * scale + this.dom.elements.canvas.height / 2 + my, 
+    scale 
+  };
+}
+
+drawVerticalLine(ctx, x, mx, my) {
+  const zNear = 50;
+  const zFar = CONFIG.DEPTH;
+
+  const pNearTop = this.project3D(x, -800, zNear, mx, my);
+  const pFarTop = this.project3D(x, -800, zFar, mx, my);
+  
+  const gradTop = ctx.createLinearGradient(0, pNearTop.y, 0, pFarTop.y);
+  gradTop.addColorStop(0, `rgba(255,255,255,0.18)`);
+  gradTop.addColorStop(0.6, `rgba(255,255,255,0.08)`);
+  gradTop.addColorStop(1, `rgba(255,255,255,0)`);
+  
+  ctx.strokeStyle = gradTop;
+  ctx.beginPath();
+  ctx.moveTo(pNearTop.x, pNearTop.y);
+  ctx.lineTo(pFarTop.x, pFarTop.y);
+  ctx.stroke();
+  
+
+  const pNearBot = this.project3D(x, 800, zNear, mx, my);
+  const pFarBot = this.project3D(x, 800, zFar, mx, my);
+  
+  const gradBot = ctx.createLinearGradient(0, pNearBot.y, 0, pFarBot.y); 
+  gradBot.addColorStop(0, `rgba(255,255,255,0.18)`); 
+  gradBot.addColorStop(0.4, `rgba(255,255,255,0.08)`);
+  gradBot.addColorStop(1, `rgba(255,255,255,0)`); 
+  
+  ctx.strokeStyle = gradBot;
+  ctx.beginPath();
+  ctx.moveTo(pNearBot.x, pNearBot.y);
+  ctx.lineTo(pFarBot.x, pFarBot.y);
+  ctx.stroke();
+}
+  
   setFilter(filter) {
     if (this.state.filter === filter) return;
     
-
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.scrollTo(0, { immediate: true });
     }
@@ -1272,7 +1365,6 @@ img.onerror = () => {
     this.state.filter = filter;
     this.state.filteredData = this.dataManager.filterData(filter);
     
- 
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
     
@@ -1282,11 +1374,10 @@ img.onerror = () => {
     
     this.rebuildCurrentView();
     this.updateURL();
-    // уведомляем UI (dropdown, future stuff)
-document.dispatchEvent(
-  new CustomEvent('filterchange', { detail: filter })
-);
-
+    
+    document.dispatchEvent(
+      new CustomEvent('filterchange', { detail: filter })
+    );
   }
   
   setView(view, force = false) {
@@ -1376,40 +1467,40 @@ document.dispatchEvent(
     }
   }
   
-  // ==========================
-  // 5.9  Initialization
-  // ==========================
   async init() {
     this.initMouse();
     this.initResize();
     
-  this.initGlitchCursor();
-  this.initCursorHoverTargets();
+    this.initGlitchCursor();
+    this.initCursorHoverTargets();
     this.state.isLoading = true;
     
+    // Make state globally accessible
+    window.appState = this.state;
+    
     const allImages = this.dataManager.allData.map(item => item.img);
-    await this.dataManager.preloadImages(allImages, (progress) => {
+    
+    // Preload images with progress
+    await this.dataManager.preloadImagesWithCache(allImages, (progress) => {
       this.dom.updateLoaderProgress(progress * 100);
     });
     
     this.parseInitialState();
-    
     this.applyInitialUIState();
     
-this.state.isLoading = false;
-this.dom.hideLoader();
+    this.state.isLoading = false;
+    this.dom.hideLoader();
 
-requestAnimationFrame(() => {
-  this.dom.elements.pageTransition?.classList.remove('is-entering');
-  this.dom.elements.pageTransition?.classList.add('is-entered');
+    requestAnimationFrame(() => {
+      this.dom.elements.pageTransition?.classList.remove('is-entering');
+      this.dom.elements.pageTransition?.classList.add('is-entered');
 
-  setTimeout(() => {
-    this.dom.elements.pageTransition?.classList.remove('is-entered');
-  }, 500);
-});
+      setTimeout(() => {
+        this.dom.elements.pageTransition?.classList.remove('is-entered');
+      }, 500);
+    });
     
     this.initEventListeners();
-    
     this.rebuildCurrentView();
     
     if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
@@ -1419,38 +1510,52 @@ requestAnimationFrame(() => {
     }
   }
   
-  parseInitialState() {
-    const hash = window.location.hash.replace('#', '');
-    
-    let filter = 'allworks';
-    let view = 'slides';
-    
-    if (!hash) {
-      this.state.filter = filter;
-      this.state.view = view;
-      this.state.filteredData = this.dataManager.filterData(filter);
-      return;
-    }
-    
-    const parts = hash.split('-');
-    
-    if (parts.includes('gallery')) {
-      view = 'gallery';
-    }
-    
-    if (parts.includes('slides')) {
-      view = 'slides';
-    }
-    
-    const possibleFilter = parts[0];
-    if (possibleFilter && possibleFilter !== 'gallery' && possibleFilter !== 'slides') {
-      filter = possibleFilter;
-    }
-    
+parseInitialState() {
+  const hash = window.location.hash.replace('#', '');
+  
+  let filter = 'allworks';
+  let view = 'slides';
+  
+  if (!hash) {
     this.state.filter = filter;
     this.state.view = view;
     this.state.filteredData = this.dataManager.filterData(filter);
+    
+    // Dispatch event after setting initial state
+    setTimeout(() => {
+      document.dispatchEvent(
+        new CustomEvent('filterchange', { detail: filter })
+      );
+    }, 0);
+    return;
   }
+  
+  const parts = hash.split('-');
+  
+  if (parts.includes('gallery')) {
+    view = 'gallery';
+  }
+  
+  if (parts.includes('slides')) {
+    view = 'slides';
+  }
+  
+  const possibleFilter = parts[0];
+  if (possibleFilter && possibleFilter !== 'gallery' && possibleFilter !== 'slides') {
+    filter = possibleFilter;
+  }
+  
+  this.state.filter = filter;
+  this.state.view = view;
+  this.state.filteredData = this.dataManager.filterData(filter);
+  
+  // Dispatch event after parsing URL
+  setTimeout(() => {
+    document.dispatchEvent(
+      new CustomEvent('filterchange', { detail: filter })
+    );
+  }, 0);
+}
   
   initEventListeners() {
     this.dom.elements.navLinks.forEach(link => {
@@ -1467,37 +1572,9 @@ requestAnimationFrame(() => {
         }
       });
     });
-    // Typed.js для описания дизайнера
-/*let typedInstance;
-const myhead = document.getElementById("myhead");
-const autoTypeEl = myhead.querySelector(".auto-type");
-
-myhead.addEventListener("mouseenter", () => {
-  if (typedInstance) typedInstance.destroy();
-  autoTypeEl.textContent = "";
-  
-  typedInstance = new Typed(".auto-type", {
-    strings: [  "Product Designer",
-  "Graphic Director",
-  "Kyiv-based"],
-    typeSpeed: 70,
-    backSpeed: 30,
-    showCursor: true,
-    cursorChar: "|",
-    loop: true
-  });
-});
-
-myhead.addEventListener("mouseleave", () => {
-  if (typedInstance) typedInstance.destroy();
-  typedInstance = null;
-  autoTypeEl.textContent = "";
-}); */
-
-}
+  }
   
   applyInitialUIState() {
-    // === NAV FILTERS
     this.dom.elements.navLinks.forEach(link => {
       link.classList.toggle(
         'active-filter',
@@ -1505,7 +1582,6 @@ myhead.addEventListener("mouseleave", () => {
       );
     });
     
-    // === VIEW SWITCHER BUTTONS
     this.dom.elements.viewBtns.forEach(btn => {
       btn.classList.toggle(
         'active-view',
@@ -1522,7 +1598,6 @@ myhead.addEventListener("mouseleave", () => {
       this.dom.elements.viewSwitcher.style.display = 'none';
     }
     
-    // === BODY + CANVAS
     if (this.state.view === 'gallery') {
       this.dom.elements.body.classList.add('gallery-active');
       if (this.dom.elements.canvas) {
@@ -1537,16 +1612,12 @@ myhead.addEventListener("mouseleave", () => {
     }
   }
   
-  // ==========================
-  // 5.10 Main Loop
-  // ==========================
   mainLoop(time) {
     if (this.state.isLoading) {
-      requestAnimationFrame((t) => this.mainLoop(t));
+      requestAnimationFrame(this.mainLoop);
       return;
     }
     
- 
     if (this.lenisManager.lenis) {
       this.lenisManager.lenis.raf(time);
     }
@@ -1556,11 +1627,19 @@ myhead.addEventListener("mouseleave", () => {
       this.drawGrid();
     }
     
-    requestAnimationFrame((t) => this.mainLoop(t));
+    requestAnimationFrame(this.mainLoop);
   }
   
   start() {
-    requestAnimationFrame((t) => this.mainLoop(t));
+    requestAnimationFrame(this.mainLoop);
+  }
+
+  // Clean up resources
+  destroy() {
+    this.lenisManager.destroy();
+    this.dom.cleanup();
+    if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+    if (this.bgChangeTimeout) clearTimeout(this.bgChangeTimeout);
   }
 }
 
@@ -1571,20 +1650,25 @@ let appState, domCache, dataManager, viewManager;
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-
     appState = new AppState();
     domCache = new DOMCache().init();
     dataManager = new DataManager();
     viewManager = new ViewManager(appState, domCache, dataManager);
 
     await viewManager.init();
-
     viewManager.start();
     
     console.log('3D Gallery initialized successfully');
   } catch (error) {
     console.error('Failed to initialize gallery:', error);
-    domCache.hideLoader();
+    if (domCache) domCache.hideLoader();
+  }
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', () => {
+  if (viewManager) {
+    viewManager.destroy();
   }
 });
 
@@ -1594,15 +1678,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 window.App = {
   getState: () => appState,
   getViewManager: () => viewManager,
-  switchToGallery: () => viewManager.setView('gallery'),
-  switchToTunnel: () => viewManager.setView('slides'),
-  setFilter: (filter) => viewManager.setFilter(filter)
+  switchToGallery: () => viewManager?.setView('gallery'),
+  switchToTunnel: () => viewManager?.setView('slides'),
+  setFilter: (filter) => viewManager?.setFilter(filter)
 };
 
 // ==========================
 // 8. Mobile Filter Dropdown
 // ==========================
-document.addEventListener('DOMContentLoaded', () => {
+function initMobileDropdown() {
   const dropdown = document.querySelector('[data-nav-dropdown]');
   if (!dropdown) return;
 
@@ -1610,7 +1694,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const label  = dropdown.querySelector('.nav-dropdown-label');
   const items  = dropdown.querySelectorAll('[data-filter]');
 
-  // --- helpers
   function setActive(filter) {
     items.forEach(i => i.classList.remove('active'));
     const active = dropdown.querySelector(`[data-filter="${filter}"]`);
@@ -1625,39 +1708,50 @@ document.addEventListener('DOMContentLoaded', () => {
     setActive(filter);
   }
 
-  // --- toggle dropdown
   toggle.addEventListener('click', e => {
     e.stopPropagation();
     dropdown.classList.toggle('open');
   });
 
-  // --- item click
   items.forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
       const filter = item.dataset.filter;
-
-      // 🔑 вход в систему
-      window.App.setFilter(filter);
-
-      syncUI(filter);
+      if (window.App && window.App.setFilter) {
+        window.App.setFilter(filter);
+        syncUI(filter);
+      }
       dropdown.classList.remove('open');
     });
   });
 
-  // --- click outside
   document.addEventListener('click', () => {
     dropdown.classList.remove('open');
   });
 
-  // --- initial sync
-  const state = window.App.getState();
-  if (state?.filter) {
-    syncUI(state.filter);
-  }
-
-  // --- external filter change
+  // Listen for filter changes
   document.addEventListener('filterchange', e => {
     syncUI(e.detail);
   });
-});
+
+  // Initial sync - wait for App to be ready
+  function checkApp() {
+    if (window.App && window.App.getState) {
+      const state = window.App.getState();
+      if (state && state.filter) {
+        syncUI(state.filter);
+      }
+    } else {
+      setTimeout(checkApp, 100);
+    }
+  }
+  
+  checkApp();
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMobileDropdown);
+} else {
+  initMobileDropdown();
+}
