@@ -1169,7 +1169,7 @@ class ViewManager {
         bestIdx = idx; 
       }
       
-      if (relativeZ < -110 || relativeZ > 2000) { 
+      if (relativeZ < -110 || relativeZ > 300) { 
         slide.style.opacity = 0; 
         slide.style.pointerEvents = "none"; 
         return; 
