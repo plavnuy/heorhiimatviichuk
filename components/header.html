@@ -3,15 +3,21 @@
     <div class="header-content">
 
    <!--  <div class="logo"> <a href="https://www.heorhiimatviichuk.design/"><img src="/images/hm-logo.svg" alt="Heorhii Matviichuk Logo" ></a></div> -->
-        <nav class="nav-case">
-            <a style="margin-left: 0px; margin-top: 20px;" 
-               href="#" 
-               class="back-link" 
-               id="back-link">← back</a>
-        </nav>
-
-
-
+        <nav class="nav-case"><a style="margin-left: 0px; margin-top: 20px;" href="#" onclick="
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('referrer');
+    if (ref) {
+        window.location.href = decodeURIComponent(ref);
+        return false;
+    }
+    if (window.history.length > 1) {
+        history.back();
+        return false;
+    }
+    window.location.href = '../index.html';
+    return false;
+" class="back-link">← back</a>
+</nav>
                     <nav class="contact-icons">
   <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
     <img src="/images/icons/telegram.svg" alt="Telegram">
@@ -31,21 +37,3 @@
 
 </header>
 
-<script>
-    document.getElementById('back-link')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Проверяем hash на наличие return параметра
-        const hash = window.location.hash;
-        const returnMatch = hash.match(/return=([^&]+)/);
-        
-        if (returnMatch && returnMatch[1]) {
-            const returnUrl = decodeURIComponent(returnMatch[1]);
-            window.location.href = returnUrl;
-        } else if (document.referrer) {
-            window.location.href = document.referrer;
-        } else {
-            window.location.href = '../index.html';
-        }
-    });
-</script>
