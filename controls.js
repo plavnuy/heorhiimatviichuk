@@ -1,5 +1,5 @@
 
-if (!isMobile) {
+
 class ControlsManager {
     constructor() {
         this.config = {
@@ -377,4 +377,3 @@ document.addEventListener('DOMContentLoaded', () => {
     window.controlsManager = new ControlsManager();
 });
 
-}

@@ -1,6 +1,4 @@
-const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
-if (!isMobile) {
 
 'use strict';
 
@@ -715,4 +713,4 @@ window.addEventListener('mouseleave', () => {
   pointers[0].down = false;
 });
 
-}
+
