@@ -4,14 +4,14 @@ class ControlsManager {
     constructor() {
         this.config = {
             TEXTURE_DOWNSAMPLE: 1,
-            DENSITY_DISSIPATION: 0.98,
-            VELOCITY_DISSIPATION: 0.89,
-            PRESSURE_DISSIPATION: 0.99,
+            DENSITY_DISSIPATION: 0.99,
+            VELOCITY_DISSIPATION: 0.86,
+            PRESSURE_DISSIPATION: 0.50,
             PRESSURE_ITERATIONS: 20,
-            CURL: 0.01,
+            CURL: 0.00,
             SPLAT_RADIUS: 0.001,
             blendMode: 'difference',
-            opacity: 0.05,
+            opacity: 0.10,
             enabled: false // Изначально выключено
         };
 
@@ -19,36 +19,41 @@ class ControlsManager {
         this.init();
     }
 
-    init() {
-        // Создаем панель управления
+init() {
+    // Проверка: мобильное устройство (ширина < 768px)
+    this.isMobile = window.innerWidth < 768;
+
+    // Создаем панель управления только если не мобильный
+    if (!this.isMobile) {
         this.createControlsPanel();
-        
-        // Вешаем обработчик на клик по "myhead"
-        const myhead = document.getElementById('myhead');
-        if (myhead) {
-            myhead.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.toggleControlsPanel();
-            });
-        }
-
-        // Закрываем панель при клике вне её
-        document.addEventListener('click', (e) => {
-            const panel = document.getElementById('controlsPanel');
-            if (panel && this.isPanelVisible && 
-                !panel.contains(e.target) && 
-                e.target !== myhead) {
-                this.hideControlsPanel();
-            }
-        });
-
-        // Загружаем сохранённые настройки
-        this.loadSettings();
-        
-        // Применяем начальные настройки
-        this.applyConfig();
-        this.updateControlsState(); // Обновляем состояние контролов
     }
+    
+    // Вешаем обработчик на клик по "myhead"
+    const myhead = document.getElementById('myhead');
+    if (myhead && !this.isMobile) {
+        myhead.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleControlsPanel();
+        });
+    }
+
+    // Закрываем панель при клике вне её
+    document.addEventListener('click', (e) => {
+        const panel = document.getElementById('controlsPanel');
+        if (!this.isMobile && panel && this.isPanelVisible &&
+            !panel.contains(e.target) && e.target !== myhead) {
+            this.hideControlsPanel();
+        }
+    });
+
+    // Загружаем сохранённые настройки
+    this.loadSettings();
+    
+    // Применяем начальные настройки
+    this.applyConfig();
+    this.updateControlsState(); // Обновляем состояние контролов
+}
+
 
     createControlsPanel() {
         const panel = document.createElement('div');
@@ -62,8 +67,8 @@ class ControlsManager {
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px;
             hard-light: white;
-            font-family: 'Science Gothic', sans-serif;
-            font-size: 12px;
+            font-family: "Intra Net";
+            font-size: 10px;
             backdrop-filter: blur(10px);
             z-index: 1000;
             display: none;
@@ -96,7 +101,7 @@ class ControlsManager {
                 </div>
             </div>
 
-            <div class="control-group" style="margin-bottom: 15px;">
+            <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="hard-light: rgba(255,255,255,0.8);">Opacity</span>
                     <span id="opacityValue" style="font-family: monospace;">${(this.config.opacity * 100).toFixed(0)}%</span>
@@ -104,7 +109,7 @@ class ControlsManager {
                 <input type="range" id="opacitySlider" min="0" max="100" step="1" value="${this.config.opacity * 100}" style="width: 100%; margin: 5px 0;">
             </div>
 
-            <div class="control-group" style="margin-bottom: 15px;">
+            <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="hard-light: rgba(255,255,255,0.8);">Density</span>
                     <span id="densityValue" style="font-family: monospace;">${this.config.DENSITY_DISSIPATION.toFixed(2)}</span>
@@ -112,7 +117,7 @@ class ControlsManager {
                 <input type="range" id="densitySlider" min="0.90" max="0.99" step="0.01" value="${this.config.DENSITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
             </div>
 
-            <div class="control-group" style="margin-bottom: 15px;">
+            <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="hard-light: rgba(255,255,255,0.8);">Velocity</span>
                     <span id="velocityValue" style="font-family: monospace;">${this.config.VELOCITY_DISSIPATION.toFixed(2)}</span>
@@ -120,15 +125,15 @@ class ControlsManager {
                 <input type="range" id="velocitySlider" min="0.8" max="0.99" step="0.01" value="${this.config.VELOCITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
             </div>
 
-            <div class="control-group" style="margin-bottom: 15px;">
+            <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="hard-light: rgba(255,255,255,0.8);">Pressure</span>
                     <span id="pressureValue" style="font-family: monospace;">${this.config.PRESSURE_DISSIPATION.toFixed(2)}</span>
                 </div>
-                <input type="range" id="pressureSlider" min="0.1" max="0.5" step="0.01" value="${this.config.PRESSURE_DISSIPATION}" style="width: 100%; margin: 5px 0;">
+                <input type="range" id="pressureSlider" min="0.1" max="1" step="0.01" value="${this.config.PRESSURE_DISSIPATION}" style="width: 100%; margin: 5px 0;">
             </div>
 
-            <div class="control-group" style="margin-bottom: 15px;">
+            <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <span style="hard-light: rgba(255,255,255,0.8);">Curl</span>
                     <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(4)}</span>
@@ -216,23 +221,33 @@ class ControlsManager {
 
     }
 
-    applyConfig() {
-        // Применяем настройки к fluid simulation (глобальный config)
-        if (typeof config !== 'undefined') {
-            Object.keys(this.config).forEach(key => {
-                if (config.hasOwnProperty(key) && key !== 'enabled' && key !== 'opacity' && key !== 'blendMode') {
-                    config[key] = this.config[key];
-                }
-            });
-        }
-
-        // Применяем настройки к контейнеру
+applyConfig() {
+    if (this.isMobile) {
+        // На мобиле полностью отключаем эффект
         const container = document.getElementById('container');
         if (container) {
-            container.style.mixBlendMode = this.config.enabled ? this.config.blendMode : 'hard-light';
-            container.style.opacity = this.config.enabled ? this.config.opacity : '0';
+            container.style.mixBlendMode = 'normal';
+            container.style.opacity = '1';
         }
+        return;
     }
+
+    // Обычный код для десктопа
+    if (typeof config !== 'undefined') {
+        Object.keys(this.config).forEach(key => {
+            if (config.hasOwnProperty(key) && key !== 'enabled' && key !== 'opacity' && key !== 'blendMode') {
+                config[key] = this.config[key];
+            }
+        });
+    }
+
+    const container = document.getElementById('container');
+    if (container) {
+        container.style.mixBlendMode = this.config.enabled ? this.config.blendMode : 'hard-light';
+        container.style.opacity = this.config.enabled ? this.config.opacity : '0';
+    }
+}
+
 
     updateControlsState() {
         const isEnabled = this.config.enabled;

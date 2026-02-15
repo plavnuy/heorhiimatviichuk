@@ -3,6 +3,12 @@
   src: url('https://fonts.gstatic.com/s/sciencegothic/v1/Yq6H-LyXKfZlL-1QwQJhWQ.woff2') format('woff2');
 }
 
+
+@font-face {
+  font-family: 'Intra Net';
+  src: url('.//fonts/IntraNet.otf') format('opentype');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -86,10 +92,10 @@ body .no-long-body {min-height: 100%;}
 }
 
 .nav-dropdown-toggle {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 900;
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
-  font-size: 10px;
+  font-size: 12px;
 
     border: none;
     color: rgba(255, 255, 255, 0.4);
@@ -108,7 +114,7 @@ body .no-long-body {min-height: 100%;}
 }
 
 .nav-dropdown-arrow {
-    font-size: 12px;
+    font-size: 14px;
     transition: transform 0.2s ease;
 }
 
@@ -117,7 +123,7 @@ body .no-long-body {min-height: 100%;}
     top: calc(100% - 50px);
     left: -10px;
     list-style: none;
-        font-size: 12px;
+        font-size: 14px;
         background-color: #000;
 
  padding: 12px;
@@ -133,7 +139,7 @@ body .no-long-body {min-height: 100%;}
 .nav-dropdown-menu li {
     font-variation-settings: "wdth" 200, "wght" 600;
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
-      font-family: "Science Gothic", sans-serif;
+      font-family: "Intra Net";
     padding: 10px 20px;
     cursor: pointer;
     text-transform: uppercase;
@@ -143,7 +149,7 @@ body .no-long-body {min-height: 100%;}
 }
 
 .nav-dropdown-menu li:hover {
-    font-family: "Science Gothic", sans-serif;
+    font-family: "Intra Net";
 
     background: rgba(255,255,255,0.05);
         font-size: 12px;
@@ -180,7 +186,7 @@ body .no-long-body {min-height: 100%;}
     transform: rotate(180deg);
 }
 
-.nav-case a {  font-family: "Science Gothic", sans-serif;
+.nav-case a {  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
   color: #ffffff;
@@ -195,24 +201,25 @@ body .no-long-body {min-height: 100%;}
 }
 
 .nav-case a:hover {
+
   font-variation-settings: "wdth" 300, "wght" 900;
   color: rgba(255, 255, 255, 1);
   text-decoration: underline;
   text-decoration-thickness: 2px;
   opacity: 1;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 1);
 }
 
 
 .nav a {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
   transition: font-variation-settings 0.3s ease, color 0.3s ease;
   color: #ffffff;
   opacity: 0.5;
   text-decoration: none;
   margin-left: 24px;
-  font-size: 14px;
+  font-size: 16px;
   position: relative;
   padding: 4px 8px;
   border-radius: 2px;
@@ -223,10 +230,9 @@ body .no-long-body {min-height: 100%;}
 
 .nav a:hover {
   cursor: none;
-  font-variation-settings: "wdth" 300, "wght" 900;
+
   color: rgba(255, 255, 255, 1);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+
   opacity: 1;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
@@ -236,7 +242,7 @@ body .no-long-body {min-height: 100%;}
    text-align: left;
   color: #ffffff;
   opacity: 1;
-  animation: navLampFlicker 0.8s ease forwards;
+  animation: navLampFlicker 0.4s ease forwards;
   text-decoration: none;
 }
 
@@ -508,7 +514,7 @@ body .no-long-body {min-height: 100%;}
 
 .footer-text:hover {
   opacity: 1;
-  animation: navLampFlicker 0.8s ease forwards;
+  animation: navLampFlicker 0.4s ease forwards;
 }
 
 .footer-image img {
@@ -944,7 +950,7 @@ div.pswp__img--placeholder,
   color: var(--pswp-icon-color);
   text-shadow: 1px 1px 3px var(--pswp-icon-color-secondary);
   opacity: 0.85;
-    font-family: "Science Gothic", sans-serif;
+    font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
 }
 
@@ -1056,6 +1062,7 @@ div.pswp__img--placeholder,
 
 
 .slide {
+  border-radius: 8px;
   touch-action: manipulation;
   position: absolute;
   isolation: isolate;
@@ -1063,7 +1070,7 @@ div.pswp__img--placeholder,
   max-width: var(--slide-w);
   color: var(--text-main);
   background: rgba(0,0,0,0.1);
-  border-radius: 0;
+
   padding: 1rem 1rem .75rem;
   display: flex;
   flex-direction: column;
@@ -1085,6 +1092,7 @@ div.pswp__img--placeholder,
 }
 
 .slide::after {
+  border-radius: 8px;
   content: "";
   position: absolute;
   inset: calc(var(--ring-offset) * -1);
@@ -1107,6 +1115,17 @@ div.pswp__img--placeholder,
   opacity: 1;
 }
 
+.slide:hover span {
+
+
+
+  color: rgba(255, 255, 255, 1);
+
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 1);
+  
+}
+
 .slide-img {
   width: 100%;
   overflow: hidden;
@@ -1123,11 +1142,11 @@ div.pswp__img--placeholder,
 .card-title {
   text-transform: uppercase;
   position: relative;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.2em;
   min-height: 1.2em;
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 900;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -1191,6 +1210,7 @@ div.pswp__img--placeholder,
 .gallery-item {
     break-inside: avoid;
   margin-bottom: 24px;
+  border-radius: 8px;
     transition:
     scale 0.4s ease-in-out,
     box-shadow 0.4s ease;
@@ -1215,6 +1235,26 @@ div.pswp__img--placeholder,
   scale: 1.02;
 border: 1px solid rgba(255, 255, 255, 0.2);
 
+
+}
+
+.gallery-item img {
+  transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1); /* плавность */
+}
+.gallery-item:hover img {
+  transform: scale(1.04); /* увеличиваем */
+
+}
+
+
+.gallery-item:hover .g-title {
+
+animation: navLampFlicker 0.2s ease forwards;
+
+  color: rgba(255, 255, 255, 1);
+
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 1);
 }
 
 .figma-embed {
@@ -1249,6 +1289,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 
 
 .gallery-thumb {
+  border-radius: 8px;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -1293,7 +1334,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 
 .g-title {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 600;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
@@ -1321,7 +1362,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 
 
 .g-sub {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 150, "wght" 400;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.4);
@@ -1338,7 +1379,7 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 
 .gallery-empty h3 {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
   font-size: 20px;
   margin-bottom: 12px;
@@ -1375,14 +1416,13 @@ text-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 
 /* ========================== VIEW SWITCHER ========================== */
-a {  cursor: none;}
 .view-switcher {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-left: 48px;
   padding: 4px;
-  animation: navLampFlicker 0.8s ease forwards;
+  animation: navLampFlicker 0.4s ease forwards;
 }
 
 .contact-icons {
@@ -1406,7 +1446,7 @@ a {  cursor: none;}
   filter: grayscale(0%);
   transform: scale(1.1);
   opacity: 1;
-  animation: navLampFlicker 0.8s ease forwards;
+  animation: navLampFlicker 0.4s ease forwards;
   cursor: none;
 }
 .switch {
@@ -1538,7 +1578,7 @@ a {  cursor: none;}
 
 /* Стили для контролов */
 .controls-panel {
-    font-family: 'Science Gothic', sans-serif;
+    font-family: "Intra Net";
 }
 
 .controls-panel input[type="range"] {
@@ -1614,7 +1654,7 @@ body {
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.5);
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
   letter-spacing: 0.05em;
   padding: 6px 16px;
@@ -1635,7 +1675,7 @@ body {
 .view-btn.active-view {
   color: #ffffff;
   font-variation-settings: "wdth" 300, "wght" 900;
-  animation: lampFlicker 0.8s ease forwards;
+  animation: lampFlicker 0.4s ease forwards;
 }
 
 @keyframes lampFlicker {
@@ -1843,7 +1883,7 @@ transition:
 }
 
 .loader-text {
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
   color: #ffffff;
   margin-bottom: 8px;
@@ -1852,7 +1892,7 @@ transition:
 
 .loader-progress {
   padding-top: 48px;
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 900;
   font-size: 20px;
   color: #ffffff;
@@ -1975,17 +2015,21 @@ transition:
 }
 
 .project-title {
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 150, "wght" 400;
   color: #fff;
   font-size: clamp(42px, 8vw, 80px);
   line-height: 1;
   margin-bottom: 40px;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.1em;
     word-break: break-word;
   hyphens: auto;
 
+  color: rgba(255, 255, 255, 1);
+
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 1);
 }
 
 .project-meta {
@@ -2002,7 +2046,7 @@ transition:
 }
 
 .meta-label {
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 600;
   color: #666;
   font-size: 11px;
@@ -2024,8 +2068,8 @@ transition:
   max-width: 800px;
 }
 
-.content-subtitle {
-  font-family: 'Science Gothic', sans-serif;
+.content-subtitle { text-shadow: 0 0 8px rgba(255, 255, 255, 1);
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
   color: #fff;
   font-size: clamp(20px, 3vw, 32px);
@@ -2047,7 +2091,7 @@ transition:
 }
 
 .content-subtitle2 {
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
   color: #fff;
   font-size: clamp(16px, 2vw, 24px);
@@ -2135,7 +2179,7 @@ transition:
 }
 
 .image-caption {
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 300;
   color: #666;
   font-size: 13px;
@@ -2172,7 +2216,7 @@ transition:
 }
 
 .nav-link {
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 400;
   color: #666;
   text-decoration: none;
@@ -2230,7 +2274,7 @@ a {
   margin-top: 0;
   color: #fff;
   font-weight: 600;
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
   margin-bottom: 10px;
 }
@@ -2265,7 +2309,7 @@ a {
   padding: 15px 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   vertical-align: bottom;
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
 }
 
 .analysis-table th small {
@@ -2318,7 +2362,7 @@ a {
   font-weight: 700;
   color: #fff;
   line-height: 1;
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
 }
 
 .metric-label {
@@ -2342,7 +2386,7 @@ a {
 .dimension h4 {
   margin-top: 0;
   color: #fff;
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
   margin-bottom: 10px;
 }
@@ -2369,7 +2413,7 @@ a {
   font-size: 1.2em;
   color: #fff;
   padding-bottom: 10px;
-  font-family: 'Science Gothic', sans-serif;
+  font-family: "Intra Net";
 }
 
 .links-container {
@@ -2472,7 +2516,7 @@ display:flex; align-items:center; gap: 12px;
   text-align: center;
   color: #888;
   font-size: 16px;
-  font-family: "Science Gothic", sans-serif;
+  font-family: "Intra Net";
   font-variation-settings: "wdth" 200, "wght" 400;
 }
 
@@ -2521,6 +2565,12 @@ display:flex; align-items:center; gap: 12px;
 .madein {
     display: none;
 }
+
+
+  #glitch-cursor {
+    display: none;
+  }
+
 .header {
 
   padding: 16px;

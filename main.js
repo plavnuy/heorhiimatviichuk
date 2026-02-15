@@ -681,6 +681,11 @@ class ViewManager {
     this.checkMobileDevice();
   }
   
+
+
+
+
+  
   initGlitchCursor() {
     if (this.isTouchDevice) return;
     const cursor = this.dom.elements.glitchCursor;
@@ -1752,3 +1757,4 @@ if (document.readyState === 'loading') {
 } else {
   initMobileDropdown();
 }
+
