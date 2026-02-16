@@ -1530,10 +1530,10 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .content-subtitle {
-  text-shadow: 0 0 8px var(--glow-color);
+
   font-family: "Intra Net";
   font-variation-settings: "wdth" 180, "wght" 500;
-  color: var(--text-primary);
+  color: var(--text-tertiary);
   font-size: clamp(20px, 3vw, 32px);
   line-height: 1.2;
   margin-bottom: 30px;
@@ -1566,7 +1566,7 @@ input[type="range"]::-moz-range-thumb {
 
 .content-text {
   font-family: system-ui, sans-serif;
-  color: var(--text-tertiary);
+  color: var(--text-main);
   line-height: 1.7;
   font-size: 17px;
 }
