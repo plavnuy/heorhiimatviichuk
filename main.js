@@ -239,7 +239,7 @@ class DataManager {
     {
         id: "project-1",
         title: "SCHMALGAUZEN",
-        description:"A comprehensive visual identity system for a contemporary art space in Berlin. The collaboration spans public-facing materials — posters, postcards, and stickers — alongside internal graphic systems, featuring custom lettering and stylistic logo solutions for tour jackets and team apparel. The design language merges brutalist influences with fluid, expressive typography.",
+description: "Ongoing design collaboration with SCHMALGAUZEN, creating posters, tour graphics, merchandise, and lettering systems, blending concept development, visual consulting, and production supervision.",
         year: "2025",
         img: "/images/SC/SCHM-cover.jpg",
         categories: ["Graphic", "Branding"],
@@ -249,7 +249,7 @@ class DataManager {
     {
         id: "project-3",
         title: "K19",
-        description: "Brand identity for an underground music venue that doubles as a community hub. The visual system draws from Soviet constructivism and contemporary club culture, creating a bridge between the building's historical significance and its current role in Kyiv's nightlife. Includes environmental graphics, digital presence, and merchandise.",
+description: "Ongoing design partnership with K19, developing brand identity, exhibition graphics, posters, and visual systems for contemporary art projects, blending concept development, art direction, and spatial design.",
         year: "2025",
         img: "./images/k19/k19-sign-transparent.png",
         categories: ["Branding", "Spatial"],
@@ -259,7 +259,7 @@ class DataManager {
     {
         id: "project-4",
         title: "20ft radio / oO_series",
-        description: "An experimental digital platform and event series exploring the intersection of ambient music and generative visuals. The interface design embraces imperfection and chance operations, with a custom streaming player that visualizes audio in real-time. The branding system adapts dynamically across web, social media, and print materials.",
+description: "Creative partnership on o0series, developing identity, logo system, symbolic research, website vibe-coding, 3D and motion integration, social visuals, and experiential storytelling for an interdisciplinary art and electronic music project.",
         year: "2024",
         img: "./images/OO/OO-logo-animation.webp",
         categories: ["Interfaces", "Branding", "Graphic"],
@@ -269,9 +269,9 @@ class DataManager {
     {
         id: "project-21",
         title: "easymeets",
-        description: "A minimalist networking platform designed for creative professionals. The interface strips away noise and distraction, focusing on genuine connection through thoughtfully crafted interaction patterns. Features include smart scheduling, project collaboration tools, and an intuitive matching algorithm that prioritizes creative synergy over metrics.",
+description: "End-to-end product design for EasyMeets, a web scheduling platform. Includes user research, UX architecture, wireframes, UI system, and interactive prototyping to streamline availability sharing, meeting coordination, and automation.",
         year: "2023",
-        img: "./images/SD/SD-03.png",
+        img: "./images/SD/SD-03.jpg",
         categories: ["Interfaces", "Product"],
         projectUrl: "/projects/easymeets.html",
         gradientColors: ["#B0F566", "#E67E22"]
@@ -279,7 +279,7 @@ class DataManager {
     {
         id: "project-9",
         title: "Located",
-        description: "A visual identity and wayfinding system for a mixed-use development in downtown Los Angeles. The design weaves together the area's automotive history with its creative future through bold typography and a vibrant color palette. Includes exterior signage, digital kiosks, and printed materials for the launch campaign.",
+description: "Ongoing design partnership with LOCATED, creating custom merchandise and graphics for Ukrainian brands, blending concept development, visual consulting, and production supervision.",
         year: "2023",
         img: "./images/LC/LC-logo-anim.gif",
         categories: ["Graphic", "Spatial"],
@@ -289,7 +289,7 @@ class DataManager {
     {
         id: "project-18",
         title: "TRADEMOTIONS",
-        description: "A fintech platform that visualizes complex trading data through intuitive motion graphics. The interface transforms dry market statistics into flowing, organic animations that help traders spot patterns and opportunities. The branding reflects this fusion of analytical rigor and fluid expression.",
+description: "Redesigning Trademotions for fund managers: intuitive dashboards, responsive components, and a cohesive UI system to optimize trading efficiency and insight clarity.",
         year: "2022",
         img: "./images/TM/trademotions.webp",
         categories: ["Interfaces", "Branding", "Motion"],
@@ -299,7 +299,7 @@ class DataManager {
     {
         id: "project-5",
         title: "X4 CLUB",
-        description: "Brand identity for an exclusive creative collective and event space. The visual language is deliberately restrained, allowing the work of member artists to take center stage. A flexible grid system and monochromatic palette create unity across diverse applications, from digital presence to printed ephemera.",
+description: "X4 Club Madrid — concept-driven brand identity and spatial experience. Quaternity-inspired systems unify club, gallery, and cultural programming, combining minimalist visual language, immersive projection mapping, and adaptable materials to highlight artistic expression and community freedom.",
         year: "2024",
         img: "./images/x4/x4-present.webp",
         categories: ["Branding", "Graphic"],
@@ -309,7 +309,7 @@ class DataManager {
     {
         id: "project-20",
         title: "INPUT SOFT",
-        description: "A suite of productivity tools designed for creative teams. The interface prioritizes flow state and deep work, with customizable workspaces that adapt to different creative processes. Features include real-time collaboration, version control for design assets, and integrated feedback tools that streamline the review process.",
+description: "INPUT SOFT — UI/UX case study for an aviation operations platform. The design streamlines airport operations, optimizes resource management, supports real-time coordination, and provides intuitive dashboards and mobile tools for managers and ground staff.",
         year: "2023",
         img: "./images/IS/IS-main.jpg",
         categories: ["Interfaces", "Product"],
@@ -319,7 +319,7 @@ class DataManager {
     {
         id: "project-2",
         title: "Mitus Platform",
-        description: "A comprehensive design system for a mental wellness platform. The interface balances clinical credibility with warmth and approachability, using soft gradients, rounded typography, and gentle micro-interactions. The branding extends to a suite of therapeutic tools, including guided exercises and progress tracking.",
+description: "Mitus — product design case study for an Australian farm transition planning platform. Branding, UX/UI, dashboards, and CRM-like interfaces unify complex operational, legal, and financial processes into a structured, user-friendly system for farmers, advisors, and managers.",
         year: "2024",
         img: "./images/MI/MI-logo.png",
         categories: ["Interfaces", "Branding", "Product"],
@@ -329,7 +329,7 @@ class DataManager {
     {
         id: "project-6",
         title: "Lettering",
-        description: "An ongoing exploration of expressive typography and hand-drawn letterforms. This collection spans commissioned work for album covers, editorial projects, and brand collaborations, as well as personal experiments that push the boundaries of traditional lettering. Each piece balances legibility with artistic expression.",
+description: "Lettering Experiments — explorations by Heorhii Matviichuk in gesture, form, and rhythm. Personal studies range from bold 'Thug Life' compositions to digital and hand-drawn Kyiv typography, bridging motion, spontaneity, and typographic structure.",
         year: "2024",
         img: "./images/LT/LT-kyiv.gif",
         categories: ["Graphic", "Typography"],
@@ -339,9 +339,9 @@ class DataManager {
     {
         id: "project-8",
         title: "iii3 cover",
-        description: "Album artwork and packaging for an experimental electronic release. The design translates the music's complex rhythms and textures into a striking visual language, featuring abstract forms that shift and evolve across the vinyl packaging. Includes a 12-page booklet with original artwork and typographic interpretations of the lyrics.",
+description: "III3 — album cover and visual concept for an underground Ukrainian rap project by ron4ik x mxtixn, created during the war, reflecting struggle, immediacy, and raw musical expression.",
         year: "2024",
-        img: "./images/iii3/iii3-cover.jpg",
+        img: "./images/iii3/iii3-cover-low.jpg",
         categories: ["Graphic", "Packaging"],
         projectUrl: "./projects/iii3.html",
         gradientColors: ["#2980B9", "#8E44AD"]
@@ -349,7 +349,7 @@ class DataManager {
     {
         id: "project-15",
         title: "Tripple We",
-        description: "Rebrand for a women-led venture capital firm. The visual identity breaks from traditional finance aesthetics, embracing warmth, complexity, and organic forms. A custom typeface and fluid color palette suggest growth and connection, while the logo system adapts to represent different investment portfolios.",
+description: "Tripple We — branding and visual identity for a creative agency empowering emerging artists, featuring conceptual logo, color system, and flexible brand guidelines.",
         year: "2023",
         img: "./images/TW/TW-sign.png",
         categories: ["Branding", "Typography"],
@@ -359,7 +359,7 @@ class DataManager {
     {
         id: "project-16",
         title: "X-plane",
-        description: "A flight booking platform that reimagines the travel planning experience. The interface combines real-time data visualization with serene, aspirational imagery, helping users discover destinations and compare options with ease. Features include an interactive map, price prediction tools, and a smart itinerary builder.",
+description: "X-Plane — web design, brandbook, and e-commerce case study for a professional flight simulation platform, featuring cohesive visual identity, UI system, and online aircraft model store.",
         year: "2023",
         img: "./images/XP/XP-cover.jpg",
         categories: ["Interfaces", "Branding", "Product"],
@@ -369,8 +369,7 @@ class DataManager {
     {
         id: "project-10",
         title: "Binary Cases",
-        description: "Packaging design for a line of premium tech accessories. The unboxing experience is carefully choreographed, with nested structures that reveal products in stages. Minimal typography and material-focused design communicate quality and precision, while custom inserts protect products and create moments of discovery.",
-        year: "2022",
+description: "Binary Studio — design collaboration with a boutique software agency, featuring over 30 PDF case studies, illustrations, and banners for digital and marketing materials.",        year: "2022",
         img: "./images/BN/BN-case-01.jpg",
         categories: ["Graphic", "Packaging"],
         projectUrl: "./projects/Binary.html",
@@ -379,7 +378,7 @@ class DataManager {
     {
         id: "project-14",
         title: "Dr. Gavrylin",
-        description: "A patient portal and practice management system for a dental clinic. The interface prioritizes clarity and ease of use, helping patients navigate appointments, treatment plans, and insurance information. Clean typography, calming colors, and thoughtful micro-interactions reduce anxiety around dental care.",
+description: "Dr. Gavrylin — personal website case study for a psychology and consciousness blogger, featuring animated hero, vibe-driven front-end, long-form typography, and sleep supplement packaging & promotional visuals.",
         year: "2023",
         img: "./images/DG/DG-cover.jpg",
         categories: ["Interfaces", "Product"],
@@ -389,9 +388,9 @@ class DataManager {
     {
         id: "project-12",
         title: "The I-Ching",
-        description: "A modern digital interpretation of the ancient Chinese divination text. The interface combines scholarly accuracy with contemporary interaction design, offering multiple pathways to engage with the material. Features include guided consultations, historical context, and personal journaling tools that track patterns over time.",
+description: "I Ching Digital Oracle — a minimal personal digital experiment inspired by Carl Jung and the Book of Changes, featuring a six-tap hexagram generation, reflective prompts, restrained interface, and vibe-driven interaction for moments of uncertainty.",
         year: "2023",
-        img: "./images/Vibe-Coding-5.webp",
+        img: "./images/IThiching.jpg",
         categories: ["Interfaces", "Product"],
         projectUrl: "./projects/The-I-Ching.html",
         gradientColors: ["#A5D6A5", "#1A1A2E"]
@@ -399,7 +398,7 @@ class DataManager {
     {
         id: "project-13",
         title: "Snedeker Yoga",
-        description: "A platform for online yoga instruction and wellness content. The interface design emphasizes calm and focus, with video player customizations that minimize distraction. Features include class scheduling, progress tracking, and a community space where students can connect and share their practice.",
+description: "Carly Snedeker Yoga — landing page and visual identity for a Zurich-based yoga teacher, featuring calm typography, modern layout, responsive front-end, SEO setup, printed flyer, and ongoing support.",
         year: "2023",
         img: "./images/Vibe-Coding-2.jpg",
         categories: ["Interfaces", "Product"],
@@ -409,7 +408,7 @@ class DataManager {
     {
         id: "project-7",
         title: "Artworks",
-        description: "A collection of personal and commissioned artwork exploring themes of memory, place, and transformation. The pieces range from digital illustrations to mixed media works, each investigating how abstract forms can evoke emotional responses. Includes works created for exhibitions, editorial projects, and private collections.",
+description: "Visual Works — personal visual archive by Heorhii Matviichuk, featuring abstract paintings, cyberpunk digital art, and alchemical illustrations exploring form, rhythm, atmosphere, and psychological transformation.",
         year: "2024",
         img: "./images/art/Art-02.jpg",
         categories: ["Graphic", "Art"],
@@ -419,7 +418,7 @@ class DataManager {
     {
         id: "project-11",
         title: "RACONTEUR",
-        description: "A storytelling platform for long-form journalism. The interface design respects the craft of writing, with typography and layout that encourage deep reading. Features include customizable reading experiences, rich media integration, and tools for writers to build engaged communities around their work.",
+description: "Raconteur Studio — minimal landing page for Ukrainian director Indy Hait’s creative studio, featuring custom typography, subtle animated interactions, and elegant front-end implementation.",
         year: "2022",
         img: "./images/Vibe-Coding-4.jpg",
         categories: ["Interfaces", "Product"],
@@ -429,17 +428,17 @@ class DataManager {
     {
         id: "project-17",
         title: "Fundraising",
-        description: "A campaign identity for humanitarian aid efforts in Ukraine. The visual language balances urgency with hope, using bold typography and a restrained color palette to communicate seriousness of purpose while inspiring action. Applied across digital platforms, print materials, and ambient media throughout Europe.",
+description: "Support Visuals — graphic design for military fundraising and a custom patch for Ukrainian defenders. Includes campaign assets, social visuals, and physical patch design for defense initiatives.",
         year: "2022",
-        img: "./images/FD/FD-zbir.gif",
+        img: "./images/FD/patch.png",
         categories: ["Graphic", "Campaign"],
         projectUrl: "./projects/Fundraising.html",
-        gradientColors: ["#3498DB", "#9B59B6"]
+        gradientColors: ["#79ff6a", "#ffffff"]
     },
     {
         id: "project-19",
         title: "My Startup",
-        description: "Brand identity for a bootstrapped software startup. The visual system embraces its DIY origins while projecting professional ambition, with hand-drawn elements combined with clean typography. Includes logo design, website, pitch deck, and early product interface explorations.",
+description: "GOGO Bot — startup case study for a Telegram bot designed to discover and create local events in Kyiv, exploring MVP design, user flows, and product insights before the full-scale war in Ukraine.",
         year: "2023",
         img: "./images/other/gogo-bot.jpg",
         categories: ["Graphic", "Branding"],
@@ -449,7 +448,7 @@ class DataManager {
     {
         id: "project-23",
         title: "Dobro",
-        description: "A charitable foundation's visual identity, designed to communicate transparency and impact. The clean, approachable design helps donors understand where their contributions go and the difference they make. Includes a comprehensive brand system applied across digital platforms and print communications.",
+description: "DOBRO — logo design case study for a project and resource management SaaS product, focusing on brand strategy, emotional resonance, and a human-centered visual identity.",
         year: "2018",
         img: "./images/DO/DO-logo.png",
         categories: ["Branding"],
@@ -459,7 +458,7 @@ class DataManager {
     {
         id: "project-22",
         title: "Khmeli Suneli",
-        description: "Packaging and brand identity for a line of Georgian spice blends. The design draws on traditional Georgian ornament and typography, reinterpreted for contemporary shelves. Each blend has its own color story, while unified packaging structure creates a strong shelf presence.",
+description: "Khmeli-Suneli — logo design for a Georgian restaurant in Kyiv, featuring handwritten Georgian typography, cultural authenticity, and a warm, long-lasting brand identity.",
         year: "2016",
         img: "./images/HS/HS-logo.jpg",
         categories: ["Branding", "Packaging"],
@@ -469,7 +468,7 @@ class DataManager {
     {
         id: "project-24",
         title: "SAYENKO&KHARENKO",
-        description: "Identity for a contemporary art gallery representing Ukrainian artists. The restrained design lets the artwork speak while establishing a distinctive presence through careful typography and material choices. Applied across exhibition catalogs, promotional materials, and digital presence.",
+description: "Sayenko & Kharenko — conceptual logo design for a leading Ukrainian law firm, combining the paragraph symbol with initials S and K to explore legal symbolism, typographic construction, and strategic brand identity.",
         year: "2017",
         img: "./images/SK/SK-mock.jpg",
         categories: ["Branding", "Graphic"],
@@ -479,7 +478,7 @@ class DataManager {
     {
         id: "project-26",
         title: "E-commerce App",
-        description: "A mobile shopping experience for a fashion retailer. The interface streamlines the path to purchase while creating moments of discovery and delight. Features include visual search, personalized recommendations, and an innovative try-on tool that uses AR technology.",
+description: "PRODJ App — UX/UI case study of a mobile e-commerce application for professional DJ equipment, exploring user personas, UX goals, information architecture, and interface design for both novice and experienced DJs.",
         year: "2017",
         img: "./images/other/E-commerce-App.jpg",
         categories: ["Interfaces", "Mobile"],
@@ -489,7 +488,7 @@ class DataManager {
     {
         id: "project-28",
         title: "Jernov Jewellery",
-        description: "Brand identity and packaging for a contemporary jewelry designer. The design balances the precious nature of the pieces with the brand's modern, minimalist aesthetic. Custom boxes and wrapping materials create an unboxing experience that mirrors the precision of the jewelry itself.",
+description: "Jernov Jewellery — brochure design highlighting editorial layout, restrained typography, and material-focused presentation, creating a luxurious and precise brand experience.",
         year: "2016",
         img: "./images/JE/JE-broushure-cover.jpg",
         categories: ["Graphic", "Packaging", "Branding"],
@@ -499,7 +498,7 @@ class DataManager {
     {
         id: "project-27",
         title: "Vognyar",
-        description: "Packaging redesign for a line of hot sauces, bringing new energy to a heritage brand. The bold, fiery graphics reflect the product's heat while modernizing shelf presence. Each variant has its own character within a consistent system, making the range easy to navigate.",
+description: "Vognyar — brand identity and packaging design for a natural Ukrainian hot sauce, highlighting logo, label system, and scalable brand application, creating a consistent and production-ready visual experience since 2017.",
         year: "2016",
         img: "./images/VG/vognyar-souses-07.jpg",
         categories: ["Graphic", "Packaging"],
@@ -509,7 +508,7 @@ class DataManager {
     {
         id: "project-29",
         title: "50 inventions",
-        description: "A publication design celebrating fifty years of innovation at a research institute. The book weaves together archival imagery, technical documentation, and contemporary essays, with a design that balances historical gravitas with forward-looking energy. Includes custom data visualizations and a fold-out timeline.",
+description: "50 Inventions Bestowed by Ukraine to the World — poster series highlighting Ukrainian scientific, engineering, and cultural achievements, translating complex technological accomplishments into bold, clear, and monumental graphic statements.",
         year: "2015",
         img: "./images/50/50-cover.jpg",
         categories: ["Graphic", "Editorial"],
@@ -519,7 +518,7 @@ class DataManager {
     {
         id: "project-25",
         title: "Accemedin",
-        description: "A platform connecting medical researchers with clinical trial opportunities. The interface design prioritizes data integrity and ease of use, with complex information architecture made navigable through thoughtful organization. Features include protocol management, patient recruitment tools, and compliance tracking.",
+description: "Accemedin — UX/UI design case for an educational platform for Ukrainian medical professionals, focusing on intuitive course navigation, clear information hierarchy, and responsive web and mobile interfaces.",
         year: "2017",
         img: "./images/other/accemedin.jpg",
         categories: ["Interfaces", "Product"],
@@ -529,7 +528,7 @@ class DataManager {
     {
         id: "project-30",
         title: "Symerio",
-        description: "Early brand work for a tech startup that would go on to become a market leader. The identity established a foundation of clarity and ambition, with a flexible system that grew with the company. Includes logo design, stationery, early website concepts, and pitch materials.",
+description: "Symerio — logo design for a data science consulting company, based on binary code and the concept of input/output (I/O), creating a precise, intelligent, and system-oriented visual identity.",
         year: "2014",
         img: "./images/SM/SM-logo-visitcard.jpg",
         categories: ["Branding"],

@@ -320,3 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 600);
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(
+    ".project-article .content-section:not(:first-of-type) img"
+  ).forEach(img => {
+    if (!img.hasAttribute("loading")) {
+      img.setAttribute("loading", "lazy");
+    }
+  });
+});

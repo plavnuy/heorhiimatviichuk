@@ -18,10 +18,7 @@
   padding: 0;
 }
 
-p {
 
-
-}
 
 
 :root {
@@ -735,6 +732,13 @@ right: 55%;
   align-items: left;
   align-content: baseline;
   line-height: 1.4;
+}
+
+.loop-video {
+  display: block;
+  max-width: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .card-description {
