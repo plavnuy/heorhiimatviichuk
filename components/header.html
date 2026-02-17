@@ -20,27 +20,29 @@
         </nav>
     </div>
 </header>
-
 <script>
-    document.getElementById('back-link')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const shouldReturn = sessionStorage.getItem('gallery_return');
-        
-        if (shouldReturn === 'true') {
-            const path = sessionStorage.getItem('gallery_path') || '/';
-            const hash = sessionStorage.getItem('gallery_hash') || '';
-            
-            sessionStorage.removeItem('gallery_return');
-            sessionStorage.removeItem('gallery_path');
-            sessionStorage.removeItem('gallery_hash');
-            
-            const separator = path.includes('?') ? '&' : '?';
-            const returnUrl = path + hash + separator + 'returning=true';
-            
-            window.location.href = returnUrl;
-        } else {
-            window.location.href = '/';
-        }
-    });
+document.getElementById('back-link')?.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    const shouldReturn = sessionStorage.getItem('gallery_return');
+
+    if (shouldReturn === 'true') {
+        const path = sessionStorage.getItem('gallery_path') || '/';
+        const hash = sessionStorage.getItem('gallery_hash') || '';
+
+        sessionStorage.removeItem('gallery_return');
+        sessionStorage.removeItem('gallery_path');
+        sessionStorage.removeItem('gallery_hash');
+
+        const separator = path.includes('?') ? '&' : '?';
+        const returnUrl = path + hash + separator + 'returning=true';
+
+        window.location.href = returnUrl;
+    } else {
+        // жёстко на главную продакшн сайта
+        window.location.href = 'https://heorhiimatviichuk.design';
+    }
+});
 </script>
+
+

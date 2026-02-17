@@ -1,5 +1,5 @@
 
-const navLinks = document.querySelectorAll('.nav a, .view-btn, .card-title');
+const navLinks = document.querySelectorAll('.nav a, .view-btn, .slide-copy');
 
 
 const letters = "/_+";

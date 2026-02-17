@@ -235,277 +235,308 @@ class LRUCache {
 class DataManager {
   constructor() {
     this.allData = [
-      {
+      
+    {
         id: "project-1",
         title: "SCHMALGAUZEN",
+        description:"A comprehensive visual identity system for a contemporary art space in Berlin. The collaboration spans public-facing materials — posters, postcards, and stickers — alongside internal graphic systems, featuring custom lettering and stylistic logo solutions for tour jackets and team apparel. The design language merges brutalist influences with fluid, expressive typography.",
         year: "2025",
         img: "/images/SC/SCHM-cover.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Branding"],
         projectUrl: "/projects/SCHMALGAUZEN.html",
-        gradientColors: ["#ff2200ff", "#232347"]
-      },
-      {
+        gradientColors: ["#FF4D4D", "#1A1A2E"]
+    },
+    {
         id: "project-3",
         title: "K19",
+        description: "Brand identity for an underground music venue that doubles as a community hub. The visual system draws from Soviet constructivism and contemporary club culture, creating a bridge between the building's historical significance and its current role in Kyiv's nightlife. Includes environmental graphics, digital presence, and merchandise.",
         year: "2025",
         img: "./images/k19/k19-sign-transparent.png",
-        categories: ["Branding"],
+        categories: ["Branding", "Spatial"],
         projectUrl: "./projects/k19.html",
-        gradientColors: ["#1a1a2e", "#ffa600ff"]
-      },
-      {
+        gradientColors: ["#16213E", "#FFB347"]
+    },
+    {
         id: "project-4",
-        title: "oO_series",
+        title: "20ft radio / oO_series",
+        description: "An experimental digital platform and event series exploring the intersection of ambient music and generative visuals. The interface design embraces imperfection and chance operations, with a custom streaming player that visualizes audio in real-time. The branding system adapts dynamically across web, social media, and print materials.",
         year: "2024",
         img: "./images/OO/OO-logo-animation.webp",
         categories: ["Interfaces", "Branding", "Graphic"],
         projectUrl: "/projects/o0series.html",
-        gradientColors: ["#777777ff", "#33af61ff"]
-      },
-      {
+        gradientColors: ["#2C3E50", "#27AE60"]
+    },
+    {
         id: "project-21",
         title: "easymeets",
+        description: "A minimalist networking platform designed for creative professionals. The interface strips away noise and distraction, focusing on genuine connection through thoughtfully crafted interaction patterns. Features include smart scheduling, project collaboration tools, and an intuitive matching algorithm that prioritizes creative synergy over metrics.",
         year: "2023",
         img: "./images/SD/SD-03.png",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "/projects/easymeets.html",
-        gradientColors: ["rgb(193, 246, 70)", "#e08448"]
-      },
-      {
+        gradientColors: ["#B0F566", "#E67E22"]
+    },
+    {
         id: "project-9",
         title: "Located",
+        description: "A visual identity and wayfinding system for a mixed-use development in downtown Los Angeles. The design weaves together the area's automotive history with its creative future through bold typography and a vibrant color palette. Includes exterior signage, digital kiosks, and printed materials for the launch campaign.",
         year: "2023",
         img: "./images/LC/LC-logo-anim.gif",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Spatial"],
         projectUrl: "./projects/LOCATED.html",
-        gradientColors: ["#f51212ff", "#000000ff"]
-      },
-      {
+        gradientColors: ["#E74C3C", "#2C3E50"]
+    },
+    {
         id: "project-18",
         title: "TRADEMOTIONS",
+        description: "A fintech platform that visualizes complex trading data through intuitive motion graphics. The interface transforms dry market statistics into flowing, organic animations that help traders spot patterns and opportunities. The branding reflects this fusion of analytical rigor and fluid expression.",
         year: "2022",
         img: "./images/TM/trademotions.webp",
-        categories: ["Interfaces", "Branding"],
+        categories: ["Interfaces", "Branding", "Motion"],
         projectUrl: "/projects/trademotions.html",
-        gradientColors: ["#c72626ff", "#f55f08ff"]
-      },
-      {
+        gradientColors: ["#C0392B", "#F39C12"]
+    },
+    {
         id: "project-5",
         title: "X4 CLUB",
+        description: "Brand identity for an exclusive creative collective and event space. The visual language is deliberately restrained, allowing the work of member artists to take center stage. A flexible grid system and monochromatic palette create unity across diverse applications, from digital presence to printed ephemera.",
         year: "2024",
         img: "./images/x4/x4-present.webp",
-        categories: ["Branding"],
+        categories: ["Branding", "Graphic"],
         projectUrl: "./projects/x4.html",
-        gradientColors: ["#1a1a2e", "#2d2d4d"]
-      },
-      {
+        gradientColors: ["#1A1A2E", "#4A4A6A"]
+    },
+    {
         id: "project-20",
         title: "INPUT SOFT",
+        description: "A suite of productivity tools designed for creative teams. The interface prioritizes flow state and deep work, with customizable workspaces that adapt to different creative processes. Features include real-time collaboration, version control for design assets, and integrated feedback tools that streamline the review process.",
         year: "2023",
         img: "./images/IS/IS-main.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "/projects/input-soft.html",
-        gradientColors: ["#ffe066ff", "#4a2c5e"]
-      },
-      {
+        gradientColors: ["#F1C40F", "#8E44AD"]
+    },
+    {
         id: "project-2",
-        title: "Mitus",
+        title: "Mitus Platform",
+        description: "A comprehensive design system for a mental wellness platform. The interface balances clinical credibility with warmth and approachability, using soft gradients, rounded typography, and gentle micro-interactions. The branding extends to a suite of therapeutic tools, including guided exercises and progress tracking.",
         year: "2024",
         img: "./images/MI/MI-logo.png",
-        categories: ["Interfaces", "Branding"],
+        categories: ["Interfaces", "Branding", "Product"],
         projectUrl: "./projects/mitus.html",
-        gradientColors: ["rgb(186, 188, 188)", "#9595f2"]
-      },
-      {
+        gradientColors: ["#BDC3C7", "#8E9BFF"]
+    },
+    {
         id: "project-6",
         title: "Lettering",
+        description: "An ongoing exploration of expressive typography and hand-drawn letterforms. This collection spans commissioned work for album covers, editorial projects, and brand collaborations, as well as personal experiments that push the boundaries of traditional lettering. Each piece balances legibility with artistic expression.",
         year: "2024",
         img: "./images/LT/LT-kyiv.gif",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Typography"],
         projectUrl: "./projects/Lettering.html",
-        gradientColors: ["rgb(220, 42, 6)", "#232347"]
-      },
-      {
+        gradientColors: ["#E63946", "#1A1A2E"]
+    },
+    {
         id: "project-8",
-        title: "iii3",
+        title: "iii3 cover",
+        description: "Album artwork and packaging for an experimental electronic release. The design translates the music's complex rhythms and textures into a striking visual language, featuring abstract forms that shift and evolve across the vinyl packaging. Includes a 12-page booklet with original artwork and typographic interpretations of the lyrics.",
         year: "2024",
         img: "./images/iii3/iii3-cover.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Packaging"],
         projectUrl: "./projects/iii3.html",
-        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-      },
-      {
+        gradientColors: ["#2980B9", "#8E44AD"]
+    },
+    {
         id: "project-15",
         title: "Tripple We",
+        description: "Rebrand for a women-led venture capital firm. The visual identity breaks from traditional finance aesthetics, embracing warmth, complexity, and organic forms. A custom typeface and fluid color palette suggest growth and connection, while the logo system adapts to represent different investment portfolios.",
         year: "2023",
         img: "./images/TW/TW-sign.png",
-        categories: ["Branding"],
+        categories: ["Branding", "Typography"],
         projectUrl: "./projects/tripple-we.html",
-        gradientColors: ["rgb(37, 128, 255)", "rgb(45, 53, 69)"]
-      },
-      {
+        gradientColors: ["#3498DB", "#2C3E50"]
+    },
+    {
         id: "project-16",
         title: "X-plane",
+        description: "A flight booking platform that reimagines the travel planning experience. The interface combines real-time data visualization with serene, aspirational imagery, helping users discover destinations and compare options with ease. Features include an interactive map, price prediction tools, and a smart itinerary builder.",
         year: "2023",
         img: "./images/XP/XP-cover.jpg",
-        categories: ["Interfaces", "Branding"],
+        categories: ["Interfaces", "Branding", "Product"],
         projectUrl: "./projects/x-plane.html",
-        gradientColors: ["rgb(255, 111, 28)", "#9595f2"]
-      },
-      {
+        gradientColors: ["#E67E22", "#6C5B7B"]
+    },
+    {
         id: "project-10",
         title: "Binary Cases",
+        description: "Packaging design for a line of premium tech accessories. The unboxing experience is carefully choreographed, with nested structures that reveal products in stages. Minimal typography and material-focused design communicate quality and precision, while custom inserts protect products and create moments of discovery.",
         year: "2022",
         img: "./images/BN/BN-case-01.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Packaging"],
         projectUrl: "./projects/Binary.html",
-        gradientColors: ["#010101", "#ffa21f"]
-      },
-      {
+        gradientColors: ["#2C3E50", "#F39C12"]
+    },
+    {
         id: "project-14",
         title: "Dr. Gavrylin",
+        description: "A patient portal and practice management system for a dental clinic. The interface prioritizes clarity and ease of use, helping patients navigate appointments, treatment plans, and insurance information. Clean typography, calming colors, and thoughtful micro-interactions reduce anxiety around dental care.",
         year: "2023",
         img: "./images/DG/DG-cover.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "./projects/Dr-Gavrylin.html",
-        gradientColors: ["#e9d1a6ff", "#524c40ff"]
-      },
-      {
+        gradientColors: ["#F5E6CC", "#6B5E4A"]
+    },
+    {
         id: "project-12",
         title: "The I-Ching",
+        description: "A modern digital interpretation of the ancient Chinese divination text. The interface combines scholarly accuracy with contemporary interaction design, offering multiple pathways to engage with the material. Features include guided consultations, historical context, and personal journaling tools that track patterns over time.",
         year: "2023",
         img: "./images/Vibe-Coding-5.webp",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "./projects/The-I-Ching.html",
-        gradientColors: ["#badc5bff", "#232347"]
-      },
-      {
+        gradientColors: ["#A5D6A5", "#1A1A2E"]
+    },
+    {
         id: "project-13",
         title: "Snedeker Yoga",
+        description: "A platform for online yoga instruction and wellness content. The interface design emphasizes calm and focus, with video player customizations that minimize distraction. Features include class scheduling, progress tracking, and a community space where students can connect and share their practice.",
         year: "2023",
         img: "./images/Vibe-Coding-2.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "./projects/Snedeker-Yoga.html",
-        gradientColors: ["#e9d1a6ff", "#524c40ff"]
-      },
-      {
+        gradientColors: ["#E8D5B5", "#8B7E6B"]
+    },
+    {
         id: "project-7",
-        title: "Art",
+        title: "Artworks",
+        description: "A collection of personal and commissioned artwork exploring themes of memory, place, and transformation. The pieces range from digital illustrations to mixed media works, each investigating how abstract forms can evoke emotional responses. Includes works created for exhibitions, editorial projects, and private collections.",
         year: "2024",
         img: "./images/art/Art-02.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Art"],
         projectUrl: "./projects/Art.html",
-        gradientColors: ["rgb(39, 111, 255)", "#0f0fed"]
-      },
-      {
+        gradientColors: ["#2980B9", "#9B59B6"]
+    },
+    {
         id: "project-11",
         title: "RACONTEUR",
+        description: "A storytelling platform for long-form journalism. The interface design respects the craft of writing, with typography and layout that encourage deep reading. Features include customizable reading experiences, rich media integration, and tools for writers to build engaged communities around their work.",
         year: "2022",
         img: "./images/Vibe-Coding-4.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "./projects/Raconteur.html",
-        gradientColors: ["#0f0f23", "#232347"]
-      },
-      {
+        gradientColors: ["#1A1A2E", "#4A4A6A"]
+    },
+    {
         id: "project-17",
         title: "Fundraising",
+        description: "A campaign identity for humanitarian aid efforts in Ukraine. The visual language balances urgency with hope, using bold typography and a restrained color palette to communicate seriousness of purpose while inspiring action. Applied across digital platforms, print materials, and ambient media throughout Europe.",
         year: "2022",
         img: "./images/FD/FD-zbir.gif",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Campaign"],
         projectUrl: "./projects/Fundraising.html",
-        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-      },
-      {
+        gradientColors: ["#3498DB", "#9B59B6"]
+    },
+    {
         id: "project-19",
         title: "My Startup",
+        description: "Brand identity for a bootstrapped software startup. The visual system embraces its DIY origins while projecting professional ambition, with hand-drawn elements combined with clean typography. Includes logo design, website, pitch deck, and early product interface explorations.",
         year: "2023",
         img: "./images/other/gogo-bot.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Branding"],
         projectUrl: "./projects/gogo-bot.html",
-        gradientColors: ["#010101", "#ff890a"]
-      },
-      {
+        gradientColors: ["#2C3E50", "#E67E22"]
+    },
+    {
         id: "project-23",
         title: "Dobro",
+        description: "A charitable foundation's visual identity, designed to communicate transparency and impact. The clean, approachable design helps donors understand where their contributions go and the difference they make. Includes a comprehensive brand system applied across digital platforms and print communications.",
         year: "2018",
         img: "./images/DO/DO-logo.png",
         categories: ["Branding"],
         projectUrl: "./projects/dobro.html",
-        gradientColors: ["rgb(0, 174, 255)", "#0f0fed"]
-      },
-      {
+        gradientColors: ["#3498DB", "#8E44AD"]
+    },
+    {
         id: "project-22",
         title: "Khmeli Suneli",
+        description: "Packaging and brand identity for a line of Georgian spice blends. The design draws on traditional Georgian ornament and typography, reinterpreted for contemporary shelves. Each blend has its own color story, while unified packaging structure creates a strong shelf presence.",
         year: "2016",
         img: "./images/HS/HS-logo.jpg",
-        categories: ["Branding"],
+        categories: ["Branding", "Packaging"],
         projectUrl: "./projects/khmeli-suneli.html",
-        gradientColors: ["#ffe066ff", "#4a2c5e"]
-      },
-      {
+        gradientColors: ["#F1C40F", "#8E44AD"]
+    },
+    {
         id: "project-24",
         title: "SAYENKO&KHARENKO",
+        description: "Identity for a contemporary art gallery representing Ukrainian artists. The restrained design lets the artwork speak while establishing a distinctive presence through careful typography and material choices. Applied across exhibition catalogs, promotional materials, and digital presence.",
         year: "2017",
         img: "./images/SK/SK-mock.jpg",
-        categories: ["Branding"],
+        categories: ["Branding", "Graphic"],
         projectUrl: "./projects/SAYENKO&KHARENKO.html",
-        gradientColors: ["#919191ff", "#232347"]
-      },
-      {
+        gradientColors: ["#BDC3C7", "#2C3E50"]
+    },
+    {
         id: "project-26",
         title: "E-commerce App",
+        description: "A mobile shopping experience for a fashion retailer. The interface streamlines the path to purchase while creating moments of discovery and delight. Features include visual search, personalized recommendations, and an innovative try-on tool that uses AR technology.",
         year: "2017",
         img: "./images/other/E-commerce-App.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Mobile"],
         projectUrl: "/projects/e-commerce-app.html",
-        gradientColors: ["rgb(219, 15, 165)", "#111112"]
-      },
-      {
+        gradientColors: ["#E83E8C", "#2C3E50"]
+    },
+    {
         id: "project-28",
         title: "Jernov Jewellery",
+        description: "Brand identity and packaging for a contemporary jewelry designer. The design balances the precious nature of the pieces with the brand's modern, minimalist aesthetic. Custom boxes and wrapping materials create an unboxing experience that mirrors the precision of the jewelry itself.",
         year: "2016",
         img: "./images/JE/JE-broushure-cover.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Packaging", "Branding"],
         projectUrl: "./projects/jernov.html",
-        gradientColors: ["#010101", "rgb(240, 235, 235)"]
-      },
-      {
+        gradientColors: ["#2C3E50", "#ECF0F1"]
+    },
+    {
         id: "project-27",
         title: "Vognyar",
+        description: "Packaging redesign for a line of hot sauces, bringing new energy to a heritage brand. The bold, fiery graphics reflect the product's heat while modernizing shelf presence. Each variant has its own character within a consistent system, making the range easy to navigate.",
         year: "2016",
         img: "./images/VG/vognyar-souses-07.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Packaging"],
         projectUrl: "./projects/Vognyar.html",
-        gradientColors: ["#010101", "#ff0a0a"]
-      },
-      {
+        gradientColors: ["#2C3E50", "#E74C3C"]
+    },
+    {
         id: "project-29",
         title: "50 inventions",
+        description: "A publication design celebrating fifty years of innovation at a research institute. The book weaves together archival imagery, technical documentation, and contemporary essays, with a design that balances historical gravitas with forward-looking energy. Includes custom data visualizations and a fold-out timeline.",
         year: "2015",
         img: "./images/50/50-cover.jpg",
-        categories: ["Graphic"],
+        categories: ["Graphic", "Editorial"],
         projectUrl: "./projects/50inventions.html",
-        gradientColors: ["#d53939", "#6fcd26"]
-      },
-      {
+        gradientColors: ["#C0392B", "#27AE60"]
+    },
+    {
         id: "project-25",
         title: "Accemedin",
+        description: "A platform connecting medical researchers with clinical trial opportunities. The interface design prioritizes data integrity and ease of use, with complex information architecture made navigable through thoughtful organization. Features include protocol management, patient recruitment tools, and compliance tracking.",
         year: "2017",
         img: "./images/other/accemedin.jpg",
-        categories: ["Interfaces"],
+        categories: ["Interfaces", "Product"],
         projectUrl: "./projects/accemedin.html",
-        gradientColors: ["rgb(220, 42, 6)", "#232347"]
-      },
-      {
+        gradientColors: ["#E63946", "#1A1A2E"]
+    },
+    {
         id: "project-30",
         title: "Symerio",
+        description: "Early brand work for a tech startup that would go on to become a market leader. The identity established a foundation of clarity and ambition, with a flexible system that grew with the company. Includes logo design, stationery, early website concepts, and pitch materials.",
         year: "2014",
         img: "./images/SM/SM-logo-visitcard.jpg",
         categories: ["Branding"],
         projectUrl: "./projects/symerio.html",
-        gradientColors: ["rgb(231, 146, 28)", "#232347"]
-      }
-    ];
+        gradientColors: ["#E67E22", "#2C3E50"]
+    }
+];
     
     this.imageCache = new LRUCache(CONFIG.PERFORMANCE.CACHE_SIZE);
     this.loadingPromises = new Map();
@@ -682,6 +713,133 @@ class ViewManager {
   }
   
 
+applyTextDecodeOnSlides() {
+  const slides = document.querySelectorAll('.slide');
+
+  // ====== НАСТРОЙКИ ======
+  const titleLetters = "/_+";
+  const descLetters = "/";
+  
+  const titleSpeed = 10;
+  const descSpeed = 1;
+
+  const titleDecodeSpeed = 0.6;
+  const descDecodeSpeed = 0.9;
+
+  const delayBetween = 200; // пауза между title и desc
+
+  // звук
+ 
+
+  slides.forEach(slide => {
+
+    const titleEl = slide.querySelector('.card-title span');
+    const descEl = slide.querySelector('.card-description');
+
+    if (!titleEl) return;
+
+    const originalTitle = titleEl.textContent;
+    const originalDesc = descEl ? descEl.textContent : null;
+
+    let frame = null;
+    let timeout = null;
+
+    slide.addEventListener('mouseenter', () => {
+
+      cancelAnimationFrame(frame);
+      clearTimeout(timeout);
+
+      let titleIteration = 0;
+      let descIteration = 0;
+      let descVisibleLength = 0;
+
+      let lastTime = 0;
+      let phase = "title";
+
+      if (descEl) descEl.textContent = "";
+
+      const animate = (time) => {
+        if (!lastTime) lastTime = time;
+
+        // ===== TITLE =====
+        if (phase === "title" && time - lastTime > titleSpeed) {
+          lastTime = time;
+
+          titleEl.textContent = originalTitle
+            .split("")
+            .map((char, index) => {
+              if (index < titleIteration) return originalTitle[index];
+              if (char === " ") return " ";
+              return titleLetters[Math.floor(Math.random() * titleLetters.length)];
+            })
+            .join("");
+
+          titleIteration += titleDecodeSpeed;
+
+          if (titleIteration > originalTitle.length) {
+            titleEl.textContent = originalTitle;
+
+            timeout = setTimeout(() => {
+              phase = "desc";
+              lastTime = 0;
+            }, delayBetween);
+          }
+        }
+
+        // ===== DESCRIPTION =====
+// ===== DESCRIPTION =====
+if (phase === "desc" && descEl && time - lastTime > descSpeed) {
+  lastTime = time;
+
+  // Быстрее печатаем текст
+  if (descVisibleLength < originalDesc.length) {
+    descVisibleLength += 3; // ← быстрее появление
+  }
+
+  const visible = originalDesc.slice(0, descVisibleLength);
+
+  descEl.textContent = visible
+    .split("")
+    .map((char, index) => {
+      if (index < descIteration) return visible[index];
+      if (char === " ") return " ";
+      return descLetters[Math.floor(Math.random() * descLetters.length)];
+    })
+    .join("");
+
+  // Декодируем медленнее, чтобы шум был заметен
+  descIteration += 3;
+
+  if (descIteration >= originalDesc.length) {
+    descEl.textContent = originalDesc;
+  }
+}
+
+
+        if (
+          titleIteration <= originalTitle.length ||
+          (descEl && descIteration <= originalDesc.length)
+        ) {
+          frame = requestAnimationFrame(animate);
+        }
+      };
+
+      frame = requestAnimationFrame(animate);
+    });
+
+    slide.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timeout);
+      titleEl.textContent = originalTitle;
+      if (descEl) descEl.textContent = originalDesc;
+    });
+
+  });
+}
+
+
+
+
 
 
 
@@ -709,6 +867,7 @@ class ViewManager {
   }
 
   initCursorHoverTargets() {
+      if (this.isTouchDevice) return; // <--- добавили
     const cursor = this.dom.elements.glitchCursor;
     if (!cursor) return;
 
@@ -927,54 +1086,75 @@ class ViewManager {
     
     this.lenisManager.init('slides', this.state.filteredData.length);
     this.lenisManager.start();
+     this.applyTextDecodeOnSlides();
   }
   
-  createSlideElement(data, index) {
-    const slide = document.createElement("div");
-    slide.className = "slide";
-    slide.dataset.index = index;
-    slide.dataset.baseZ = index * CONFIG.Z_GAP;
-    slide.dataset.projectId = data.id;
-    
-    const img = this.dataManager.getImageElement(data.img) || new Image();
-    if (!img.src) img.src = data.img;
-    
-    img.alt = data.title || '';
-    img.loading = "eager";
-    img.onerror = () => {
-      img.remove();
-      slide.classList.add('image-error');
-    };
-    
-    slide.innerHTML = `
-      <div class="slide-img"></div>
+createSlideElement(data, index) {
+  const slide = document.createElement("div");
+  slide.className = "slide";
+  slide.dataset.index = index;
+  slide.dataset.baseZ = index * CONFIG.Z_GAP;
+  slide.dataset.projectId = data.id;
+  
+  const img = this.dataManager.getImageElement(data.img) || new Image();
+  if (!img.src) img.src = data.img;
+  
+  img.alt = data.title || '';
+  img.loading = "eager";
+  img.onerror = () => {
+    img.remove();
+    slide.classList.add('image-error');
+  };
+  
+  // Обновленная структура с выноской
+  slide.innerHTML = `
+    <div class="slide-img"></div>
+    <div class="slide-content">
+            
+
       <div class="slide-copy">
+    <p class="card-subtitle">
+                <span class="card-category">${data.categories.join(", ")}</span>
+               
+</p><div class="callout">
+  <div class="horizontal-line"></div>
+  <div class="diagonal-line"></div>
+</div>
+
         <p class="card-title">
           <span>${data.title || ''}</span>
+          
         </p>
         <p class="card-subtitle">
-          <span class="card-category">${data.categories.join(", ")}</span>
           <span class="card-year">${data.year || '2024'}</span>
         </p>
       </div>
-    `;
-    
-    slide.querySelector('.slide-img').appendChild(img);
-    
-    const transition = this.dom.elements.pageTransition;
+      
+          <span class="card-description">${data.description || '2024'}</span>
+        
+    </div>
+  `;
+  
+  slide.querySelector('.slide-img').appendChild(img);
+  
+  // Сохраняем ссылки на элементы выноски
+  slide.leaderLine = slide.querySelector('.slide-leader-line');
+  slide.copyElement = slide.querySelector('.slide-copy');
+  
+  const transition = this.dom.elements.pageTransition;
 
-    slide.addEventListener('click', e => {
-      e.preventDefault();
-      
-      sessionStorage.setItem('gallery_return', 'true');
-      sessionStorage.setItem('gallery_path', window.location.pathname);
-      sessionStorage.setItem('gallery_hash', window.location.hash);
-      
-      window.location.href = data.projectUrl;
-    });
+  slide.addEventListener('click', e => {
+    e.preventDefault();
     
-    return slide;
-  }
+    sessionStorage.setItem('gallery_return', 'true');
+    sessionStorage.setItem('gallery_path', window.location.pathname);
+    sessionStorage.setItem('gallery_hash', window.location.hash);
+    
+    window.location.href = data.projectUrl;
+  });
+  
+  return slide;
+}
   
   buildGallery() {
     if (this.state.view !== "gallery") return;
