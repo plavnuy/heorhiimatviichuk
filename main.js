@@ -327,7 +327,7 @@ description: "Ongoing design partnership with LOCATED, creating custom merchandi
         title: "HRAM BAR",
 description: "HRAM — design collaboration for a thematic bar, developing merchandise, tableware, and graphic concepts rooted in ritual symbolism, narrative atmosphere, and object-driven brand expression.",
         year: "2025",
-        img: "./images/HR/HR-plate-01.jpg",
+        img: "./images/HR/HR-plate-01_small.png",
         categories: ["Graphic"],
         projectUrl: "./projects/HRAM.html",
         gradientColors: ["#ff3c00", "#000000"]
