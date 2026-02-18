@@ -466,11 +466,11 @@ description: "Support Visuals — graphic design for military fundraising and a 
     },
     {
         id: "project-19",
-        title: "My Startup",
+        title: "GO-GO Bot",
 description: "GOGO Bot — startup case study for a Telegram bot designed to discover and create local events in Kyiv, exploring MVP design, user flows, and product insights before the full-scale war in Ukraine.",
         year: "2023",
         img: "./images/other/gogo-bot.jpg",
-        categories: ["Graphic", "Branding"],
+        categories: ["Startup", "Customer Development"],
         projectUrl: "./projects/gogo-bot.html",
         gradientColors: ["#2C3E50", "#E67E22"]
     },
