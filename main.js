@@ -252,7 +252,7 @@ description: "Ongoing design collaboration with SCHMALGAUZEN, creating posters, 
 description: "Ongoing design partnership with K19, developing brand identity, exhibition graphics, posters, and visual systems for contemporary art projects, blending concept development, art direction, and spatial design.",
         year: "2025",
         img: "./images/k19/k19-sign-transparent.png",
-        categories: ["Branding", "Spatial"],
+        categories: ["Branding"],
         projectUrl: "./projects/k19.html",
         gradientColors: ["#16213E", "#FFB347"]
     },
@@ -266,26 +266,40 @@ description: "Creative partnership on o0series, developing identity, logo system
         projectUrl: "/projects/o0series.html",
         gradientColors: ["#2C3E50", "#27AE60"]
     },
+
+        {
+        id: "project-32",
+        title: "Parking App",
+description: "ShareSpot — UX/UI case study for a peer-to-peer parking exchange platform, focusing on decision-making under pressure, minimal cognitive load for urban drivers, and trust-driven marketplace interactions.",
+        year: "2023",
+        img: "./images/SS/SS-06.jpg",
+        categories: ["Interfaces"],
+        projectUrl: "./projects/parking-app.html",
+        gradientColors: ["#f2ff00", "#0217ff"]
+    },
+
     {
         id: "project-21",
         title: "easymeets",
 description: "End-to-end product design for EasyMeets, a web scheduling platform. Includes user research, UX architecture, wireframes, UI system, and interactive prototyping to streamline availability sharing, meeting coordination, and automation.",
         year: "2023",
         img: "./images/SD/SD-03.jpg",
-        categories: ["Interfaces", "Product"],
+        categories: ["Interfaces"],
         projectUrl: "/projects/easymeets.html",
         gradientColors: ["#B0F566", "#E67E22"]
     },
-    {
-        id: "project-9",
-        title: "Located",
-description: "Ongoing design partnership with LOCATED, creating custom merchandise and graphics for Ukrainian brands, blending concept development, visual consulting, and production supervision.",
-        year: "2023",
-        img: "./images/LC/LC-logo-anim.gif",
-        categories: ["Graphic", "Spatial"],
-        projectUrl: "./projects/LOCATED.html",
-        gradientColors: ["#E74C3C", "#2C3E50"]
+
+        {
+        id: "project-2",
+        title: "Mitus Platform",
+description: "Mitus — product design case study for an Australian farm transition planning platform. Branding, UX/UI, dashboards, and CRM-like interfaces unify complex operational, legal, and financial processes into a structured, user-friendly system for farmers, advisors, and managers.",
+        year: "2024",
+        img: "./images/MI/MI-logo.png",
+        categories: ["Interfaces", "Branding", "Product"],
+        projectUrl: "./projects/mitus.html",
+        gradientColors: ["#BDC3C7", "#8E9BFF"]
     },
+
     {
         id: "project-18",
         title: "TRADEMOTIONS",
@@ -296,6 +310,30 @@ description: "Redesigning Trademotions for fund managers: intuitive dashboards, 
         projectUrl: "/projects/trademotions.html",
         gradientColors: ["#C0392B", "#F39C12"]
     },
+
+    {
+        id: "project-9",
+        title: "Located",
+description: "Ongoing design partnership with LOCATED, creating custom merchandise and graphics for Ukrainian brands, blending concept development, visual consulting, and production supervision.",
+        year: "2023",
+        img: "./images/LC/LC-logo-anim.gif",
+        categories: ["Graphic", "Spatial"],
+        projectUrl: "./projects/LOCATED.html",
+        gradientColors: ["#E74C3C", "#2C3E50"]
+    },
+
+    {
+        id: "project-31",
+        title: "HRAM BAR",
+description: "HRAM — design collaboration for a thematic bar, developing merchandise, tableware, and graphic concepts rooted in ritual symbolism, narrative atmosphere, and object-driven brand expression.",
+        year: "2025",
+        img: "./images/HR/HR-plate-01.jpg",
+        categories: ["Graphic"],
+        projectUrl: "./projects/HRAM.html",
+        gradientColors: ["#ff3c00", "#000000"]
+    },
+
+
     {
         id: "project-5",
         title: "X4 CLUB",
@@ -316,16 +354,7 @@ description: "INPUT SOFT — UI/UX case study for an aviation operations platfor
         projectUrl: "/projects/input-soft.html",
         gradientColors: ["#F1C40F", "#8E44AD"]
     },
-    {
-        id: "project-2",
-        title: "Mitus Platform",
-description: "Mitus — product design case study for an Australian farm transition planning platform. Branding, UX/UI, dashboards, and CRM-like interfaces unify complex operational, legal, and financial processes into a structured, user-friendly system for farmers, advisors, and managers.",
-        year: "2024",
-        img: "./images/MI/MI-logo.png",
-        categories: ["Interfaces", "Branding", "Product"],
-        projectUrl: "./projects/mitus.html",
-        gradientColors: ["#BDC3C7", "#8E9BFF"]
-    },
+
     {
         id: "project-6",
         title: "Lettering",

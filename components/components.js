@@ -331,3 +331,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function initMediaLoader() {
+  const mediaNodes = document.querySelectorAll('.project-image img, .project-image video');
+
+  mediaNodes.forEach(node => {
+    const wrapper = node.closest('.project-image');
+    if (!wrapper) return;
+
+    const markLoaded = () => wrapper.classList.add('loaded');
+
+    if (node.tagName === 'IMG') {
+      if (node.complete && node.naturalWidth) {
+        markLoaded();
+      } else {
+        node.addEventListener('load', markLoaded);
+      }
+    }
+
+    if (node.tagName === 'VIDEO') {
+      node.addEventListener('loadeddata', markLoaded);
+    }
+  });
+}
+
+
+initMediaLoader();

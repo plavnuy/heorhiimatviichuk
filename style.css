@@ -1749,6 +1749,8 @@ input[type="range"]::-moz-range-thumb {
   position: relative;
   padding-bottom: 20px;
   padding-top: 20px;
+    overflow: hidden;
+
 }
 
 .project-image.no-padding {
@@ -1777,6 +1779,43 @@ input[type="range"]::-moz-range-thumb {
 
 .project-image:hover img {
   transform: scale(1.01);
+}
+
+.project-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.project-image.loaded::before {
+  display: none;
+}
+
+.project-image img,
+.project-image video {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project-image.loaded img,
+.project-image.loaded video {
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .scaled15 {
