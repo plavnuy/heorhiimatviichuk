@@ -104,19 +104,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     loader.renderComponent('footer-component', '/components/footer.html'),
     loader.renderComponent('project-nav-component', '/components/project-nav.html')
   ]);
-  
+
   // Инициализируем page transition
   pageTransition = document.getElementById('page-transition');
-  
+
   // Инициализируем галерею
-  initProjectGallery();
-  
+  await initProjectGallery();
+
+  // Лоадер/скелетон
+  initMediaLoader();
+
   // Плавное появление контента
   document.body.style.opacity = 1;
-  
+
   // Запускаем анимацию входа
   enterPage();
 });
+
 
 // ==========================
 // Back Button (header)
@@ -273,17 +277,43 @@ async function buildItems(nodes) {
 }
 
 async function initProjectGallery() {
-  const nodes = document.querySelectorAll('.project-image img, .project-image video, .loop-video');
-  if (!nodes.length) return;
+  // --- Подключаем CSS PhotoSwipe ---
+  if (!document.getElementById('photoswipe-css')) {
+    const link = document.createElement('link');
+    link.id = 'photoswipe-css';
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/photoswipe@5/dist/photoswipe.css';
+    document.head.appendChild(link);
+  }
 
+  // --- Импорт PhotoSwipe ESM ---
   if (!PhotoSwipeModule) {
     PhotoSwipeModule = (await import(
       'https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'
     )).default;
   }
 
+  // --- Выбираем все медиа ---
+  const nodes = document.querySelectorAll('.project-image img, .project-image video, .loop-video');
+  if (!nodes.length) return;
+
+  // --- Ждем загрузки изображений и видео для правильных размеров ---
+  await Promise.all(
+    Array.from(nodes).map(node => {
+      if (node.tagName === 'IMG') {
+        if (node.complete && node.naturalWidth) return;
+        return new Promise(resolve => node.addEventListener('load', resolve));
+      }
+      if (node.tagName === 'VIDEO') {
+        return new Promise(resolve => node.addEventListener('loadeddata', resolve));
+      }
+    })
+  );
+
+  // --- Строим items ---
   const items = await buildItems(nodes);
 
+  // --- Навешиваем клик для открытия PhotoSwipe ---
   nodes.forEach((node, index) => {
     node.style.cursor = 'zoom-in';
     node.addEventListener('click', () => {
@@ -299,6 +329,7 @@ async function initProjectGallery() {
     });
   });
 }
+
 
 // ==========================
 // Controls Manager инициализация
@@ -355,5 +386,3 @@ function initMediaLoader() {
   });
 }
 
-
-initMediaLoader();
