@@ -242,7 +242,7 @@ class DataManager {
 description: "Ongoing design collaboration with SCHMALGAUZEN, creating posters, tour graphics, merchandise, and lettering systems, blending concept development, visual consulting, and production supervision.",
         year: "2025",
         img: "/images/SC/SCHM-cover.jpg",
-        categories: ["Graphic", "Branding"],
+        categories: ["Graphic"],
         projectUrl: "/projects/SCHMALGAUZEN.html",
         gradientColors: ["#FF4D4D", "#1A1A2E"]
     },
@@ -262,7 +262,7 @@ description: "Ongoing design partnership with K19, developing brand identity, ex
 description: "Creative partnership on o0series, developing identity, logo system, symbolic research, website vibe-coding, 3D and motion integration, social visuals, and experiential storytelling for an interdisciplinary art and electronic music project.",
         year: "2024",
         img: "./images/OO/OO-logo-animation.webp",
-        categories: ["Interfaces", "Branding", "Graphic"],
+        categories: ["Art-direction", "Interfaces"],
         projectUrl: "/projects/o0series.html",
         gradientColors: ["#2C3E50", "#27AE60"]
     },
@@ -306,7 +306,7 @@ description: "Mitus — product design case study for an Australian farm transit
 description: "Redesigning Trademotions for fund managers: intuitive dashboards, responsive components, and a cohesive UI system to optimize trading efficiency and insight clarity.",
         year: "2022",
         img: "./images/TM/trademotions.webp",
-        categories: ["Interfaces", "Branding", "Motion"],
+        categories: ["Interfaces", "Branding", "Graphic"],
         projectUrl: "/projects/trademotions.html",
         gradientColors: ["#C0392B", "#F39C12"]
     },
@@ -317,7 +317,7 @@ description: "Redesigning Trademotions for fund managers: intuitive dashboards, 
 description: "Ongoing design partnership with LOCATED, creating custom merchandise and graphics for Ukrainian brands, blending concept development, visual consulting, and production supervision.",
         year: "2024",
         img: "./images/LC/LC-logo-anim.gif",
-        categories: ["Graphic", "Spatial"],
+        categories: ["Graphic"],
         projectUrl: "./projects/LOCATED.html",
         gradientColors: ["#E74C3C", "#2C3E50"]
     },
@@ -340,7 +340,7 @@ description: "HRAM — design collaboration for a thematic bar, developing merch
 description: "X4 Club Madrid — concept-driven brand identity and spatial experience. Quaternity-inspired systems unify club, gallery, and cultural programming, combining minimalist visual language, immersive projection mapping, and adaptable materials to highlight artistic expression and community freedom.",
         year: "2024",
         img: "./images/x4/x4-present.webp",
-        categories: ["Branding", "Graphic"],
+        categories: ["Branding", "Art-direction"],
         projectUrl: "./projects/x4.html",
         gradientColors: ["#1A1A2E", "#4A4A6A"]
     },
@@ -361,7 +361,7 @@ description: "INPUT SOFT — UI/UX case study for an aviation operations platfor
 description: "Lettering Experiments — explorations by Heorhii Matviichuk in gesture, form, and rhythm. Personal studies range from bold 'Thug Life' compositions to digital and hand-drawn Kyiv typography, bridging motion, spontaneity, and typographic structure.",
         year: "2024",
         img: "./images/LT/LT-kyiv.gif",
-        categories: ["Graphic", "Typography"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Lettering.html",
         gradientColors: ["#E63946", "#1A1A2E"]
     },
@@ -371,7 +371,7 @@ description: "Lettering Experiments — explorations by Heorhii Matviichuk in ge
 description: "III3 — album cover and visual concept for an underground Ukrainian rap project by ron4ik x mxtixn, created during the war, reflecting struggle, immediacy, and raw musical expression.",
         year: "2024",
         img: "./images/iii3/iii3-cover-low.jpg",
-        categories: ["Graphic", "Packaging"],
+        categories: ["Graphic"],
         projectUrl: "./projects/iii3.html",
         gradientColors: ["#2980B9", "#8E44AD"]
     },
@@ -381,7 +381,7 @@ description: "III3 — album cover and visual concept for an underground Ukraini
 description: "Tripple We — branding and visual identity for a creative agency empowering emerging artists, featuring conceptual logo, color system, and flexible brand guidelines.",
         year: "2023",
         img: "./images/TW/TW-sign.png",
-        categories: ["Branding", "Typography"],
+        categories: ["Branding"],
         projectUrl: "./projects/tripple-we.html",
         gradientColors: ["#3498DB", "#2C3E50"]
     },
@@ -400,7 +400,7 @@ description: "X-Plane — web design, brandbook, and e-commerce case study for a
         title: "Binary Cases",
 description: "Binary Studio — design collaboration with a boutique software agency, featuring over 30 PDF case studies, illustrations, and banners for digital and marketing materials.",        year: "2022",
         img: "./images/BN/BN-case-01.jpg",
-        categories: ["Graphic", "Packaging"],
+        categories: ["Graphic"],
         projectUrl: "./projects/Binary.html",
         gradientColors: ["#2C3E50", "#F39C12"]
     },
@@ -500,7 +500,7 @@ description: "Binary Studio — design collaboration with a boutique software ag
         description: "Sayenko & Kharenko — conceptual logo design for a leading Ukrainian law firm, combining the paragraph symbol with initials S and K to explore legal symbolism.",
         year: "2017",
         img: "./images/SK/SK-mock.jpg",
-        categories: ["Branding", "Graphic"],
+        categories: ["Branding"],
         projectUrl: "./projects/SAYENKO&KHARENKO.html",
         gradientColors: ["#BDC3C7", "#2C3E50"]
     },
@@ -540,7 +540,7 @@ description: "Binary Studio — design collaboration with a boutique software ag
         description: "50 Inventions Bestowed by Ukraine to the World — poster series highlighting Ukrainian scientific, engineering, and cultural achievements, translating complex technological accomplishments into bold, clear, and monumental graphic statements.",
         year: "2015",
         img: "./images/50/50-cover.jpg",
-        categories: ["Graphic", "Editorial"],
+        categories: ["Graphic"],
         projectUrl: "./projects/50inventions.html",
         gradientColors: ["#C0392B", "#27AE60"]
     },
