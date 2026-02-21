@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', (e) => {
       const method = link.dataset.method || link.getAttribute('aria-label') || link.href;
       console.log('Contact clicked:', method);
-
+gtag('event', 'contact_click', { 'contact_method': method });
 
     });
   });
