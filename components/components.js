@@ -21,17 +21,27 @@ class ComponentLoader {
     return html;
   }
 
-  async renderComponent(elementId, filePath) {
-    const html = await this.loadComponent(elementId, filePath);
-    const element = document.getElementById(elementId);
-    if (!element) return;
+async renderComponent(elementId, filePath) {
+  const html = await this.loadComponent(elementId, filePath);
+  const element = document.getElementById(elementId);
+  if (!element) return;
 
-    element.innerHTML = html;
+  element.innerHTML = html;
 
-    if (elementId === 'header-component') {
-      initBackButton();
-    }
+  if (elementId === 'header-component') {
+    initBackButton();
+
+    // --- Добавляем трек кликов на контакты ---
+    const contactLinks = element.querySelectorAll('.contact-icons a');
+    contactLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const method = link.dataset.method || link.getAttribute('aria-label') || link.href;
+        console.log('Contact clicked:', method);
+        gtag('event', 'contact_click', { 'contact_method': method });
+      });
+    });
   }
+}
 }
 
 // ==========================

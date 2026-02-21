@@ -64,14 +64,14 @@
 
 
         <nav class="contact-icons">
-  <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram">
+  <a href="https://t.me/heorhiimatviichuk" target="_blank" aria-label="Telegram" data-method="Telegram">
     <img src="./images/icons/telegram.svg" alt="Telegram">
   </a>
 
-  <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram">
+  <a href="https://www.instagram.com/heorhiimatviichuk/" target="_blank" aria-label="Instagram" data-method="Instagram">
     <img src="./images/icons/instagram.svg" alt="Instagram">
   </a>
-  <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn">
+  <a href="https://www.linkedin.com/in/heorhii-matviichuk/" target="_blank" aria-label="LinkedIn" data-method="LinkedIn">
     <img src="./images/icons/linkedin.svg" alt="LinkedIn">
   </a>
 
@@ -121,12 +121,24 @@
 </div>
   </div>
 
-  <!-- Контролы будут вставлены здесь через JavaScript -->
 
 </footer>
 
 <div class="page-transition"></div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const contactLinks = document.querySelectorAll('.contact-icons a');
 
+  contactLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const method = link.dataset.method || link.getAttribute('aria-label') || link.href;
+      console.log('Contact clicked:', method);
+
+
+    });
+  });
+});
+</script>
 <script src="/controls.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

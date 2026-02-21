@@ -1174,6 +1174,12 @@ createSlideElement(data, index) {
   slide.addEventListener('click', e => {
     e.preventDefault();
     
+      if (typeof gtag === 'function') {
+    gtag('event', 'view_project', {
+      project_name: data.title
+    });
+  }
+
     sessionStorage.setItem('gallery_return', 'true');
     sessionStorage.setItem('gallery_path', window.location.pathname);
     sessionStorage.setItem('gallery_hash', window.location.hash);
