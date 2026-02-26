@@ -1174,11 +1174,7 @@ createSlideElement(data, index) {
   slide.addEventListener('click', e => {
     e.preventDefault();
     
-      if (typeof gtag === 'function') {
-    gtag('event', 'view_project', {
-      project_name: data.title
-    });
-  }
+    
 
     sessionStorage.setItem('gallery_return', 'true');
     sessionStorage.setItem('gallery_path', window.location.pathname);
@@ -1222,7 +1218,7 @@ createSlideElement(data, index) {
     this.initLazyLoading();
     
     this.lenisManager.init('gallery', this.state.filteredData.length);
-    this.lenisManager.start();
+this.lenisManager.destroy();
   }
   
   createGalleryItem(data, index) {
