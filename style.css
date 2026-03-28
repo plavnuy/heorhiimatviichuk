@@ -679,6 +679,26 @@ right: 55%;
 
 }
 
+.slide-img.skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+.slide-img.skeleton img {
+  opacity: 0;
+}
+
+.slide-img img {
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .slide-copy {
   position: relative;
 
