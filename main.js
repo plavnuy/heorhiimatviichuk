@@ -1128,22 +1128,11 @@ createSlideElement(data, index) {
   if (!img.src) img.src = data.img;
   
   img.alt = data.title || '';
-  
-  // Скелетон пока картинка не загружена
-  const imgWrapper = slide.querySelector('.slide-img');
-  imgWrapper.classList.add('skeleton');
-  
-  if (img.complete && img.naturalWidth > 0) {
-    // Уже в кеше — сразу убираем
-    imgWrapper.classList.remove('skeleton');
-  } else {
-    img.onload = () => imgWrapper.classList.remove('skeleton');
-    img.onerror = () => {
-      imgWrapper.classList.remove('skeleton');
-      imgWrapper.classList.add('image-error');
-    };
-  }
-  
+  img.loading = "eager";
+  img.onerror = () => {
+    img.remove();
+    slide.classList.add('image-error');
+  };
   
   // Обновленная структура с выноской
   slide.innerHTML = `
@@ -1676,38 +1665,41 @@ this.lenisManager.destroy();
     
     this.initGlitchCursor();
     this.initCursorHoverTargets();
-  this.state.isLoading = true;
-  window.appState = this.state;
-  
-  this.parseInitialState();
-  
-  // 1. Грузим только первые 5 картинок (то что видно сразу)
-  const visibleImages = this.dataManager.allData.slice(0, 5).map(item => item.img);
-  const allImages = this.dataManager.allData.map(item => item.img);
-  
-  await this.dataManager.preloadImagesWithCache(visibleImages, (progress) => {
-    this.dom.updateLoaderProgress(progress * 100);
-  });
-  
-  // 2. Убираем лоадер — остальные грузятся в фоне
-  this.state.isLoading = false;
-  this.dom.hideLoader();
-  
-  this.applyInitialUIState();
-  this.initEventListeners();
-  this.rebuildCurrentView();
-  
-  if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
-    requestAnimationFrame(() => this.setBackgroundImage(0, true));
-  }
-  
-  this.state.isInitialized = true;
-  
-  // 3. Фоновая загрузка остальных
-  this.dataManager.preloadImagesWithCache(
-    allImages.filter(src => !visibleImages.includes(src))
-  );
-  
+    this.state.isLoading = true;
+    
+    window.appState = this.state;
+    
+    const allImages = this.dataManager.allData.map(item => item.img);
+    
+    await this.dataManager.preloadImagesWithCache(allImages, (progress) => {
+      this.dom.updateLoaderProgress(progress * 100);
+    });
+    
+    this.parseInitialState();
+    this.applyInitialUIState();
+    
+    this.state.isLoading = false;
+    this.dom.hideLoader();
+
+    requestAnimationFrame(() => {
+      this.dom.elements.pageTransition?.classList.remove('is-entering');
+      this.dom.elements.pageTransition?.classList.add('is-entered');
+
+      setTimeout(() => {
+        this.dom.elements.pageTransition?.classList.remove('is-entered');
+      }, 500);
+    });
+    
+    this.initEventListeners();
+    this.rebuildCurrentView();
+    
+    if (this.state.view === 'slides' && this.state.filteredData.length > 0) {
+      requestAnimationFrame(() => {
+        this.setBackgroundImage(0, true);
+      });
+    }
+    
+    this.state.isInitialized = true;
     
     if (isReturning) {
       setTimeout(() => {
