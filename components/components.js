@@ -342,11 +342,11 @@ async function initProjectGallery() {
 
 
 // ==========================
-// Controls Manager инициализация
+// Controls Manager 
 // ==========================
-// Этот код нужно добавить в DOMContentLoaded после загрузки компонентов
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Ждем загрузки Typed.js библиотеки если она подключена отдельно
+
   const checkTyped = setInterval(() => {
     if (typeof Typed !== 'undefined') {
       clearInterval(checkTyped);
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 100);
   
-  // Инициализируем ControlsManager после загрузки всех компонентов
+
   setTimeout(() => {
     if (typeof ControlsManager !== 'undefined') {
       window.controlsManager = new ControlsManager();
@@ -373,8 +373,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 function initMediaLoader() {
   const mediaNodes = document.querySelectorAll('.project-image img, .project-image video');
+
+
+  let imgCount = 0;
 
   mediaNodes.forEach(node => {
     const wrapper = node.closest('.project-image');
@@ -383,15 +387,28 @@ function initMediaLoader() {
     const markLoaded = () => wrapper.classList.add('loaded');
 
     if (node.tagName === 'IMG') {
+      imgCount++;
+
+
+      if (imgCount <= 3) {
+        node.removeAttribute('loading');
+        node.setAttribute('loading', 'eager');
+        node.setAttribute('fetchpriority', 'high');
+      }
+
       if (node.complete && node.naturalWidth) {
         markLoaded();
       } else {
         node.addEventListener('load', markLoaded);
+
+        setTimeout(markLoaded, 4000);
       }
     }
 
     if (node.tagName === 'VIDEO') {
-      node.addEventListener('loadeddata', markLoaded);
+
+      markLoaded();
+      node.addEventListener('loadeddata', () => wrapper.classList.add('loaded'));
     }
   });
 }
