@@ -667,6 +667,11 @@ body.no-long-body {
   object-fit: contain;
 }
 
+.slide-img img,
+.gallery-thumb img {
+  image-orientation: from-image;
+}
+
 .slide-content {
   position: absolute;
   top: 108%;
@@ -2468,3 +2473,4 @@ a {
     transform: translateX(-80%);
   }
 }
+
