@@ -245,47 +245,44 @@ function getImageDimensions(img) {
 }
 
 function getVideoDimensions(video) {
+  if (video.videoWidth && video.videoHeight) {
+    return Promise.resolve({ w: video.videoWidth, h: video.videoHeight });
+  }
+
+  const attrW = parseInt(video.getAttribute('width'));
+  const attrH = parseInt(video.getAttribute('height'));
+  if (attrW && attrH) {
+    return Promise.resolve({ w: attrW, h: attrH });
+  }
+
   return new Promise(resolve => {
-    if (video.videoWidth && video.videoHeight) {
+    const timeout = setTimeout(() => resolve({ w: 1920, h: 1080 }), 300);
+    video.onloadedmetadata = () => {
+      clearTimeout(timeout);
       resolve({ w: video.videoWidth, h: video.videoHeight });
-    } else {
-      video.onloadedmetadata = () => resolve({ w: video.videoWidth, h: video.videoHeight });
-    }
+    };
   });
 }
 
 async function buildItems(nodes) {
-  const items = [];
-  for (const node of nodes) {
+  return Promise.all(Array.from(nodes).map(async node => {
     if (node.tagName === 'IMG') {
       const { w, h } = await getImageDimensions(node);
-      items.push({ type: 'image', src: node.src, w, h, el: node });
+      return { type: 'image', src: node.src, w, h, el: node };
     } else if (node.tagName === 'VIDEO') {
       const { w, h } = await getVideoDimensions(node);
       const videoSrc = node.querySelector('source')?.src || node.src;
-      items.push({
-        type: 'html',
-        w,
-        h,
-        html: `
-          <div class="pswp-video-wrapper">
-            <video
-              src="${videoSrc}"
-              controls
-              autoplay
-              muted
-              playsinline
-              style="width:100%;height:100%;"
-            ></video>
-          </div>
-        `,
+      return {
+        type: 'html', w, h,
+        html: `<div class="pswp-video-wrapper">
+          <video src="${videoSrc}" controls autoplay muted playsinline
+            style="width:100%;height:100%;"></video>
+        </div>`,
         el: node
-      });
+      };
     }
-  }
-  return items;
+  }));
 }
-
 async function initProjectGallery() {
   // --- Подключаем CSS PhotoSwipe ---
   if (!document.getElementById('photoswipe-css')) {
@@ -308,17 +305,7 @@ async function initProjectGallery() {
   if (!nodes.length) return;
 
   // --- Ждем загрузки изображений и видео для правильных размеров ---
-  await Promise.all(
-    Array.from(nodes).map(node => {
-      if (node.tagName === 'IMG') {
-        if (node.complete && node.naturalWidth) return;
-        return new Promise(resolve => node.addEventListener('load', resolve));
-      }
-      if (node.tagName === 'VIDEO') {
-        return new Promise(resolve => node.addEventListener('loadeddata', resolve));
-      }
-    })
-  );
+
 
   // --- Строим items ---
   const items = await buildItems(nodes);

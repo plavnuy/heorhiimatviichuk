@@ -154,8 +154,8 @@ init() {
    
         `;
 
-        document.querySelector('footer').appendChild(panel);
-        this.setupEventListeners();
+const mountTarget = document.querySelector('footer') ?? document.body;
+mountTarget.appendChild(panel);        this.setupEventListeners();
     }
 
     setupEventListeners() {
