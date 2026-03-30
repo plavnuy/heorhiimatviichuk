@@ -284,7 +284,6 @@ async function buildItems(nodes) {
   }));
 }
 async function initProjectGallery() {
-  // --- Подключаем CSS PhotoSwipe ---
   if (!document.getElementById('photoswipe-css')) {
     const link = document.createElement('link');
     link.id = 'photoswipe-css';
@@ -293,27 +292,29 @@ async function initProjectGallery() {
     document.head.appendChild(link);
   }
 
-  // --- Импорт PhotoSwipe ESM ---
-  if (!PhotoSwipeModule) {
-    PhotoSwipeModule = (await import(
-      'https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'
-    )).default;
-  }
-
-  // --- Выбираем все медиа ---
   const nodes = document.querySelectorAll('.project-image img, .project-image video, .loop-video');
   if (!nodes.length) return;
 
-  // --- Ждем загрузки изображений и видео для правильных размеров ---
+  // Кліки вішаємо ОДРАЗУ, items будуємо ліниво при першому кліку
+  let itemsPromise = null;
 
+  const getItems = () => {
+    if (!itemsPromise) {
+      if (!PhotoSwipeModule) {
+        itemsPromise = import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+          .then(m => { PhotoSwipeModule = m.default; })
+          .then(() => buildItems(nodes));
+      } else {
+        itemsPromise = buildItems(nodes);
+      }
+    }
+    return itemsPromise;
+  };
 
-  // --- Строим items ---
-  const items = await buildItems(nodes);
-
-  // --- Навешиваем клик для открытия PhotoSwipe ---
   nodes.forEach((node, index) => {
     node.style.cursor = 'zoom-in';
-    node.addEventListener('click', () => {
+    node.addEventListener('click', async () => {
+      const items = await getItems();
       const pswp = new PhotoSwipeModule({
         dataSource: items,
         index,
@@ -363,8 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initMediaLoader() {
   const mediaNodes = document.querySelectorAll('.project-image img, .project-image video');
-
-
   let imgCount = 0;
 
   mediaNodes.forEach(node => {
@@ -376,26 +375,30 @@ function initMediaLoader() {
     if (node.tagName === 'IMG') {
       imgCount++;
 
-
+      // Перші 3 — eager + high priority
       if (imgCount <= 3) {
         node.removeAttribute('loading');
         node.setAttribute('loading', 'eager');
         node.setAttribute('fetchpriority', 'high');
+      } else {
+        // Решта — lazy, але тільки якщо не встановлено
+        if (!node.getAttribute('loading')) {
+          node.setAttribute('loading', 'lazy');
+        }
       }
 
       if (node.complete && node.naturalWidth) {
+        // Вже завантажено — показуємо одразу
         markLoaded();
       } else {
-        node.addEventListener('load', markLoaded);
-
-        setTimeout(markLoaded, 4000);
+        node.addEventListener('load', markLoaded, { once: true });
+        node.addEventListener('error', markLoaded, { once: true }); // не висимо якщо помилка
       }
+      // Прибрав setTimeout на 4 секунди — він затримував появу
     }
 
     if (node.tagName === 'VIDEO') {
-
-      markLoaded();
-      node.addEventListener('loadeddata', () => wrapper.classList.add('loaded'));
+      markLoaded(); // відео показуємо одразу
     }
   });
 }
