@@ -154,9 +154,8 @@ init() {
    
         `;
 
-        const footer = document.querySelector('footer');
-        if (!footer) return;
-        footer.appendChild(panel);
+        const mountTarget = document.querySelector('footer') ?? document.body;
+        mountTarget.appendChild(panel);
         this.setupEventListeners();
     }
 

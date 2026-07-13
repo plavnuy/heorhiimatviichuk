@@ -663,6 +663,11 @@ body.no-long-body {
   object-fit: contain;
 }
 
+.slide-img img,
+.gallery-thumb img {
+  image-orientation: from-image;
+}
+
 .slide-content {
   position: absolute;
   top: 108%;
@@ -1766,7 +1771,7 @@ input[type="range"]::-moz-range-thumb {
   padding-bottom: 20px;
   padding-top: 20px;
     overflow: hidden;
-
+  image-orientation: from-image;
 }
 
 .project-image.no-padding {
@@ -2464,3 +2469,4 @@ a {
     transform: translateX(-80%);
   }
 }
+
