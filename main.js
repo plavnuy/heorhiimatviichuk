@@ -734,6 +734,7 @@ class ViewManager {
     this.resizeTimeout = null;
     this.bgChangeTimeout = null;
     this.isAnimating = false;
+    this._loopRunning = false;
     
     this.mainLoop = this.mainLoop.bind(this);
     
@@ -1833,6 +1834,8 @@ this.lenisManager.destroy();
   }
   
   start() {
+    if (this._loopRunning) return;
+    this._loopRunning = true;
     requestAnimationFrame(this.mainLoop);
   }
 
@@ -1894,7 +1897,9 @@ window.addEventListener("pageshow", (event) => {
       viewManager.lenisManager.start();
     }
 
-    requestAnimationFrame(viewManager.mainLoop);
+    // start() is guarded, so this won't spawn a second rAF loop if the
+    // original chain is still alive (it resumes automatically after bfcache).
+    viewManager.start();
   }
 });
 

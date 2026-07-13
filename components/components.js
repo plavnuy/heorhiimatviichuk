@@ -118,6 +118,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Инициализируем page transition
   pageTransition = document.getElementById('page-transition');
 
+  // Футер (с #myhead и <footer>) отрендерен — теперь можно создать панель.
+  // На страницах проектов футер асинхронный, поэтому controls.js пропускает
+  // создание, а владельцем становится этот обработчик. Guard предотвращает дубли.
+  if (typeof ControlsManager !== 'undefined' && !window.controlsManager) {
+    window.controlsManager = new ControlsManager();
+  }
+
   // Инициализируем галерею
   await initProjectGallery();
 
@@ -353,13 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
       initTypedJS();
     }
   }, 100);
-  
-
-  setTimeout(() => {
-    if (typeof ControlsManager !== 'undefined') {
-      window.controlsManager = new ControlsManager();
-    }
-  }, 600);
 });
 
 

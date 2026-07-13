@@ -66,7 +66,7 @@ init() {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px;
-            hard-light: white;
+            color: white;
             font-family: "Intra Net";
             font-size: 10px;
             backdrop-filter: blur(10px);
@@ -103,7 +103,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Opacity</span>
+                    <span style="color: rgba(255,255,255,0.8);">Opacity</span>
                     <span id="opacityValue" style="font-family: monospace;">${(this.config.opacity * 100).toFixed(0)}%</span>
                 </div>
                 <input type="range" id="opacitySlider" min="0" max="100" step="1" value="${this.config.opacity * 100}" style="width: 100%; margin: 5px 0;">
@@ -111,7 +111,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Density</span>
+                    <span style="color: rgba(255,255,255,0.8);">Density</span>
                     <span id="densityValue" style="font-family: monospace;">${this.config.DENSITY_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="densitySlider" min="0.90" max="0.99" step="0.01" value="${this.config.DENSITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -119,7 +119,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Velocity</span>
+                    <span style="color: rgba(255,255,255,0.8);">Velocity</span>
                     <span id="velocityValue" style="font-family: monospace;">${this.config.VELOCITY_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="velocitySlider" min="0.8" max="0.99" step="0.01" value="${this.config.VELOCITY_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -127,7 +127,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Pressure</span>
+                    <span style="color: rgba(255,255,255,0.8);">Pressure</span>
                     <span id="pressureValue" style="font-family: monospace;">${this.config.PRESSURE_DISSIPATION.toFixed(2)}</span>
                 </div>
                 <input type="range" id="pressureSlider" min="0.1" max="1" step="0.01" value="${this.config.PRESSURE_DISSIPATION}" style="width: 100%; margin: 5px 0;">
@@ -135,7 +135,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Curl</span>
+                    <span style="color: rgba(255,255,255,0.8);">Curl</span>
                     <span id="curlValue" style="font-family: monospace;">${this.config.CURL.toFixed(4)}</span>
                 </div>
                 <input type="range" id="curlSlider" min="0" max="50" step="0.01" value="${this.config.CURL}" style="width: 100%; margin: 5px 0;">
@@ -143,7 +143,7 @@ init() {
 
             <div class="control-group" style="margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="hard-light: rgba(255,255,255,0.8);">Splat Radius</span>
+                    <span style="color: rgba(255,255,255,0.8);">Splat Radius</span>
                     <span id="splatValue" style="font-family: monospace;">${this.config.SPLAT_RADIUS.toFixed(4)}</span>
                 </div>
                 <input type="range" id="splatSlider" min="0.001" max="0.100" step="0.001" value="${this.config.SPLAT_RADIUS}" style="width: 100%; margin: 5px 0;">
@@ -154,7 +154,9 @@ init() {
    
         `;
 
-        document.querySelector('footer').appendChild(panel);
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+        footer.appendChild(panel);
         this.setupEventListeners();
     }
 
@@ -387,8 +389,14 @@ applyConfig() {
     }
 }
 
-// Инициализация при загрузке страницы
+// Инициализация при загрузке страницы.
+// На главной есть статичный <footer>, поэтому создаём здесь. На страницах
+// проектов футер подгружается асинхронно — там ControlsManager создаётся
+// в components.js после рендера компонентов. Guard предотвращает дубли и
+// падение, если футера ещё нет в DOM.
 document.addEventListener('DOMContentLoaded', () => {
-    window.controlsManager = new ControlsManager();
+    if (!window.controlsManager && document.querySelector('footer')) {
+        window.controlsManager = new ControlsManager();
+    }
 });
 
