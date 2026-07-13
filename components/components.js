@@ -36,7 +36,6 @@ async renderComponent(elementId, filePath) {
     contactLinks.forEach(link => {
       link.addEventListener('click', () => {
         const method = link.dataset.method || link.getAttribute('aria-label') || link.href;
-        console.log('Contact clicked:', method);
         gtag('event', 'contact_click', { 'contact_method': method });
       });
     });

@@ -631,19 +631,6 @@ description: "Binary Studio — design collaboration with a boutique software ag
     return loadPromise;
   }
   
-  getCachedImage(src) {
-    const cached = this.imageCache.get(src);
-    if (cached) {
-      const newImg = new Image();
-      newImg.src = cached.src;
-      return newImg;
-    }
-    
-    const img = new Image();
-    img.src = src;
-    return img;
-  }
-
   getImageElement(src) {
     const cached = this.imageCache.get(src);
     if (cached) {
@@ -1039,8 +1026,6 @@ if (phase === "desc" && descEl && time - lastTime > descSpeed) {
   }
   
   reinitializeAfterReturn() {
-    console.log('Reinitializing after return');
-    
     this.state.scroll.pos = 0;
     this.state.scroll.z = 0;
     
@@ -1165,12 +1150,6 @@ createSlideElement(data, index) {
   `;
   
   slide.querySelector('.slide-img').appendChild(img);
-  
-  // Сохраняем ссылки на элементы выноски
-  slide.leaderLine = slide.querySelector('.slide-leader-line');
-  slide.copyElement = slide.querySelector('.slide-copy');
-  
-  const transition = this.dom.elements.pageTransition;
 
   slide.addEventListener('click', e => {
     e.preventDefault();
@@ -1217,9 +1196,9 @@ createSlideElement(data, index) {
     grid.appendChild(fragment);
     this.dom.elements.gallery.appendChild(grid);
     this.initLazyLoading();
-    
-    this.lenisManager.init('gallery', this.state.filteredData.length);
-this.lenisManager.destroy();
+
+    // Gallery uses native scrolling — tear down any Lenis left from slides view.
+    this.lenisManager.destroy();
   }
   
   createGalleryItem(data, index) {
@@ -1655,7 +1634,6 @@ this.lenisManager.destroy();
     const isReturning = urlParams.get('returning') === 'true';
     
     if (isReturning) {
-      console.log('Returning from project');
       const url = new URL(window.location.href);
       url.searchParams.delete('returning');
       history.replaceState({}, '', url);
@@ -1827,9 +1805,13 @@ this.lenisManager.destroy();
     
     if (this.state.view === "slides") {
       this.updateSlides();
-      this.drawGrid();
+      // updateSlides() ticks the FPS counter; throttle the grid redraw
+      // based on it (every other frame, or every 3rd under low FPS).
+      if (this.state.shouldUpdateGrid()) {
+        this.drawGrid();
+      }
     }
-    
+
     requestAnimationFrame(this.mainLoop);
   }
   
@@ -1861,8 +1843,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await viewManager.init();
     viewManager.start();
-    
-    console.log('3D Gallery initialized successfully');
   } catch (error) {
     console.error('Failed to initialize gallery:', error);
     if (domCache) domCache.hideLoader();
@@ -1885,8 +1865,6 @@ window.App = {
 
 window.addEventListener("pageshow", (event) => {
   if (event.persisted && viewManager) {
-    console.log("Restored from bfcache");
-
     // Если lenis был уничтожен — пересоздаём
     if (!viewManager.lenisManager.lenis) {
       viewManager.lenisManager.init(

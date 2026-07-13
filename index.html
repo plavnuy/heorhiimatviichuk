@@ -124,7 +124,6 @@
 
 </footer>
 
-<div class="page-transition"></div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const contactLinks = document.querySelectorAll('.contact-icons a');
@@ -132,9 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   contactLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const method = link.dataset.method || link.getAttribute('aria-label') || link.href;
-      console.log('Contact clicked:', method);
-gtag('event', 'contact_click', { 'contact_method': method });
-
+      gtag('event', 'contact_click', { 'contact_method': method });
     });
   });
 });
@@ -144,7 +141,7 @@ gtag('event', 'contact_click', { 'contact_method': method });
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
 <script src="/main.js" defer></script>
-<script src="/cursor.js"></script>
+<script src="/cursor.js" defer></script>
 <script src="/decode.js" defer></script>
  <!--<script type="module" src="/metaballs.js"></script>-->
 

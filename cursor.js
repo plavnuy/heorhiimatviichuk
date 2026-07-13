@@ -1,10 +1,7 @@
 
 'use strict';
 
-const canvas = document.getElementsByTagName('canvas')[0];
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
-
+// Kept in the shared global scope so controls.js can tune it at runtime.
 let config = {
   TEXTURE_DOWNSAMPLE: 1,
   DENSITY_DISSIPATION: 0.98,
@@ -14,6 +11,17 @@ let config = {
   CURL: 0.1,
   SPLAT_RADIUS: 0.001 };
 
+// The fluid simulation is mouse-driven and GPU-heavy. Touch input is disabled
+// here, so on touch / small screens it would run continuously for zero
+// interaction — skip it entirely there.
+(function initFluidSimulation() {
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouch || window.matchMedia('(max-width: 768px)').matches) return;
+
+  const canvas = document.getElementsByTagName('canvas')[0];
+  if (!canvas) return;
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
 let pointers = [];
 let splatStack = [];
@@ -711,5 +719,7 @@ window.addEventListener('touchend', e => {
 window.addEventListener('mouseleave', () => {
   pointers[0].down = false;
 });
+
+})();
 
 
